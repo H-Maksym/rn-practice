@@ -1,0 +1,19 @@
+// {
+//   "extends": "expo/tsconfig.base",
+//   "compilerOptions": {
+//     "baseUrl": "src"
+//   },
+//   "include": ["src", "src/utils", "src/components", "src/screens"]
+// }
+
+// {
+//   "extends": "expo/jsonconfig.json",
+//   "compilerOptions": {
+//     "baseUrl": "."
+//   },
+//   "path": {
+//     "components/*": ["src/components/*"],
+//     "screens/*": ["src/screens/*"],
+//     "src/*": ["src/*"]
+//   }
+// }
