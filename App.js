@@ -33,6 +33,7 @@ export default function App() {
   return (
     <ThemeProvider theme={theme}>
       <View style={{ flex: 1 }} onLayout={onLayoutRootView}>
+        {/*//TODO Прописати route */}
         {/* <RegistrationScreen /> */}
         <LoginScreen />
       </View>

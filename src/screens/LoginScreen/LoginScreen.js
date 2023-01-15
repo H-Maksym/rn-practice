@@ -150,7 +150,7 @@ function LoginScreen() {
             <TouchableOpacity
               style={stylesLogin.gotoRegisterBtn}
               activeOpacity={0.7}
-              onPress={() => console.log('goto login')}
+              onPress={() => console.log('goto register')}
             >
               <Text style={stylesLogin.gotoRegisterText}>
                 Don't have an account? Register
