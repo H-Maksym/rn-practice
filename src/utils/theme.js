@@ -96,7 +96,7 @@ export const theme = {
 
   lineHeights: {
     text: 1.385,
-    dataText: 1.2,
+    dataText: 19,
     form: 1.19,
     title: 22,
     titleForm: 35,

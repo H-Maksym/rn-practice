@@ -1,6 +1,6 @@
 import { StyleSheet, View, ImageBackground } from 'react-native';
 import { ThemeProvider } from 'styled-components';
-import { theme } from './utils/theme';
+import { theme } from 'src/utils/theme';
 import RegistrationScreen from 'src/screens/RegistrationScreen';
 // import LoginScreen from 'screens/LoginScreen';
 export default function App() {
@@ -8,7 +8,7 @@ export default function App() {
     <ThemeProvider theme={theme}>
       <View style={styles.container}>
         <ImageBackground
-          source={require('../assets/backgroundImage.jpg')}
+          source={require('src/assets/image/backgroundImage.jpg')}
           style={styles.imageBackground}
         >
           <RegistrationScreen />
