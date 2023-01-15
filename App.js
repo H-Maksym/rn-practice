@@ -1,45 +1,41 @@
-import { StyleSheet, View, ImageBackground } from 'react-native';
+import { useCallback } from 'react';
 import { ThemeProvider } from 'styled-components';
 import { theme } from 'src/utils/theme';
-import RegistrationScreen from 'src/screens/RegistrationScreen';
-// import LoginScreen from 'screens/LoginScreen';
+import { View } from 'react-native';
+// import RegistrationScreen from 'src/screens/RegistrationScreen';
+import LoginScreen from 'screens/LoginScreen';
+
+import { useFonts } from 'expo-font';
+import * as SplashScreen from 'expo-splash-screen';
+
+const loadFonts = async () => {
+  await Font.loadAsync({});
+};
+
+SplashScreen.preventAutoHideAsync();
+
 export default function App() {
+  const [fontsLoaded] = useFonts({
+    'Roboto-Regular': require('./src/assets/fonts/roboto/Roboto-Regular.ttf'),
+    'Roboto-Bold': require('./src/assets/fonts/roboto/Roboto-Bold.ttf'),
+  });
+
+  const onLayoutRootView = useCallback(async () => {
+    if (fontsLoaded) {
+      await SplashScreen.hideAsync();
+    }
+  }, [fontsLoaded]);
+
+  if (!fontsLoaded) {
+    return null;
+  }
+
   return (
     <ThemeProvider theme={theme}>
-      <View style={styles.container}>
-        <ImageBackground
-          source={require('src/assets/image/backgroundImage.jpg')}
-          style={styles.imageBackground}
-        >
-          <RegistrationScreen />
-        </ImageBackground>
+      <View style={{ flex: 1 }} onLayout={onLayoutRootView}>
+        {/* <RegistrationScreen /> */}
+        <LoginScreen />
       </View>
     </ThemeProvider>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-  imageBackground: {
-    flex: 1,
-    // resizeMode: 'cover',
-    justifyContent: 'center',
-  },
-});
-
-// const loadGreen = (levels => {
-//   const zabor = [i];
-
-//   const lengthLevels = levels.length;
-//   if (lengthLevels <= 2) {
-//     return 0;
-//   }
-
-//   for (let i = 0; i <= lengthLevels; i++) {
-//     const maxValue = Math.max(levels[i], levels[lengthLevels - 1]);
-//   }
-// })([7, 2, 1]);
-
-// console.log(loadGreen);

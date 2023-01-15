@@ -9,7 +9,7 @@ export const stylesButton = StyleSheet.create({
     alignItems: 'center',
   },
   buttonText: {
-    // fontFamily:
+    fontFamily: 'Roboto-Regular',
     fontSize: theme.fontSizes.s,
     fontWeight: theme.fontWeights.normal,
     fontStyle: 'normal',

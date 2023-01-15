@@ -18,11 +18,14 @@
     "react-native": "0.70.5",
     "react-native-svg": "13.4.0",
     "react-native-svg-transformer": "^1.0.0",
+    "react-native-vector-icons": "^9.2.0",
     "react-native-web": "~0.18.9",
     "react-navigation": "^4.4.4",
     "rn-css": "^1.7.0",
     "styled-components": "^5.3.6",
-    "styled-system": "^5.1.5"
+    "styled-system": "^5.1.5",
+    "expo-font": "~11.0.1",
+    "expo-splash-screen": "~0.17.5"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9",

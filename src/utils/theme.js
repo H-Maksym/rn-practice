@@ -9,6 +9,7 @@ export const theme = {
     imageBackground: '#F6F6F6',
     // burgerBackground: '#FDF7F2',
     border: '#E8E8E8',
+    loader: '#F5925650',
 
     text: {
       sectionTitle: '#212121',
@@ -35,10 +36,10 @@ export const theme = {
       formPlaceholder: 'red',
       formInputBackground: '#F6F6F6',
       formInputBorder: '#E8E8E8',
-      formInputAccentBorder: '#FF6C00',
+      formInputBackgroundAccent: '#FFFFFF',
+      formInputBorderAccent: '#FF6C00',
 
-      // formInputBorder: '#E0E0E0',
-      // formErrorMessage: '#FC842D',
+      formErrorMessage: '#FF0800',
       // checkboxText: '#9B9FAA',
       // checkboxAccentText: '#FC842D',
       // checkboxAccent: '#FC842D',

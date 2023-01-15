@@ -3,7 +3,6 @@ import { theme } from 'src/utils/theme';
 
 export const formStyles = StyleSheet.create({
   form: {
-    marginTop: 'auto',
     borderTopLeftRadius: theme.radii.xl,
     borderTopRightRadius: theme.radii.xl,
     backgroundColor: theme.colors.white,

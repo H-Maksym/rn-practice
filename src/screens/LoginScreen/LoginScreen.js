@@ -15,22 +15,18 @@ import Input from 'src/components/Common/Input';
 import Button from 'src/components/Common/Button';
 import Loader from 'src/components/Common/Loader';
 import { theme } from 'src/utils/theme';
-import { stylesRegistration } from './RegistrationScreen.styled';
-import AddAvatar from 'src/assets/icon/addAvatar.svg';
+import { stylesLogin } from './LoginScreen.styled';
 
 const initialState = {
-  login: '',
   email: '',
   password: '',
 };
-
-function RegistrationScreen() {
+function LoginScreen() {
   const [state, setState] = useState(initialState);
   const [errors, setErrors] = useState({});
   const [isShowKeyboard, setIsShowKeyboard] = useState(false);
   const [loading, setLoading] = useState(false);
 
-  const ref_email = useRef();
   const ref_password = useRef();
 
   const handleOnChange = (text, input) => {
@@ -44,26 +40,21 @@ function RegistrationScreen() {
     Keyboard.dismiss();
     let valid = true;
 
-    if (!state.login) {
-      handleError('Please input login', 'login');
-      valid = false;
-    }
     if (!state.email) {
       handleError('Please input email', 'email');
       valid = false;
     } else if (!state.email.match(/\S+@\S+\.\S+/)) {
       handleError('Please input valid email', 'email');
+      valid = false;
     }
+
     if (!state.password) {
       handleError('Please input your password', 'password');
-      valid = false;
-    } else if (state.password.length < 8) {
-      handleError('Min password length of 8', 'password');
       valid = false;
     }
 
     if (valid) {
-      register();
+      login();
     }
   };
 
@@ -71,7 +62,7 @@ function RegistrationScreen() {
     setErrors(prevState => ({ ...prevState, [input]: errorMessage }));
   };
 
-  const register = () => {
+  const login = () => {
     setLoading(true);
     setTimeout(() => {
       try {
@@ -92,11 +83,11 @@ function RegistrationScreen() {
 
   return (
     <TouchableWithoutFeedback onPress={keyboardHide}>
-      <View style={stylesRegistration.container}>
+      <View style={stylesLogin.container}>
         <Loader visible={loading} />
         <ImageBackground
           source={require('src/assets/image/backgroundImage.jpg')}
-          style={stylesRegistration.imageBackground}
+          style={stylesLogin.imageBackground}
         >
           <View
             style={{
@@ -112,35 +103,10 @@ function RegistrationScreen() {
               }}
             >
               <View>
-                <Text style={{ ...formStyles.titleForm, marginTop: 92 }}>
-                  Register
+                <Text style={{ ...formStyles.titleForm, marginTop: 32 }}>
+                  Login
                 </Text>
 
-                <View style={stylesRegistration.avatarBox}>
-                  <TouchableOpacity
-                    style={stylesRegistration.addAvatarButton}
-                    activeOpacity={0.7}
-                    accessibilityLabel="add avatar"
-                    onPress={() => console.log('add avatar')}
-                  >
-                    <AddAvatar fill={'#FF6C00'} stroke={'#FF6C00'} />
-                  </TouchableOpacity>
-                </View>
-                <Input
-                  // style={{ marginBottom: 8 }}
-                  // autoCapitalize="none"
-                  placeholder="Enter your login"
-                  iconName="account-outline"
-                  value={state.login}
-                  onFocus={() => {
-                    handleError(null, 'login');
-                    setIsShowKeyboard(true);
-                  }}
-                  onChangeText={text => handleOnChange(text, 'login')}
-                  onSubmitEditing={() => ref_email.current.focus()}
-                  // returnKeyType="next"
-                  error={errors.login}
-                />
                 <Input
                   autoCapitalize="none"
                   keyboardType="email-address"
@@ -156,7 +122,6 @@ function RegistrationScreen() {
                   onSubmitEditing={() => ref_password.current.focus()}
                   returnKeyType="next"
                   error={errors.email}
-                  ref={ref_email}
                 />
                 <Input
                   autoCapitalize="none"
@@ -170,8 +135,8 @@ function RegistrationScreen() {
                   onChangeText={text => handleOnChange(text, 'password')}
                   onSubmitEditing={() => keyboardHide()}
                   password
-                  error={errors.password}
                   ref={ref_password}
+                  error={errors.password}
                 />
               </View>
             </KeyboardAvoidingView>
@@ -183,12 +148,12 @@ function RegistrationScreen() {
               onPress={validate}
             />
             <TouchableOpacity
-              style={stylesRegistration.gotoLoginBtn}
+              style={stylesLogin.gotoRegisterBtn}
               activeOpacity={0.7}
               onPress={() => console.log('goto login')}
             >
-              <Text style={stylesRegistration.gotoLoginText}>
-                Already have an account? Login
+              <Text style={stylesLogin.gotoRegisterText}>
+                Don't have an account? Register
               </Text>
             </TouchableOpacity>
           </View>
@@ -198,4 +163,4 @@ function RegistrationScreen() {
   );
 }
 
-export default RegistrationScreen;
+export default LoginScreen;

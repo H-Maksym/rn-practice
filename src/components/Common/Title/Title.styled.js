@@ -2,7 +2,7 @@ import styled from 'styled-components';
 import { Text } from 'react-native';
 
 export const Title = styled(Text)`
-  /* font-family: ${p => p.theme.fonts.body};
+  font-family: 'Roboto-Regular';
   font-size: ${p => p.theme.fontSize.m};
   line-height: ${p => p.theme.lineHeights.title};
   letter-spacing: ${p => p.theme.letterSpacing.xs};
