@@ -31,5 +31,8 @@
     "@babel/core": "^7.12.9",
     "babel-plugin-module-resolver": "^5.0.0"
   },
+  "overrides": {
+    "react-devtools-core": "~4.25.0"
+  },
   "private": true
 }
