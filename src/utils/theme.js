@@ -87,12 +87,12 @@ export const theme = {
   },
 
   letterSpacing: {
-    xs: '-0.0408',
-    s: 0.01,
-    m: '0.03',
-    l: '0.04',
-    xl: '0.05',
-    xxl: '0.07',
+    xs: -1,
+    s: 1,
+    m: 3,
+    l: 4,
+    xl: 5,
+    xxl: 7,
   },
 
   lineHeights: {

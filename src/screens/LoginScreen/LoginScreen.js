@@ -95,11 +95,18 @@ function LoginScreen() {
             }}
           >
             <KeyboardAvoidingView
-              behavior={Platform.OS == 'ios' ? 'padding' : 'height'}
+              behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
               style={{
-                marginBottom: !isShowKeyboard
-                  ? theme.space[5] + 14
-                  : theme.space[7] + 12,
+                ...Platform.select({
+                  ios: {
+                    marginBottom: !isShowKeyboard
+                      ? theme.space[5] + 14
+                      : theme.space[7] + 12,
+                  },
+                  android: {
+                    marginBottom: theme.space[4],
+                  },
+                }),
               }}
             >
               <View>
