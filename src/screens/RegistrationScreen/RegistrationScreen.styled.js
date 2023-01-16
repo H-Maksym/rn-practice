@@ -2,9 +2,9 @@ import { StyleSheet, Dimensions } from 'react-native';
 import { theme } from 'src/utils/theme';
 
 export const stylesRegistration = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
+  // container: {
+  //   flex: 1,
+  // },
   imageBackground: {
     flex: 1,
     // resizeMode: 'cover',

@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import { useState, forwardRef } from 'react';
 import { View, Text, TextInput } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -5,10 +6,7 @@ import { theme } from 'src/utils/theme';
 import { stylesInput } from './Input.styled';
 
 const Input = forwardRef(
-  (
-    { style, label, iconName, error, password, onFocus = () => {}, ...props },
-    ref
-  ) => {
+  ({ style, label, iconName, error, password, onFocus, ...props }, ref) => {
     const [isFocused, setIsFocused] = useState(false);
     const [hidePassword, setHidePassword] = useState(password);
 
@@ -56,5 +54,25 @@ const Input = forwardRef(
     );
   }
 );
+
+Input.displayName = 'Input';
+
+Input.propTypes = {
+  style: PropTypes.object,
+  label: PropTypes.string,
+  iconName: PropTypes.string,
+  error: PropTypes.string,
+  password: PropTypes.bool,
+  onFocus: PropTypes.func,
+};
+
+Input.defaultProps = {
+  style: {},
+  label: '',
+  iconName: '',
+  error: '',
+  password: false,
+  onFocus: () => {},
+};
 
 export default Input;

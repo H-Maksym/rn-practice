@@ -1,7 +1,7 @@
 import { useCallback } from 'react';
 import { ThemeProvider } from 'styled-components';
 import { theme } from 'src/utils/theme';
-import { View } from 'react-native';
+import Container from 'src/components/Common/Container';
 // import RegistrationScreen from 'src/screens/RegistrationScreen';
 import LoginScreen from 'screens/LoginScreen';
 
@@ -32,11 +32,11 @@ export default function App() {
 
   return (
     <ThemeProvider theme={theme}>
-      <View style={{ flex: 1 }} onLayout={onLayoutRootView}>
+      <Container onLayout={onLayoutRootView}>
         {/*//TODO Прописати route */}
         {/* <RegistrationScreen /> */}
         <LoginScreen />
-      </View>
+      </Container>
     </ThemeProvider>
   );
 }

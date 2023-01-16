@@ -1,4 +1,3 @@
-import styled from 'styled-components';
-import { Text } from 'react-native';
+import { StyleSheet } from 'react-native';
 
-export const Title = styled(Text)``;
+export const stylesTitle = StyleSheet.create({ title: {} });

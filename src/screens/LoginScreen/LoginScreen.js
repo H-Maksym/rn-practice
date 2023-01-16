@@ -10,6 +10,7 @@ import {
   Platform,
   Alert,
 } from 'react-native';
+import Container from 'src/components/Common/Container';
 import { formStyles } from 'src/components/Common/Form/Form.styled';
 import Input from 'src/components/Common/Input';
 import Button from 'src/components/Common/Button';
@@ -83,7 +84,7 @@ function LoginScreen() {
 
   return (
     <TouchableWithoutFeedback onPress={keyboardHide}>
-      <View style={stylesLogin.container}>
+      <Container>
         <Loader visible={loading} />
         <ImageBackground
           source={require('src/assets/image/backgroundImage.jpg')}
@@ -150,7 +151,7 @@ function LoginScreen() {
 
             <Button
               style={{ marginBottom: 16 }}
-              title="Register"
+              title="Login"
               activeOpacity={0.8}
               onPress={validate}
             />
@@ -165,7 +166,7 @@ function LoginScreen() {
             </TouchableOpacity>
           </View>
         </ImageBackground>
-      </View>
+      </Container>
     </TouchableWithoutFeedback>
   );
 }

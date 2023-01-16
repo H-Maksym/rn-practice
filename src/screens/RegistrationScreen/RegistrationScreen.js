@@ -10,6 +10,8 @@ import {
   Platform,
   Alert,
 } from 'react-native';
+
+import Container from 'src/components/Common/Container';
 import { formStyles } from 'src/components/Common/Form/Form.styled';
 import Input from 'src/components/Common/Input';
 import Button from 'src/components/Common/Button';
@@ -92,7 +94,7 @@ function RegistrationScreen() {
 
   return (
     <TouchableWithoutFeedback onPress={keyboardHide}>
-      <View style={stylesRegistration.container}>
+      <Container >
         <Loader visible={loading} />
         <ImageBackground
           source={require('src/assets/image/backgroundImage.jpg')}
@@ -200,7 +202,7 @@ function RegistrationScreen() {
             </TouchableOpacity>
           </View>
         </ImageBackground>
-      </View>
+      </Container>
     </TouchableWithoutFeedback>
   );
 }
