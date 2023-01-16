@@ -104,7 +104,7 @@ function RegistrationScreen() {
             }}
           >
             <KeyboardAvoidingView
-              behavior={Platform.OS == 'ios' ? 'padding' : 'height'}
+              behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
               style={{
                 marginBottom: !isShowKeyboard
                   ? theme.space[5] + 14
