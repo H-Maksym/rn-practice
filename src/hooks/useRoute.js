@@ -1,16 +1,16 @@
 import { createStackNavigator } from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import LoginScreen from 'screens/LoginScreen';
-import RegistrationScreen from 'src/screens/RegistrationScreen';
+import LoginScreen from 'src/screens/AuthScreen/LoginScreen';
+import RegistrationScreen from 'src/screens/AuthScreen/RegistrationScreen';
 
-import PostsScreen from 'src/screens/PostsScreen';
-import CreatePostsScreen from 'src/screens/CreatePostsScreen';
-import ProfileScreen from 'src/screens/ProfileScreen';
+import PostsScreen from 'src/screens/TabScreen/PostsScreen';
+import CreatePostsScreen from 'src/screens/TabScreen/CreatePostsScreen';
+import ProfileScreen from 'src/screens/TabScreen/ProfileScreen';
 
 const AuthStack = createStackNavigator();
 const MainTab = createBottomTabNavigator();
 
-export default useRoute = isAuth => {
+const useRoute = isAuth => {
   if (!isAuth) {
     return (
       <AuthStack.Navigator>
@@ -36,3 +36,5 @@ export default useRoute = isAuth => {
     </MainTab.Navigator>
   );
 };
+
+export default useRoute;
