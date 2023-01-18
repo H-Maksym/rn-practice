@@ -18,6 +18,7 @@ function PostsScreen({ navigation }) {
 
   const logOut = () => {
     dispatch(logout());
+    // navigation.navigate('Login');
   };
 
   useEffect(() => {
@@ -46,7 +47,6 @@ function PostsScreen({ navigation }) {
         <PostItem
           imagePost={'imageURL'}
           countCommentsPost={10}
-          like
           countLikesPost={10}
           locationPost={"Ivano-Frankivs'k Region, Ukraine"}
         />

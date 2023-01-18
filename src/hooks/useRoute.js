@@ -38,17 +38,18 @@ const useRoute = isAuth => {
       initialRouteName="Posts"
       screenOptions={{
         headerTitleAlign: 'center',
+
         headerTitleStyle: {
           fontFamily: 'Roboto-Medium',
           fontSize: 17,
           lineHeight: 22,
-          color: theme.colors.text.primaryText,
         },
-
+        headerTintColor: { color: theme.colors.text.primaryText },
         headerStyle: {
           backgroundColor: theme.colors.primaryBackground,
           borderBottomWidth: 0.5,
           borderBottomColor: '#21212120',
+          height: 60,
         },
       }}
     >
@@ -67,7 +68,7 @@ const useRoute = isAuth => {
         component={ProfileScreen}
         options={{
           iconName: 'user',
-          headerShown: false,
+          // headerShown: false,
         }}
       />
     </MainTab.Navigator>

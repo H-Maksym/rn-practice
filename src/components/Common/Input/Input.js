@@ -9,7 +9,6 @@ const Input = forwardRef(
   ({ style, label, iconName, error, password, onFocus, ...props }, ref) => {
     const [isFocused, setIsFocused] = useState(false);
     const [hidePassword, setHidePassword] = useState(password);
-
     return (
       <View style={style}>
         <Text>{label}</Text>
