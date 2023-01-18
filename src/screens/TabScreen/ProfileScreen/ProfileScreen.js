@@ -3,7 +3,7 @@ import Container from 'src/components/Common/Container';
 
 function ProfileScreen() {
   return (
-    <Container>
+    <Container style={{ backgroundColor: '#FFFFFF' }}>
       <Text>ProfileScreen</Text>
     </Container>
   );

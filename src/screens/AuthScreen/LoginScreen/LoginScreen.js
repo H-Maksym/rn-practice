@@ -1,4 +1,6 @@
 import { useState, useRef } from 'react';
+import { useDispatch } from 'react-redux';
+import { login } from 'src/redux/auth/authSlice';
 import {
   View,
   ImageBackground,
@@ -8,7 +10,6 @@ import {
   Keyboard,
   KeyboardAvoidingView,
   Platform,
-  Alert,
 } from 'react-native';
 import Container from 'src/components/Common/Container';
 import { formStyles } from 'src/components/Common/Form/Form.styled';
@@ -27,7 +28,7 @@ function LoginScreen({ navigation }) {
   const [errors, setErrors] = useState({});
   const [isShowKeyboard, setIsShowKeyboard] = useState(false);
   const [loading, setLoading] = useState(false);
-
+  const dispatch = useDispatch();
   const ref_password = useRef();
 
   const handleOnChange = (text, input) => {
@@ -55,7 +56,7 @@ function LoginScreen({ navigation }) {
     }
 
     if (valid) {
-      login();
+      handleLogin();
     }
   };
 
@@ -63,18 +64,20 @@ function LoginScreen({ navigation }) {
     setErrors(prevState => ({ ...prevState, [input]: errorMessage }));
   };
 
-  const login = () => {
-    setLoading(true);
-    setTimeout(() => {
-      try {
-        console.log(state);
-      } catch (error) {
-        Alert.alert('Error', 'Something went wrong');
-      } finally {
-        setState(initialState);
-        setLoading(false);
-      }
-    }, 3000);
+  const handleLogin = () => {
+    dispatch(login());
+
+    // setLoading(true);
+    // setTimeout(() => {
+    //   try {
+    //     console.log("hello")
+    //   } catch (error) {
+    //     Alert.alert('Error', 'Something went wrong');
+    //   } finally {
+    //     setState(initialState);
+    //     setLoading(false);
+    //   }
+    // }, 3000);
   };
 
   const keyboardHide = () => {

@@ -3,7 +3,7 @@ import Container from 'src/components/Common/Container';
 
 function CreatePostsScreen() {
   return (
-    <Container>
+    <Container style={{ backgroundColor: '#FFFFFF' }}>
       <Text>CreatePostsScreen</Text>
     </Container>
   );

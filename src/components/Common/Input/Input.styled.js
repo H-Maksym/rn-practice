@@ -21,6 +21,8 @@ export const stylesInput = StyleSheet.create({
   },
   textInput: {
     flex: 1,
+    width: '100%',
+    paddingVertical: theme.space[4],
     fontFamily: 'Roboto-Regular',
     fontSize: theme.fontSizes.s,
     fontStyle: 'normal',

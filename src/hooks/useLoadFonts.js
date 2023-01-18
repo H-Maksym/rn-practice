@@ -12,6 +12,7 @@ function useLoadFonts() {
         await SplashScreen.preventAutoHideAsync();
         await Font.loadAsync({
           'Roboto-Regular': require('src/assets/fonts/roboto/Roboto-Regular.ttf'),
+          'Roboto-Medium': require('src/assets/fonts/roboto/Roboto-Medium.ttf'),
           'Roboto-Bold': require('src/assets/fonts/roboto/Roboto-Bold.ttf'),
         });
         // Artificially delay for two seconds to simulate a slow loading

@@ -1,6 +1,10 @@
+import { Provider } from 'react-redux';
+import { store } from 'src/redux/store';
+import useLoadFonts from 'src/hooks/useLoadFonts';
+
 import { ThemeProvider } from 'styled-components';
 import { theme } from 'src/utils/theme';
-import useLoadFonts from 'src/hooks/useLoadFonts';
+
 import HomeScreen from 'src/screens/HomeScreen';
 
 export default function App() {
@@ -11,7 +15,9 @@ export default function App() {
 
   return (
     <ThemeProvider theme={theme}>
-      <HomeScreen />
+      <Provider store={store}>
+        <HomeScreen />
+      </Provider>
     </ThemeProvider>
   );
 }

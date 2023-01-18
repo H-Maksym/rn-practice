@@ -5,7 +5,7 @@ export const theme = {
     whiteAlpha: '#ffffff60',
     accent: '#F59256',
     hover: '#ff6101',
-    primaryBackground: '#E5E5E5',
+    primaryBackground: '#FFFFFF',
     imageBackground: '#F6F6F6',
     // burgerBackground: '#FDF7F2',
     border: '#E8E8E8',
@@ -15,7 +15,8 @@ export const theme = {
       sectionTitle: '#212121',
       primaryText: '#212121',
       secondaryText: '#BDBDBD',
-      emailText: 'rgba(33, 33, 33, 0.8)',
+      shadowText: '#21212180',
+      emailText: '#21212180',
       // accent: '#F59256',
       link: '#1B4371',
     },
@@ -27,6 +28,10 @@ export const theme = {
       border: '#FF6C00',
       primaryText: '#FFFFFF',
       secondaryText: '#FFFFFF',
+      iconLogOut: '#BDBDBD',
+      iconComments: '#BDBDBD',
+      iconLike: '#BDBDBD',
+      iconLocation: '#BDBDBD',
       none: 'transparent',
     },
 
@@ -50,11 +55,14 @@ export const theme = {
   space: [0, 2, 4, 8, 16, 32, 64, 128, 256, 512, 1024],
 
   fonts: {
-    logo: 'Poppins, sans-serif',
-    body: 'Poppins, sans-serif',
+    // body: 'Poppins, sans-serif',
     // heading: 'Gotham Pro, sans-serif',
-    main: 'Manrope, sans-serif',
-    forminput: 'Inter, sans-serif',
+    // main: 'Manrope, sans-serif',
+    // forminput: 'Inter, sans-serif',
+
+    RobotoRegular: 'Roboto-Regular',
+    RobotoMedium: 'Roboto-Medium',
+    RobotoBold: 'Roboto-Bold',
   },
 
   textTransform: {
@@ -64,11 +72,11 @@ export const theme = {
   },
 
   fontSizes: {
-    xxs: 12,
+    xxs: 13,
     xs: 14,
     s: 16,
     sm: 20,
-    m: 17,
+    m: 24,
     l: 30,
     xl: 32,
     xxl: 48,
@@ -115,6 +123,7 @@ export const theme = {
     sm: 4,
     md: 8,
     lg: 16,
+    x: 20,
     xl: 25,
     xxl: 30,
     xxxl: 40,
