@@ -2,15 +2,19 @@ import { StyleSheet, Dimensions } from 'react-native';
 import { theme } from 'src/utils/theme';
 
 export const stylesCreatePostsScreen = StyleSheet.create({
+  headerIconGoBack: {
+    marginLeft: theme.space[4],
+    color: theme.colors.button.iconLogOut,
+  },
   container: {
-    paddingHorizontal: 16,
+    paddingHorizontal: theme.space[4],
   },
   imageContainer: {
     marginTop: theme.space[5],
     marginBottom: theme.space[3],
   },
   imagePost: {
-    height: 240,
+    height: theme.space[8] - 16,
     backgroundColor: '#E8E8E8',
     borderWidth: 1,
     borderStyle: 'solid',
@@ -25,16 +29,40 @@ export const stylesCreatePostsScreen = StyleSheet.create({
     transform: [{ translateY: -30 }],
     justifyContent: 'center',
     alignItems: 'center',
-    width: 60,
-    height: 60,
-    borderRadius: '50%',
+    width: theme.space[6] - 4,
+    height: theme.space[6] - 4,
+    borderRadius: theme.space[6] - 14,
     zIndex: 10,
   },
   textAction: {
     marginBottom: theme.space[5],
     fontFamily: 'Roboto-Regular',
-    fontSize: 16,
-    lineHeight: 19,
-    color: '#BDBDBD',
+    fontSize: theme.fontSizes.s,
+    lineHeight: theme.lineHeights.dataText,
+    color: theme.colors.text.secondaryText,
+  },
+  inputStyle: {
+    borderTopWidth: 0,
+    borderLeftWidth: 0,
+    borderRightWidth: 0,
+  },
+  inputContainerIsShownKeyboard: {
+    position: 'absolute',
+    zIndex: 100,
+    bottom: theme.space[7] - 8,
+    left: theme.space[3],
+    width: '100%',
+    paddingVertical: theme.space[4],
+    paddingHorizontal: theme.space[3],
+    borderRadius: theme.radii.md,
+    opacity: 1,
+
+    elevation: theme.space[4] + 4,
+    shadowColor: '#171717',
+    shadowOffset: { width: -2, height: 4 },
+    shadowOpacity: 0.2,
+    shadowRadius: theme.space[3],
+
+    backgroundColor: theme.colors.primaryBackground,
   },
 });

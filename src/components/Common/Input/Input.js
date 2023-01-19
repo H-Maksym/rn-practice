@@ -6,7 +6,19 @@ import { theme } from 'src/utils/theme';
 import { stylesInput } from './Input.styled';
 
 const Input = forwardRef(
-  ({ style, label, iconName, error, password, onFocus, ...props }, ref) => {
+  (
+    {
+      style,
+      styleInputContainer,
+      label,
+      iconName,
+      error,
+      password,
+      onFocus,
+      ...props
+    },
+    ref
+  ) => {
     const [isFocused, setIsFocused] = useState(false);
     const [hidePassword, setHidePassword] = useState(password);
     return (
@@ -23,6 +35,7 @@ const Input = forwardRef(
                 : theme.colors.form.formInputBorder,
               backgroundColor: isFocused && theme.colors.white,
             },
+            styleInputContainer,
           ]}
         >
           <Icon name={iconName} style={stylesInput.iconInput} />
@@ -37,7 +50,7 @@ const Input = forwardRef(
             onBlur={() => {
               setIsFocused(false);
             }}
-            styled={stylesInput.textInput}
+            styled={{ ...stylesInput.textInput }}
             {...props}
           />
           {password && (

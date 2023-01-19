@@ -51,6 +51,9 @@ const useRoute = isAuth => {
           borderBottomColor: '#21212120',
           height: 60,
         },
+        tabBarOptions: {
+          tabBarHideOnKeyboard: true,
+        },
       }}
     >
       <MainTab.Screen

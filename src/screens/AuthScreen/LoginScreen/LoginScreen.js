@@ -56,9 +56,9 @@ function LoginScreen({ navigation }) {
     }
 
     //TODO розкоментувати для валідації полів
-    // if (valid) {
-    handleLogin();
-    // }
+    if (valid) {
+      handleLogin();
+    }
   };
 
   const handleError = (errorMessage, input) => {
