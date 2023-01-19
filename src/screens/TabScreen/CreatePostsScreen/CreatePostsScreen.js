@@ -1,4 +1,6 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
+import { useFocusEffect } from '@react-navigation/native';
+
 import { theme } from 'src/utils/theme';
 import {
   View,
@@ -30,6 +32,18 @@ function CreatePostsScreen({ navigation }) {
   const [isShowKeyboard, setIsShowKeyboard] = useState(false);
 
   const ref_location = useRef();
+
+  useFocusEffect(
+    useCallback(() => {
+      //INFO when focus screen
+      return () => {
+        //INFO when unfocus screen
+        setState(initialState);
+        setErrors({});
+        setIsShowKeyboard(false);
+      };
+    }, [])
+  );
 
   useEffect(() => {
     navigation.setOptions({
