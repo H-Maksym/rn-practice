@@ -1,6 +1,7 @@
 import { View, ImageBackground, Text } from 'react-native';
-import { useEffect } from 'react';
+import { useEffect, useCallback } from 'react';
 // import { useHeaderHeight } from '@react-navigation/elements';
+import { useFocusEffect } from '@react-navigation/native';
 
 import { useDispatch } from 'react-redux';
 import { logout } from 'src/redux/auth/authSlice';
@@ -17,6 +18,17 @@ function ProfileScreen({ navigation }) {
   const dispatch = useDispatch();
   // const headerHeight = useHeaderHeight();
   // const [heightHeader] = useState(headerHeight);
+
+  useFocusEffect(
+    useCallback(() => {
+      //INFO when focus screen
+      return () => {
+        //INFO when unfocus screen
+        navigation.navigate('Create', { prevScreen: 'Profile' });
+      };
+    }, [])
+  );
+
   useEffect(() => {
     navigation.setOptions({ headerShown: false });
   }, []);

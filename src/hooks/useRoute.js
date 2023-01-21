@@ -71,7 +71,6 @@ const useRoute = isAuth => {
         component={ProfileScreen}
         options={{
           iconName: 'user',
-          // headerShown: false,
         }}
       />
     </MainTab.Navigator>

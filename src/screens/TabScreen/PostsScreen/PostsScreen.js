@@ -1,5 +1,7 @@
-import { useEffect } from 'react';
+import { useEffect, useCallback } from 'react';
 import { useDispatch } from 'react-redux';
+import { useFocusEffect } from '@react-navigation/native';
+
 import { logout } from 'src/redux/auth/authSlice';
 
 import Icon from 'react-native-vector-icons/Feather';
@@ -15,6 +17,16 @@ import { stylesPostScreen } from './PostsScreen.styled';
 
 function PostsScreen({ navigation }) {
   const dispatch = useDispatch();
+
+  useFocusEffect(
+    useCallback(() => {
+      //INFO when focus screen
+      return () => {
+        //INFO when unfocus screen
+        navigation.navigate('Create', { prevScreen: 'Posts' });
+      };
+    }, [])
+  );
 
   const logOut = () => {
     dispatch(logout());

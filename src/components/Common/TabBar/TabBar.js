@@ -26,6 +26,7 @@ function TabBar({ state, descriptors, navigation }) {
 
           if (!isFocused && !event.defaultPrevented) {
             navigation.navigate(route.name);
+            // navigation.navigate(route.name, { prevScreen: route.name });
           }
         };
 
