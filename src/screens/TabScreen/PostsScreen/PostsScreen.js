@@ -1,69 +1,46 @@
-import { useEffect, useCallback } from 'react';
-import { useDispatch } from 'react-redux';
-import { useFocusEffect } from '@react-navigation/native';
-
-import { logout } from 'src/redux/auth/authSlice';
-
-import Icon from 'react-native-vector-icons/Feather';
-import { View } from 'react-native';
-import Container from 'src/components/Common/Container';
-import ButtonIcon from 'src/components/Common/ButtonIcon';
-
-import UserData from 'src/components/Posts/UserData';
-import PostItem from 'src/components/Posts/PostItem';
-
+import { createStackNavigator } from '@react-navigation/stack';
+import DefaultPostsScreen from 'src/screens/NestedScreen/Posts/DefaultPostsScreen';
+import CommentsScreen from 'src/screens/NestedScreen/Posts/CommentsScreen';
+import MapScreen from 'src/screens/NestedScreen/Posts/MapScreen';
 import { theme } from 'src/utils/theme';
-import { stylesPostScreen } from './PostsScreen.styled';
+import { getFocusedRouteNameFromRoute } from '@react-navigation/native';
 
-function PostsScreen({ navigation }) {
-  const dispatch = useDispatch();
+// const getTabBarVisibility = route => {
+//   const routeName = getFocusedRouteNameFromRoute(route);
+//   const hideOnScreens = ['Comments', 'Map']; // put here name of screen where you want to hide tabBar
+//   return hideOnScreens.indexOf(routeName) <= -1;
+// };
 
-  useFocusEffect(
-    useCallback(() => {
-      //INFO when focus screen
-      return () => {
-        //INFO when unfocus screen
-        navigation.navigate('Create', { prevScreen: 'Posts' });
-      };
-    }, [])
-  );
+const NestedScreen = createStackNavigator();
 
-  const logOut = () => {
-    dispatch(logout());
-    // navigation.navigate('Login');
-  };
-
-  useEffect(() => {
-    navigation.setOptions({
-      headerRight: () => (
-        <ButtonIcon title="log-out" onPress={logOut}>
-          <Icon
-            name="log-out"
-            style={stylesPostScreen.headerIconLogOut}
-            size={24}
-          />
-        </ButtonIcon>
-      ),
-    });
-  }, [navigation]);
-
+function PostsScreen() {
   return (
-    <Container style={{ backgroundColor: theme.colors.primaryBackground }}>
-      <View style={stylesPostScreen.containerPostScreen}>
-        <UserData
-          avatarUser="avatar"
-          userName="Maksym"
-          userSurName="Holovachuk"
-          email="maksym@gmail.com"
-        />
-        <PostItem
-          imagePost={'imageURL'}
-          countCommentsPost={10}
-          countLikesPost={10}
-          locationPost={"Ivano-Frankivs'k Region, Ukraine"}
-        />
-      </View>
-    </Container>
+    <NestedScreen.Navigator
+      initialRouteName="Posts"
+      screenOptions={{
+        headerTitleAlign: 'center',
+
+        headerTitleStyle: {
+          fontFamily: 'Roboto-Medium',
+          fontSize: 17,
+          lineHeight: 22,
+        },
+        headerTintColor: { color: theme.colors.text.primaryText },
+        headerStyle: {
+          backgroundColor: theme.colors.primaryBackground,
+          borderBottomWidth: 0.5,
+          borderBottomColor: '#21212120',
+          height: 60,
+        },
+        tabBarOptions: {
+          tabBarHideOnKeyboard: true,
+        },
+      }}
+    >
+      <NestedScreen.Screen name="Posts" component={DefaultPostsScreen} />
+      <NestedScreen.Screen name="Comments" component={CommentsScreen} />
+      <NestedScreen.Screen name="Map" component={MapScreen} />
+    </NestedScreen.Navigator>
   );
 }
 

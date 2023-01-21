@@ -24,7 +24,6 @@ function ProfileScreen({ navigation }) {
       //INFO when focus screen
       return () => {
         //INFO when unfocus screen
-        navigation.navigate('Create', { prevScreen: 'Profile' });
       };
     }, [])
   );

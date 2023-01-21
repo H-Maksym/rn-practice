@@ -28,6 +28,7 @@ export const theme = {
       border: '#FF6C00',
       primaryText: '#FFFFFF',
       secondaryText: '#FFFFFF',
+      iconPlus: '#BDBDBD',
       iconLogOut: '#BDBDBD',
       iconComments: '#BDBDBD',
       iconLike: '#BDBDBD',

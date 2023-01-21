@@ -3,6 +3,7 @@ import {
   View,
   ImageBackground,
   Text,
+  Image,
   TouchableOpacity,
   TouchableWithoutFeedback,
   Keyboard,
@@ -10,6 +11,7 @@ import {
   Platform,
   Alert,
 } from 'react-native';
+import { useImagePicker } from 'src/hooks/useImagePicker';
 
 import Container from 'src/components/Common/Container';
 import { formStyles } from 'src/components/Common/Form/Form.styled';
@@ -21,7 +23,7 @@ import { stylesRegistration } from './RegistrationScreen.styled';
 import AddAvatar from 'src/assets/icon/addAvatar.svg';
 
 const initialState = {
-  login: '',
+  name: '',
   email: '',
   password: '',
 };
@@ -31,6 +33,7 @@ function RegistrationScreen({ navigation }) {
   const [errors, setErrors] = useState({});
   const [isShowKeyboard, setIsShowKeyboard] = useState(false);
   const [loading, setLoading] = useState(false);
+  const { image, pickImage, resetImagePickerState } = useImagePicker();
 
   const ref_email = useRef();
   const ref_password = useRef();
@@ -46,8 +49,8 @@ function RegistrationScreen({ navigation }) {
     Keyboard.dismiss();
     let valid = true;
 
-    if (!state.login) {
-      handleError('Please input login', 'login');
+    if (!state.name) {
+      handleError('Please input name', 'name');
       valid = false;
     }
     if (!state.email) {
@@ -55,6 +58,7 @@ function RegistrationScreen({ navigation }) {
       valid = false;
     } else if (!state.email.match(/\S+@\S+\.\S+/)) {
       handleError('Please input valid email', 'email');
+      valid = false;
     }
     if (!state.password) {
       handleError('Please input your password', 'password');
@@ -77,11 +81,12 @@ function RegistrationScreen({ navigation }) {
     setLoading(true);
     setTimeout(() => {
       try {
-        console.log(state);
+        console.log({ ...state, image });
       } catch (error) {
         Alert.alert('Error', 'Something went wrong');
       } finally {
         setState(initialState);
+        resetImagePickerState();
         setLoading(false);
       }
     }, 3000);
@@ -126,29 +131,43 @@ function RegistrationScreen({ navigation }) {
                 </Text>
 
                 <View style={stylesRegistration.avatarBox}>
+                  {image && (
+                    <Image
+                      source={{ uri: image }}
+                      style={stylesRegistration.avatar}
+                    />
+                  )}
                   <TouchableOpacity
                     style={stylesRegistration.addAvatarButton}
                     activeOpacity={0.7}
                     accessibilityLabel="add avatar"
-                    onPress={() => console.log('add avatar')}
+                    onPress={() => {
+                      if (!image) {
+                        pickImage();
+                      } else {
+                        resetImagePickerState();
+                      }
+                    }}
                   >
-                    <AddAvatar fill={'#FF6C00'} stroke={'#FF6C00'} />
+                    <AddAvatar
+                      style={stylesRegistration.changeAvatarStatus(image)}
+                    />
                   </TouchableOpacity>
                 </View>
                 <Input
                   // style={{ marginBottom: 8 }}
                   // autoCapitalize="none"
-                  placeholder="Enter your login"
+                  placeholder="Enter your name"
                   iconName="account-outline"
-                  value={state.login}
+                  value={state.name}
                   onFocus={() => {
-                    handleError(null, 'login');
+                    handleError(null, 'name');
                     setIsShowKeyboard(true);
                   }}
-                  onChangeText={text => handleOnChange(text, 'login')}
+                  onChangeText={text => handleOnChange(text, 'name')}
                   onSubmitEditing={() => ref_email.current.focus()}
-                  // returnKeyType="next"
-                  error={errors.login}
+                  returnKeyType="next"
+                  error={errors.name}
                 />
                 <Input
                   autoCapitalize="none"
@@ -179,6 +198,7 @@ function RegistrationScreen({ navigation }) {
                   onChangeText={text => handleOnChange(text, 'password')}
                   onSubmitEditing={() => keyboardHide()}
                   password
+                  returnKeyType="next"
                   error={errors.password}
                   ref={ref_password}
                 />

@@ -50,7 +50,6 @@ export default function useTakePhoto() {
       orientation: 'landscapeLeft',
     };
     const photo = cameraRef.takePictureAsync(options);
-    console.log(photo);
     return photo;
   };
 

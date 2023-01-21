@@ -1,5 +1,6 @@
-import { useState, useEffect, useRef, useCallback, useMemo } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
 import { useFocusEffect } from '@react-navigation/native';
+import { useDispatch } from 'react-redux';
 import useTakePhoto from 'src/hooks/useTakePhoto';
 
 import {
@@ -23,6 +24,7 @@ import ButtonIcon from 'src/components/Common/ButtonIcon';
 
 import { stylesCreatePostsScreen } from './CreatePostsScreen.styled';
 import { theme } from 'src/utils/theme';
+import { useVisibleTabBar } from '../../../hooks/useVisibleTabBar';
 
 const initialState = {
   titlePost: '',
@@ -31,6 +33,7 @@ const initialState = {
 };
 
 function CreatePostsScreen({ navigation, route }) {
+  const { setVisibleBottom } = useVisibleTabBar();
   const [prevScreen, setPrevScreen] = useState({});
   const [state, setState] = useState(initialState);
   const {
@@ -49,6 +52,8 @@ function CreatePostsScreen({ navigation, route }) {
 
   const cameraRef = useRef();
   const ref_location = useRef();
+  const dispatch = useDispatch();
+
   useEffect(() => {
     setCameraPermission();
   }, []);
@@ -72,8 +77,7 @@ function CreatePostsScreen({ navigation, route }) {
         <ButtonIcon
           title="go back"
           onPress={() => {
-            console.log(route.params);
-            navigation.navigate(route.params?.prevScreen);
+            navigation.goBack();
           }}
         >
           <Icon
@@ -84,11 +88,11 @@ function CreatePostsScreen({ navigation, route }) {
         </ButtonIcon>
       ),
       headerShown: !isFullScreen ? true : false,
-      tabStyle: !isFullScreen
-        ? { display: 'flex' }
-        : { display: 'none', heights: 0 },
+      // tabStyle: !isFullScreen
+      //   ? { display: 'flex' }
+      //   : { display: 'none', heights: 0 },
     });
-  }, [navigation, isShowKeyboard, isFullScreen, route]);
+  }, [navigation, isShowKeyboard, isFullScreen]);
 
   const handleOnChange = (text, input) => {
     setState(prevState => ({
@@ -139,6 +143,7 @@ function CreatePostsScreen({ navigation, route }) {
         console.log(error);
       } finally {
         setCameraFullScreen(false);
+        setVisibleBottom(true);
       }
     }
   };
@@ -196,7 +201,10 @@ function CreatePostsScreen({ navigation, route }) {
                     }}
                   >
                     <Icon
-                      onPress={() => setCameraFullScreen(true)}
+                      onPress={() => {
+                        setCameraFullScreen(true);
+                        setVisibleBottom(false);
+                      }}
                       name="camera"
                       size={24}
                       color="#BDBDBD"
@@ -227,6 +235,7 @@ function CreatePostsScreen({ navigation, route }) {
                         photo: '',
                       }));
                       setCameraFullScreen(true);
+                      setVisibleBottom(false);
                     }}
                     name="camera"
                     size={24}

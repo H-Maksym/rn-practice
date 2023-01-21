@@ -11,6 +11,7 @@ function PostItem({
   like,
   countLikesPost,
   locationPost,
+  navigation,
 }) {
   return (
     <View style={stylesPostItem.postListWrapper}>
@@ -23,7 +24,7 @@ function PostItem({
               ...stylesPostItem.postCommentsWrapper,
             }}
             title="goto comments"
-            onPress={() => console.log('Comments')}
+            onPress={() => navigation.navigate('Comments')}
           >
             {Number(countCommentsPost) === 0 ? (
               <Icon
@@ -80,7 +81,7 @@ function PostItem({
           <ButtonIcon
             style={stylesPostItem.postLocationWrapper}
             title="goto location"
-            onPress={() => console.log('Location')}
+            onPress={() => navigation.navigate('Map')}
           >
             <Icon
               name="map-pin"
