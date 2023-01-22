@@ -1,26 +1,42 @@
-import { StatusBar } from "expo-status-bar";
-import { StyleSheet, Text, View } from "react-native";
+import { useCallback } from 'react';
+import { ThemeProvider } from 'styled-components';
+import { theme } from 'src/utils/theme';
+import { View } from 'react-native';
+// import RegistrationScreen from 'src/screens/RegistrationScreen';
+import LoginScreen from 'screens/LoginScreen';
+
+import { useFonts } from 'expo-font';
+import * as SplashScreen from 'expo-splash-screen';
+
+const loadFonts = async () => {
+  await Font.loadAsync({});
+};
+
+SplashScreen.preventAutoHideAsync();
 
 export default function App() {
+  const [fontsLoaded] = useFonts({
+    'Roboto-Regular': require('./src/assets/fonts/roboto/Roboto-Regular.ttf'),
+    'Roboto-Bold': require('./src/assets/fonts/roboto/Roboto-Bold.ttf'),
+  });
+
+  const onLayoutRootView = useCallback(async () => {
+    if (fontsLoaded) {
+      await SplashScreen.hideAsync();
+    }
+  }, [fontsLoaded]);
+
+  if (!fontsLoaded) {
+    return null;
+  }
+
   return (
-    <View style={styles.container}>
-      <Text style={styles.text}>
-        Open up App.js to start working on your app!
-      </Text>
-      <StatusBar style="auto" />
-    </View>
+    <ThemeProvider theme={theme}>
+      <View style={{ flex: 1 }} onLayout={onLayoutRootView}>
+        {/*//TODO Прописати route */}
+        {/* <RegistrationScreen /> */}
+        <LoginScreen />
+      </View>
+    </ThemeProvider>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#000",
-    alignItems: "center",
-    justifyContent: "center",
-    color: "tomato",
-  },
-  text: {
-    color: "inherit",
-  },
-});
