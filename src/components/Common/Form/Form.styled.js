@@ -11,6 +11,7 @@ export const formStyles = StyleSheet.create({
 
   titleForm: {
     marginBottom: theme.space[5],
+    fontFamily: 'Roboto-Medium',
     fontSize: theme.fontSizes.l,
     fontWeight: theme.fontWeights.medium,
     lineHeight: theme.lineHeights.titleForm,

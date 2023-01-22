@@ -1,3 +1,5 @@
+import PropTypes from 'prop-types';
+
 import {
   useWindowDimensions,
   View,
@@ -7,7 +9,7 @@ import {
 import { theme } from 'src/utils/theme';
 import { stylesLoader } from './Loader.styled';
 
-function Loader({ visible = true }) {
+function Loader({ visible }) {
   const { height, width } = useWindowDimensions();
   return (
     <>
@@ -22,5 +24,13 @@ function Loader({ visible = true }) {
     </>
   );
 }
+
+Loader.propTypes = {
+  visible: PropTypes.bool,
+};
+
+Loader.defaultProps = {
+  visible: true,
+};
 
 export default Loader;

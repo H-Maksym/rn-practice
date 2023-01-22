@@ -1,42 +1,23 @@
-import { useCallback } from 'react';
+import { Provider } from 'react-redux';
+import { store } from 'src/redux/store';
+import useLoadFonts from 'src/hooks/useLoadFonts';
+
 import { ThemeProvider } from 'styled-components';
 import { theme } from 'src/utils/theme';
-import { View } from 'react-native';
-// import RegistrationScreen from 'src/screens/RegistrationScreen';
-import LoginScreen from 'screens/LoginScreen';
 
-import { useFonts } from 'expo-font';
-import * as SplashScreen from 'expo-splash-screen';
-
-const loadFonts = async () => {
-  await Font.loadAsync({});
-};
-
-SplashScreen.preventAutoHideAsync();
+import HomeScreen from 'src/screens/HomeScreen';
 
 export default function App() {
-  const [fontsLoaded] = useFonts({
-    'Roboto-Regular': require('./src/assets/fonts/roboto/Roboto-Regular.ttf'),
-    'Roboto-Bold': require('./src/assets/fonts/roboto/Roboto-Bold.ttf'),
-  });
-
-  const onLayoutRootView = useCallback(async () => {
-    if (fontsLoaded) {
-      await SplashScreen.hideAsync();
-    }
-  }, [fontsLoaded]);
-
-  if (!fontsLoaded) {
+  const appIsReady = useLoadFonts();
+  if (!appIsReady) {
     return null;
   }
 
   return (
     <ThemeProvider theme={theme}>
-      <View style={{ flex: 1 }} onLayout={onLayoutRootView}>
-        {/*//TODO Прописати route */}
-        {/* <RegistrationScreen /> */}
-        <LoginScreen />
-      </View>
+      <Provider store={store}>
+        <HomeScreen />
+      </Provider>
     </ThemeProvider>
   );
 }

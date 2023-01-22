@@ -20,7 +20,7 @@ export const stylesInput = StyleSheet.create({
     marginRight: theme.space[3],
   },
   textInput: {
-    flex: 1,
+    paddingVertical: theme.space[4],
     fontFamily: 'Roboto-Regular',
     fontSize: theme.fontSizes.s,
     fontStyle: 'normal',

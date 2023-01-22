@@ -2,9 +2,9 @@ import { StyleSheet } from 'react-native';
 import { theme } from 'src/utils/theme';
 
 export const stylesLogin = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
+  // container: {
+  //   flex: 1,
+  // },
   imageBackground: {
     flex: 1,
     // resizeMode: 'cover',
