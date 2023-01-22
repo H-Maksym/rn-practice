@@ -5,6 +5,7 @@ export const stylesRegistration = StyleSheet.create({
   // container: {
   //   flex: 1,
   // },
+
   imageBackground: {
     flex: 1,
     // resizeMode: 'cover',
@@ -19,12 +20,31 @@ export const stylesRegistration = StyleSheet.create({
     backgroundColor: theme.colors.imageBackground,
     borderRadius: theme.radii.lg,
   },
+  avatar: {
+    width: 120,
+    height: 120,
+    borderRadius: theme.radii.lg,
+  },
   addAvatarButton: {
     position: 'absolute',
     bottom: theme.space[4] - 2,
     right: -(theme.space[4] + 9) / 2,
     width: theme.space[4] + 9,
     height: theme.space[4] + 9,
+  },
+
+  changeAvatarStatus(image) {
+    if (image) {
+      return {
+        fill: theme.colors.button.iconPlus,
+        stroke: theme.colors.button.iconPlus,
+        transform: [{ rotate: '-45deg' }],
+      };
+    }
+    return {
+      fill: theme.colors.button.accent,
+      stroke: theme.colors.button.accent,
+    };
   },
 
   gotoLoginBtn: { marginBottom: theme.space[6] + 2 },

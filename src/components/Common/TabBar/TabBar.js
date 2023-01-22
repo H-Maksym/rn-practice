@@ -1,12 +1,23 @@
+import { useSelector } from 'react-redux';
 import { View, Text, TouchableOpacity } from 'react-native';
+import { selectIsVisibleTabBar } from 'src/redux/auth/authSelectors';
+
 import Icon from 'react-native-vector-icons/Feather';
 import ButtonIcon from 'src/components/Common/ButtonIcon';
 import { theme } from 'src/utils/theme';
 import { stylesTab } from './TabBar.styled';
+import { useVisibleTabBar } from '../../../hooks/useVisibleTabBar';
 
-function TabBar({ state, descriptors, navigation }) {
+function TabBar(props) {
+  const { state, descriptors, navigation } = props;
+  const IsVisibleTabBar = useSelector(selectIsVisibleTabBar);
   return (
-    <View style={stylesTab.containerTab}>
+    <View
+      style={{
+        ...stylesTab.containerTab,
+        display: !IsVisibleTabBar ? 'none' : 'flex',
+      }}
+    >
       {state.routes.map((route, index) => {
         const { options } = descriptors[route.key];
         const label =
@@ -26,6 +37,7 @@ function TabBar({ state, descriptors, navigation }) {
 
           if (!isFocused && !event.defaultPrevented) {
             navigation.navigate(route.name);
+            // navigation.navigate(route.name, { prevScreen: route.name });
           }
         };
 

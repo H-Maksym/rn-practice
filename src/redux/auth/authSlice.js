@@ -3,13 +3,18 @@ import { createSlice } from '@reduxjs/toolkit';
 const initialState = {
   isAuth: false,
   isLoading: false,
-  error: null,
+  error: false,
+  isVisibleTabBar: false,
 };
 
-const authSlice = createSlice({
+export const authSlice = createSlice({
   name: 'auth',
   initialState,
   reducers: {
+    setVisibleTabBar(state, { payload }) {
+      state.isVisibleTabBar = payload;
+    },
+
     login(state) {
       state.isAuth = true;
     },
@@ -19,6 +24,6 @@ const authSlice = createSlice({
   },
 });
 
-export const { login, logout } = authSlice.actions;
+export const { setVisibleTabBar, login, logout } = authSlice.actions;
 
 export const authReducer = authSlice.reducer;

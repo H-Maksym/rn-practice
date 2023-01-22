@@ -16,6 +16,10 @@ export const stylesCreatePostsScreen = StyleSheet.create({
   imagePost: {
     height: theme.space[8] - 16,
     backgroundColor: '#E8E8E8',
+    alignItems: 'center',
+    justifyContent: 'center',
+    // resizeMode: 'contain',
+
     borderWidth: 1,
     borderStyle: 'solid',
     borderColor: '#E8E8E8',
@@ -64,5 +68,12 @@ export const stylesCreatePostsScreen = StyleSheet.create({
     shadowRadius: theme.space[3],
 
     backgroundColor: theme.colors.primaryBackground,
+  },
+
+  publishBtnDisabled: {
+    backgroundColor: theme.colors.button.secondaryBackground,
+  },
+  publishBtnTitleDisabled: {
+    color: theme.colors.text.secondaryText,
   },
 });
