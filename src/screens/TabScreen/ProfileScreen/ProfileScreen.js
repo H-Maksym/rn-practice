@@ -1,24 +1,23 @@
-import { View, ImageBackground, Text } from 'react-native';
-import { useEffect, useCallback } from 'react';
+import { View, ImageBackground, Text } from "react-native";
+import { useEffect, useCallback } from "react";
 // import { useHeaderHeight } from '@react-navigation/elements';
-import { useFocusEffect } from '@react-navigation/native';
+import { useFocusEffect } from "@react-navigation/native";
 
-import { useDispatch } from 'react-redux';
-import { logout } from 'src/redux/auth/authSlice';
+import { useDispatch } from "react-redux";
+import { logout } from "src/redux/auth/authSlice";
 
-import Icon from 'react-native-vector-icons/Feather';
-import Container from 'src/components/Common/Container';
-import ButtonIcon from 'src/components/Common/ButtonIcon';
-import AddAvatar from 'src/assets/icon/addAvatar.svg';
-import PostItem from 'src/components/Posts/PostItem';
+import Icon from "react-native-vector-icons/Feather";
+import Container from "src/components/Common/Container";
+import ButtonIcon from "src/components/Common/ButtonIcon";
+import AddAvatar from "src/assets/icon/addAvatar.svg";
+import PostItem from "src/components/Posts/PostItem";
 
-import { stylesProfileScreen } from './ProfileScreen.styled';
+import { stylesProfileScreen } from "./ProfileScreen.styled";
 
-function ProfileScreen({ navigation }) {
+function ProfileScreen({ navigation, route }) {
   const dispatch = useDispatch();
   // const headerHeight = useHeaderHeight();
   // const [heightHeader] = useState(headerHeight);
-
   useFocusEffect(
     useCallback(() => {
       //INFO when focus screen
@@ -37,9 +36,9 @@ function ProfileScreen({ navigation }) {
   };
 
   return (
-    <Container style={{ backgroundColor: '#FFFFFF' }}>
+    <Container style={{ backgroundColor: "#FFFFFF" }}>
       <ImageBackground
-        source={require('src/assets/image/backgroundImage.jpg')}
+        source={require("src/assets/image/backgroundImage.jpg")}
         style={{
           ...stylesProfileScreen.imageBackground,
         }}
@@ -55,9 +54,9 @@ function ProfileScreen({ navigation }) {
             <ButtonIcon
               style={stylesProfileScreen.addAvatarButton}
               title="add avatar"
-              onPress={() => console.log('add avatar')}
+              onPress={() => console.log("add avatar")}
             >
-              <AddAvatar fill={'#FF6C00'} stroke={'#FF6C00'} />
+              <AddAvatar fill={"#FF6C00"} stroke={"#FF6C00"} />
             </ButtonIcon>
           </View>
 
@@ -78,11 +77,15 @@ function ProfileScreen({ navigation }) {
           </Text>
 
           <PostItem
-            imagePost={'imageURL'}
-            countCommentsPost={10}
+            // image={"src/assets/image/backgroundImage.jpg"}
+            countComments={10}
             like
-            countLikesPost={0}
-            locationPost={"Ivano-Frankivs'k Region, Ukraine"}
+            countLikes={0}
+            coordinates={{ latitude: -50, longitude: -50 }}
+            titlePlaceByCoordinates={"море"}
+            placeTitle={"Ivano-Frankivs'k Region, Ukraine"}
+            navigation={navigation}
+            fromScreen={route.name}
           />
         </View>
       </ImageBackground>

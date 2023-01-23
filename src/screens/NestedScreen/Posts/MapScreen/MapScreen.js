@@ -1,44 +1,48 @@
-import { useCallback } from 'react';
-import { useFocusEffect } from '@react-navigation/native';
+import { useEffect } from "react";
+import { useVisibleTabBar } from "src/hooks/useVisibleTabBar";
+import MapView, { Marker } from "react-native-maps";
+import Container from "src/components/Common/Container";
+import { Text } from "react-native";
 
-import { Text } from 'react-native';
-import MapView, { Marker } from 'react-native-maps';
-import Container from 'src/components/Common/Container';
-import { useVisibleTabBar } from 'src/hooks/useVisibleTabBar';
-
-function MapScreen({ route }) {
+function MapScreen({ route, navigation }) {
+  console.log(route);
   const { setVisibleBottom } = useVisibleTabBar();
-  // const { userId } = route.params;
+  const { coordinates, titlePlaceByCoordinates, fromScreen } =
+    route.params?.location;
+  useEffect(() => {
+    setVisibleBottom(false);
+    return () => {
+      setVisibleBottom(true);
+    };
+  }, []);
 
-  useFocusEffect(
-    useCallback(() => {
-      //INFO when focus screen
-      setVisibleBottom(false);
-      return () => {
-        //INFO when unfocus screen
-        setVisibleBottom(true);
-      };
-    }, [])
-  );
   return (
     <Container>
       <MapView
         style={{ flex: 1 }}
         initialRegion={{
-          latitude: 22,
-          longitude: 6,
+          latitude: coordinates.latitude ? coordinates.latitude : 0,
+          longitude: coordinates.longitude ? coordinates.longitude : 0,
           latitudeDelta: 0.001,
           longitudeDelta: 0.006,
         }}
       >
         <Marker
           coordinate={{
-            latitude: 22,
-            longitude: 6,
+            latitude: coordinates.latitude ? coordinates.latitude : 0,
+            longitude: coordinates.longitude ? coordinates.longitude : 0,
           }}
-          title="post"
+          title={titlePlaceByCoordinates}
         />
       </MapView>
+      <Text
+        style={{ fontSize: 40 }}
+        onPress={() => {
+          navigation.navigate(fromScreen);
+        }}
+      >
+        go back{" "}
+      </Text>
     </Container>
   );
 }

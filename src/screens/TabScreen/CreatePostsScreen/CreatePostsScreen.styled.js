@@ -1,5 +1,5 @@
-import { StyleSheet, Dimensions } from 'react-native';
-import { theme } from 'src/utils/theme';
+import { StyleSheet, Dimensions } from "react-native";
+import { theme } from "src/utils/theme";
 
 export const stylesCreatePostsScreen = StyleSheet.create({
   headerIconGoBack: {
@@ -15,24 +15,24 @@ export const stylesCreatePostsScreen = StyleSheet.create({
   },
   imagePost: {
     height: theme.space[8] - 16,
-    backgroundColor: '#E8E8E8',
-    alignItems: 'center',
-    justifyContent: 'center',
-    // resizeMode: 'contain',
+    backgroundColor: "#E8E8E8",
+    // alignItems: 'center',
+    // justifyContent: 'center',
+    resizeMode: "cover",
 
     borderWidth: 1,
-    borderStyle: 'solid',
-    borderColor: '#E8E8E8',
+    borderStyle: "solid",
+    borderColor: "#E8E8E8",
     borderRadius: theme.radii.md,
   },
 
   snapContainer: {
-    position: 'absolute',
-    top: '50%',
-    left: Dimensions.get('window').width / 2 - 60 + 16,
+    position: "absolute",
+    top: "50%",
+    left: Dimensions.get("window").width / 2 - 60 + 16,
     transform: [{ translateY: -30 }],
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
     width: theme.space[6] - 4,
     height: theme.space[6] - 4,
     borderRadius: theme.space[6] - 14,
@@ -40,7 +40,7 @@ export const stylesCreatePostsScreen = StyleSheet.create({
   },
   textAction: {
     marginBottom: theme.space[5],
-    fontFamily: 'Roboto-Regular',
+    fontFamily: "Roboto-Regular",
     fontSize: theme.fontSizes.s,
     lineHeight: theme.lineHeights.dataText,
     color: theme.colors.text.secondaryText,
@@ -51,18 +51,18 @@ export const stylesCreatePostsScreen = StyleSheet.create({
     borderRightWidth: 0,
   },
   inputContainerIsShownKeyboard: {
-    position: 'absolute',
+    position: "absolute",
     zIndex: 100,
     bottom: theme.space[7] - 8,
     left: theme.space[3],
-    width: '100%',
+    width: "100%",
     paddingVertical: theme.space[4],
     paddingHorizontal: theme.space[3],
     borderRadius: theme.radii.md,
     opacity: 1,
 
     elevation: theme.space[4] + 4,
-    shadowColor: '#171717',
+    shadowColor: "#171717",
     shadowOffset: { width: -2, height: 4 },
     shadowOpacity: 0.2,
     shadowRadius: theme.space[3],

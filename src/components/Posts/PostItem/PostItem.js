@@ -1,32 +1,36 @@
-import { View, Image, Text } from 'react-native';
-import Icon from 'react-native-vector-icons/Feather';
-import ButtonIcon from 'src/components/Common/ButtonIcon';
-import { theme } from 'src/utils/theme';
-import { stylesPostItem } from './PostItem.styled';
-import CommentsIcon from 'src/assets/icon/isComments.svg';
+import { View, Image, Text } from "react-native";
+import Icon from "react-native-vector-icons/Feather";
+import ButtonIcon from "src/components/Common/ButtonIcon";
+import { theme } from "src/utils/theme";
+import { stylesPostItem } from "./PostItem.styled";
+import CommentsIcon from "src/assets/icon/isComments.svg";
 
 function PostItem({
-  imagePost,
-  countCommentsPost,
+  image,
+  title,
+  countComments,
+  countLikes,
+  coordinates,
+  placeTitle,
+  titlePlaceByCoordinates,
   like,
-  countLikesPost,
-  locationPost,
   navigation,
+  fromScreen,
 }) {
   return (
     <View style={stylesPostItem.postListWrapper}>
       <View>
-        <Image style={stylesPostItem.imagePost}></Image>
-        <Text style={stylesPostItem.titlePost}>Title post</Text>
+        <Image source={{ uri: image }} style={stylesPostItem.imagePost}></Image>
+        <Text style={stylesPostItem.titlePost}>{title}</Text>
         <View style={stylesPostItem.detailPostWrapper}>
           <ButtonIcon
             style={{
               ...stylesPostItem.postCommentsWrapper,
             }}
             title="goto comments"
-            onPress={() => navigation.navigate('Comments')}
+            onPress={() => navigation.navigate("Comments")}
           >
-            {Number(countCommentsPost) === 0 ? (
+            {Number(countComments) === 0 ? (
               <Icon
                 name="message-circle"
                 style={stylesPostItem.iconPostComments}
@@ -39,12 +43,12 @@ function PostItem({
             <Text
               style={[
                 stylesPostItem.textPostComments,
-                Number(countCommentsPost) !== 0
+                Number(countComments) !== 0
                   ? { color: theme.colors.text.primaryText }
                   : { color: theme.colors.text.secondaryText },
               ]}
             >
-              {countCommentsPost}
+              {countComments}
             </Text>
           </ButtonIcon>
 
@@ -52,14 +56,14 @@ function PostItem({
             <ButtonIcon
               style={stylesPostItem.postLikeWrapper}
               title="goto like"
-              onPress={() => console.log('Like')}
+              onPress={() => console.log("Like")}
             >
               <Icon
                 name="thumbs-up"
                 style={[
                   stylesPostItem.iconPostLike,
                   ,
-                  Number(countLikesPost) !== 0
+                  Number(countLikes) !== 0
                     ? { color: theme.colors.button.accent }
                     : { color: theme.colors.button.iconLike },
                 ]}
@@ -68,12 +72,12 @@ function PostItem({
               <Text
                 style={[
                   stylesPostItem.textPostLike,
-                  Number(countLikesPost) !== 0
+                  Number(countLikes) !== 0
                     ? { color: theme.colors.text.primaryText }
                     : { color: theme.colors.text.secondaryText },
                 ]}
               >
-                {countLikesPost}
+                {countLikes}
               </Text>
             </ButtonIcon>
           )}
@@ -81,7 +85,15 @@ function PostItem({
           <ButtonIcon
             style={stylesPostItem.postLocationWrapper}
             title="goto location"
-            onPress={() => navigation.navigate('Map')}
+            onPress={() =>
+              navigation.navigate("Map", {
+                location: {
+                  coordinates: coordinates,
+                  titlePlaceByCoordinates: titlePlaceByCoordinates,
+                  fromScreen: fromScreen,
+                },
+              })
+            }
           >
             <Icon
               name="map-pin"
@@ -89,7 +101,7 @@ function PostItem({
               size={18}
             />
             <Text style={stylesPostItem.textPostLocation}>
-              {like ? locationPost.split(', ')[1] : locationPost}
+              {like ? placeTitle?.split(", ")[1] : placeTitle}
             </Text>
           </ButtonIcon>
         </View>

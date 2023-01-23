@@ -1,10 +1,10 @@
-import { useSelector } from 'react-redux';
-import { selectIsVisibleTabBar } from 'src/redux/auth/authSelectors';
-import { View } from 'react-native';
-import Icon from 'react-native-vector-icons/Feather';
-import ButtonIcon from 'src/components/Common/ButtonIcon';
-import { theme } from 'src/utils/theme';
-import { stylesTab } from './TabBar.styled';
+import { useSelector } from "react-redux";
+import { selectIsVisibleTabBar } from "src/redux/auth/authSelectors";
+import { View } from "react-native";
+import Icon from "react-native-vector-icons/Feather";
+import ButtonIcon from "src/components/Common/ButtonIcon";
+import { theme } from "src/utils/theme";
+import { stylesTab } from "./TabBar.styled";
 
 function TabBar({ state, descriptors, navigation }) {
   const IsVisibleTabBar = useSelector(selectIsVisibleTabBar);
@@ -13,7 +13,7 @@ function TabBar({ state, descriptors, navigation }) {
     <View
       style={{
         ...stylesTab.containerTab,
-        display: !IsVisibleTabBar ? 'none' : 'flex',
+        display: !IsVisibleTabBar ? "none" : "flex",
       }}
     >
       {state.routes.map((route, index) => {
@@ -27,9 +27,8 @@ function TabBar({ state, descriptors, navigation }) {
 
         const isFocused = state.index === index;
         const onPress = () => {
-          console.log('click TabBar');
           const event = navigation.emit({
-            type: 'tabPress',
+            type: "tabPress",
             target: route.key,
           });
 
@@ -39,7 +38,7 @@ function TabBar({ state, descriptors, navigation }) {
         };
         const onLongPress = () => {
           navigation.emit({
-            type: 'tabLongPress',
+            type: "tabLongPress",
             target: route.key,
           });
         };

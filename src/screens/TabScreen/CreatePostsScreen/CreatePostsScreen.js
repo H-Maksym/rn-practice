@@ -1,6 +1,8 @@
 import { useState, useEffect, useRef, useCallback } from "react";
 import { useFocusEffect } from "@react-navigation/native";
 import * as Location from "expo-location";
+import axios from "axios";
+import { XMLParser } from "fast-xml-parser";
 
 import { useDispatch } from "react-redux";
 import useTakePhoto from "src/hooks/useTakePhoto";
@@ -27,35 +29,27 @@ import ButtonIcon from "src/components/Common/ButtonIcon";
 
 import { stylesCreatePostsScreen } from "./CreatePostsScreen.styled";
 import { theme } from "src/utils/theme";
-import { useGetPlaceByCoordinates } from "src/utils/apiOpenstreetmap";
-
-const coordApi = {
-  lat: 50.37127995507571,
-  lon: 30.461804576247705,
-};
 
 const initialState = {
+  photo: "",
   titlePost: "",
   place: "",
-  photo: "",
   location: "",
+  placeTitle: "",
+  likes: 0,
+  comments: 0,
 };
 
 function CreatePostsScreen({ navigation, route }) {
-  // const { place, getInfoPlaceByCoords } = useGetPlaceByCoordinates();
-  console.log("place1");
-  // getInfoPlaceByCoords(coordApi);
-  // console.log('place2');
-
   const { setVisibleBottom } = useVisibleTabBar();
 
   const [state, setState] = useState(initialState);
   const {
-    hasCameraPermission,
+    // hasCameraPermission,
     cameraType,
     flashMode,
     isFullScreen,
-    setCameraPermission,
+    // setCameraPermission,
     setCameraFullScreen,
     switchCamera,
     switchFlashMode,
@@ -67,28 +61,51 @@ function CreatePostsScreen({ navigation, route }) {
   const cameraRef = useRef();
   const ref_location = useRef();
   // const dispatch = useDispatch();
-  useEffect(() => {
-    setCameraPermission();
-    (async () => {
-      let { status } = await Location.requestForegroundPermissionsAsync();
-      if (status !== "granted") {
-        return;
-      }
-      let location = await Location.getCurrentPositionAsync({});
+
+  // useEffect(() => {
+  //   setCameraPermission();
+  //   (async () => {
+  //     let { status } = await Location.requestForegroundPermissionsAsync();
+  //     if (status !== "granted") {
+  //       return;
+  //     }
+  //   })();
+  // }, []);
+
+  const getLocation = async () => {
+    const location = await Location.getCurrentPositionAsync({});
+    const coordinates = {
+      latitude: location.coords.latitude,
+      longitude: location.coords.longitude,
+    };
+    //INFO Place location
+    try {
+      const { data } = await axios.get(
+        `https://nominatim.openstreetmap.org/reverse?lat=${coordinates.latitude}&lon=${coordinates.longitude}`
+      );
+      const options = {
+        ignoreAttributes: false,
+      };
+      const parser = new XMLParser(options);
+      const jsonObj = parser.parse(data);
+      const place = `${jsonObj.reversegeocode.addressparts.city},${jsonObj.reversegeocode.addressparts.country}`;
+      const placeTitle = `${jsonObj.reversegeocode.addressparts.amenity}`;
+
       setState((prevState) => ({
         ...prevState,
-        location: {
-          latitude: location.coords.latitude,
-          longitude: location.coords.longitude,
-        },
+        location: coordinates,
+        place,
+        placeTitle,
       }));
-      // setLocation(location);
-    })();
-  }, []);
+    } catch (error) {
+      console.log("Set tittle location", error.message);
+    }
+  };
 
   useFocusEffect(
     useCallback(() => {
       //INFO when focus screen
+      getLocation();
       return () => {
         //INFO when unfocus screen
         setState(initialState);
@@ -179,9 +196,9 @@ function CreatePostsScreen({ navigation, route }) {
   // });
 
   const sendInfoPost = async () => {
-    console.log("Info post", state);
     setState(initialState);
     keyboardHide();
+    navigation.navigate("Posts", { postInfo: state });
   };
 
   const keyboardHide = () => {
@@ -245,7 +262,6 @@ function CreatePostsScreen({ navigation, route }) {
                   style={{
                     ...stylesCreatePostsScreen.imagePost,
                   }}
-                  resizeMode="contain"
                 />
                 <View
                   style={{

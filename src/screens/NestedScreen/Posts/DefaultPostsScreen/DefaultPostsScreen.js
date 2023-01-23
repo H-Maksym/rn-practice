@@ -1,23 +1,24 @@
-import { useEffect, useCallback } from 'react';
-import { useDispatch } from 'react-redux';
-import { useFocusEffect } from '@react-navigation/native';
+import { useEffect, useCallback, useState } from "react";
+import { useDispatch } from "react-redux";
+import { useFocusEffect } from "@react-navigation/native";
 
-import { logout } from 'src/redux/auth/authSlice';
+import { logout } from "src/redux/auth/authSlice";
 
-import Icon from 'react-native-vector-icons/Feather';
-import { View } from 'react-native';
-import Container from 'src/components/Common/Container';
-import ButtonIcon from 'src/components/Common/ButtonIcon';
+import Icon from "react-native-vector-icons/Feather";
+import { View, ScrollView } from "react-native";
+import Container from "src/components/Common/Container";
+import ButtonIcon from "src/components/Common/ButtonIcon";
 
-import UserData from 'src/components/Posts/UserData';
-import PostItem from 'src/components/Posts/PostItem';
+import UserData from "src/components/Posts/UserData";
+import PostItem from "src/components/Posts/PostItem";
 
-import { theme } from 'src/utils/theme';
-import { stylesPostScreen } from './DefaultPostsScreen.styled';
+import { theme } from "src/utils/theme";
+import { stylesPostScreen } from "./DefaultPostsScreen.styled";
 
-function DefaultPostsScreen({ navigation }) {
+function DefaultPostsScreen({ navigation, route }) {
+  const [posts, setPosts] = useState([]);
+
   const dispatch = useDispatch();
-
   useFocusEffect(
     useCallback(() => {
       //INFO when focus screen
@@ -26,6 +27,13 @@ function DefaultPostsScreen({ navigation }) {
       };
     }, [])
   );
+
+  useEffect(() => {
+    if (route.params?.postInfo) {
+      const { postInfo } = route.params;
+      setPosts((prevState) => [postInfo, ...prevState]);
+    }
+  }, [route.params]);
 
   const logOut = () => {
     dispatch(logout());
@@ -55,13 +63,24 @@ function DefaultPostsScreen({ navigation }) {
           userSurName="Holovachuk"
           email="maksym@gmail.com"
         />
-        <PostItem
-          imagePost={'imageURL'}
-          countCommentsPost={10}
-          countLikesPost={10}
-          locationPost={"Ivano-Frankivs'k Region, Ukraine"}
-          navigation={navigation}
-        />
+
+        {posts.length >= 0 && (
+          <ScrollView>
+            {posts.map((item, idx) => (
+              <PostItem
+                key={idx}
+                image={item.photo}
+                title={item.titlePost}
+                countComments={item.comments}
+                countLikes={item.likes}
+                coordinates={item.location}
+                placeTitle={item.place}
+                titlePlaceByCoordinates={item.placeTitle}
+                navigation={navigation}
+              />
+            ))}
+          </ScrollView>
+        )}
       </View>
     </Container>
   );
