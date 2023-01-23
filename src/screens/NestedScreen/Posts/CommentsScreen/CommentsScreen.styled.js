@@ -2,13 +2,14 @@ import { StyleSheet } from "react-native";
 import { theme } from "src/utils/theme";
 export const stylesCommentsScreen = StyleSheet.create({
   container: {
+    flex: 1,
     paddingHorizontal: theme.space[4],
   },
 
   commentsContainer: {},
 
   imageComments: {
-    marginBottom: theme.space[5],
+    marginVertical: theme.space[5],
     height: theme.space[8] - 16,
     alignItems: "center",
     justifyContent: "center",
@@ -18,7 +19,13 @@ export const stylesCommentsScreen = StyleSheet.create({
 
   itemComments: {},
 
-  inputCommentsContainer: {},
+  inputCommentsContainer: {
+    marginTop: "auto",
+    marginBottom: 16,
+    borderRadius: 100,
+    backgroundColor: "#F6F6F6",
+    height: 50,
+  },
 
   inputComments: {},
 });

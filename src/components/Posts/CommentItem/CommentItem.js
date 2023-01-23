@@ -10,13 +10,13 @@ function CommentItem({
 }) {
   return (
     <View style={stylesComment.isCurrentUserComment(isCurrentUser)}>
-      <View style={stylesComment.wrapper}>
+      <View style={stylesComment.isCurrentUserWrapper(isCurrentUser)}>
         <Text style={stylesComment.text}>CommentText My first comment</Text>
         <Text style={stylesComment.isUserCurrentDate(isCurrentUser)}>
           09 June,2020 | 09:20
         </Text>
       </View>
-      <Image style={stylesComment.userImage} />
+      <Image style={stylesComment.userImg} />
     </View>
   );
 }

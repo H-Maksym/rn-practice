@@ -4,10 +4,15 @@ export const stylesComment = StyleSheet.create({
   isCurrentUserComment: (isCurrentUser) => ({
     flexDirection: isCurrentUser ? "row" : "row-reverse",
   }),
-  wrapper: {
+  isCurrentUserWrapper: (isCurrentUser) => ({
     flex: 1,
+    marginRight: isCurrentUser ? 16 : 0,
+    marginLeft: isCurrentUser ? 0 : 16,
+
     padding: 16,
-  },
+    backgroundColor: "#F6F6F6",
+    borderRadius: 8,
+  }),
   text: {
     marginBottom: 8,
     fontFamily: "Roboto-Regular",
@@ -22,8 +27,12 @@ export const stylesComment = StyleSheet.create({
     lineHeight: 12,
     color: "#BDBDBD",
   }),
-  userImage: {
-    weight: 28,
+  imgWrapper: {},
+
+  userImg: {
+    backgroundColor: "#F6F6F6",
+    display: "flex",
+    width: 28,
     height: 28,
     borderRadius: 50,
     resizeMode: "cover",

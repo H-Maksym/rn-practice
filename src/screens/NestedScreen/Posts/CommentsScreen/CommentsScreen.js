@@ -1,16 +1,17 @@
-import { useCallback } from "react";
+import { useState, useCallback } from "react";
 import { useFocusEffect } from "@react-navigation/native";
 import { useVisibleTabBar } from "src/hooks/useVisibleTabBar";
 
-import { Text, Image } from "react-native";
+import { View, TextInput, Image } from "react-native";
 import Container from "src/components/Common/Container";
 import CommentItem from "src/components/Posts/CommentItem/CommentItem";
+import Input from "src/components/Common/Input/Input";
 
 import { stylesCommentsScreen } from "./CommentsScreen.styled";
 
 function CommentsScreen({ image = "", navigation = "" }) {
   const { setVisibleBottom } = useVisibleTabBar();
-
+  const [comments, setComments] = useState("");
   useFocusEffect(
     useCallback(() => {
       //INFO when focus screen
@@ -24,9 +25,20 @@ function CommentsScreen({ image = "", navigation = "" }) {
 
   return (
     <Container style={{ backgroundColor: "#ffffff" }}>
-      <Image style={stylesCommentsScreen.imageComments} />
-      <CommentItem />
-      <Text>CommentsScreen</Text>
+      <View style={stylesCommentsScreen.container}>
+        <View>
+          <Image style={stylesCommentsScreen.imageComments} />
+          <CommentItem isCurrentUser />
+        </View>
+        <View style={stylesCommentsScreen.inputCommentsContainer}>
+          {/* <Input
+          style={stylesCommentsScreen.inputComments}
+          placeholder="Enter your comments"
+          value={comments}
+          onChangeText={setComments}
+        /> */}
+        </View>
+      </View>
     </Container>
   );
 }
