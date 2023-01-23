@@ -1,20 +1,31 @@
-import { useEffect } from "react";
-import { Text } from "react-native";
-import Container from "src/components/Common/Container";
+import { useCallback } from "react";
+import { useFocusEffect } from "@react-navigation/native";
 import { useVisibleTabBar } from "src/hooks/useVisibleTabBar";
 
-function CommentsScreen({ navigation }) {
+import { Text, Image } from "react-native";
+import Container from "src/components/Common/Container";
+import CommentItem from "src/components/Posts/CommentItem/CommentItem";
+
+import { stylesCommentsScreen } from "./CommentsScreen.styled";
+
+function CommentsScreen({ image = "", navigation = "" }) {
   const { setVisibleBottom } = useVisibleTabBar();
 
-  useEffect(() => {
-    setVisibleBottom(false);
-    return () => {
-      setVisibleBottom(true);
-    };
-  }, []);
+  useFocusEffect(
+    useCallback(() => {
+      //INFO when focus screen
+      setVisibleBottom(false);
+      return () => {
+        //INFO when unfocus screen
+        setVisibleBottom(true);
+      };
+    }, [])
+  );
 
   return (
-    <Container>
+    <Container style={{ backgroundColor: "#ffffff" }}>
+      <Image style={stylesCommentsScreen.imageComments} />
+      <CommentItem />
       <Text>CommentsScreen</Text>
     </Container>
   );

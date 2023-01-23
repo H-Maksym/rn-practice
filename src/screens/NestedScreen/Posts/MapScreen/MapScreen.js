@@ -43,9 +43,9 @@ function MapScreen({ route, navigation }) {
       </MapView>
       <Text
         style={{ fontSize: 40 }}
-        onPress={() => {
-          navigation.navigate(fromScreen);
-        }}
+        // onPress={() => {
+        //   navigation.navigate(fromScreen);
+        // }}
       >
         go back{" "}
       </Text>
