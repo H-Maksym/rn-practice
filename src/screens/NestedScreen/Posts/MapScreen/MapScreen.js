@@ -1,4 +1,5 @@
-import { useEffect } from "react";
+import { useCallback } from "react";
+import { useFocusEffect } from "@react-navigation/native";
 import { useVisibleTabBar } from "src/hooks/useVisibleTabBar";
 import MapView, { Marker } from "react-native-maps";
 import Container from "src/components/Common/Container";
@@ -9,12 +10,17 @@ function MapScreen({ route, navigation }) {
   const { setVisibleBottom } = useVisibleTabBar();
   const { coordinates, titlePlaceByCoordinates, fromScreen } =
     route.params?.location;
-  useEffect(() => {
-    setVisibleBottom(false);
-    return () => {
-      setVisibleBottom(true);
-    };
-  }, []);
+
+  useFocusEffect(
+    useCallback(() => {
+      //INFO when focus screen
+      setVisibleBottom(false);
+      return () => {
+        //INFO when unfocus screen
+        setVisibleBottom(true);
+      };
+    }, [])
+  );
 
   return (
     <Container>

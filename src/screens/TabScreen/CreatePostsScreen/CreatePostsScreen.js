@@ -339,14 +339,16 @@ function CreatePostsScreen({ navigation, route }) {
             activeOpacity={0.8}
             onPress={validate}
             style={
-              !state.photo ? stylesCreatePostsScreen.publishBtnDisabled : {}
+              !state.photo && !state.titlePost && !state.place
+                ? stylesCreatePostsScreen.publishBtnDisabled
+                : {}
             }
             styleTitle={
-              !state.photo
+              !state.photo && !state.titlePost && !state.place
                 ? stylesCreatePostsScreen.publishBtnTitleDisabled
                 : {}
             }
-            disabled={!state.photo}
+            disabled={!state.photo && !state.titlePost && !state.place}
           />
         </View>
       </Container>
