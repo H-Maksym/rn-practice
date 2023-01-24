@@ -1,5 +1,5 @@
 {
-  "name": "second",
+  "name": "rn-practice",
   "version": "1.0.0",
   "main": "node_modules/expo/AppEntry.js",
   "scripts": {
@@ -23,6 +23,9 @@
     "expo-splash-screen": "~0.17.5",
     "expo-status-bar": "~1.4.2",
     "fast-xml-parser": "^4.0.14",
+    "firebase": "^9.16.0",
+    "gravatar": "^1.8.2",
+    "nanoid": "^4.0.0",
     "prop-types": "^15.8.1",
     "react": "18.1.0",
     "react-dom": "18.1.0",

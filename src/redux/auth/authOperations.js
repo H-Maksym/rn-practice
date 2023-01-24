@@ -1,113 +1,159 @@
+import { createAsyncThunk } from "@reduxjs/toolkit";
+import { updateUserInfo } from "./authSlice";
+import { nanoid } from "nanoid";
+import gravatar from "gravatar";
+import { auth, storage } from "src/firebase/config";
+import {
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+  onAuthStateChanged,
+  signOut,
+  updateProfile,
+} from "firebase/auth";
+
+import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
+
+import { Alert } from "react-native";
+
 // import axios from 'axios';
-// import { createAsyncThunk } from '@reduxjs/toolkit';
 // import { toast } from 'react-toastify';
-// import { IoMdLogIn } from 'react-icons/io';
-// import { store } from 'redux/store';
 
-// axios.defaults.baseURL = 'https://petly-back.onrender.com/api';
+const metadata = {
+  contentType: "image/jpeg",
+};
 
-// const token = {
-//   set(token) {
-//     axios.defaults.headers.common.Authorization = `Bearer ${token}`;
-//   },
-//   unset() {
-//     axios.defaults.headers.common.Authorization = '';
-//   },
-// };
+export const uploadPhoto = async (image, imgStore) => {
+  //INFO upload image from telephone
+  const response = await fetch(image);
+  const file = await response.blob();
+  //INFO upload image to storage
+  const pathFile = `${imgStore}/` + Date.now() + nanoid() + ".jpg";
+  const photoRef = ref(storage, pathFile);
+  const uploadTask = await uploadBytes(photoRef, file, metadata);
+  const url = await getDownloadURL(uploadTask.ref);
+  return url;
+};
 
-// axios.interceptors.response.use(
-//   async res => {
-//     return res;
-//   },
-//   async error => {
-//     const { response, config } = error;
-//     if (response.status === 401) {
-//       const state = store.getState();
-//       const token = state.auth.accessToken;
+export const register = createAsyncThunk(
+  "auth/register",
+  async ({ name, email, password, image }, { rejectWithValue }) => {
+    let photoURL;
+    try {
+      const { user } = await createUserWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
+      if (!image) {
+        photoURL = gravatar.url(email, { protocol: "http", s: "120" });
+      } else {
+        photoURL = await uploadPhoto(image, "avatar");
+      }
 
-//       if (token) {
-//         const { accessToken, refreshToken } = await refreshTokens();
+      await updateProfile(auth.currentUser, {
+        displayName: name,
+        photoURL,
+      });
+      Alert.alert(`User ${name} registered successfully`);
 
-//         store.dispatch(
-//           setTokens({
-//             accessToken,
-//             refreshToken,
-//           })
-//         );
+      return {
+        email: user.email,
+        userId: user.uid,
+        userName: name,
+        photoURL,
+      };
+    } catch (error) {
+      console.log(error.code);
+      console.log(error.message);
 
-//         config.headers['Authorization'] = 'Bearer ' + accessToken;
-//         return axios(config);
-//       }
-//     }
-//     return Promise.reject(error);
-//   }
-// );
+      if (error.code === "auth/email-already-in-use") {
+        Alert.alert("Email in use");
+        return rejectWithValue(error.code);
+      }
+      Alert.alert("Oops, something went wrong");
+      return rejectWithValue(error.code);
+    }
+  }
+);
 
-// const refreshTokens = async () => {
-//   const state = store.getState();
-//   const refreshToken = state.auth.refreshToken;
+export const login = createAsyncThunk(
+  "auth/login",
+  async ({ email, password }, { rejectWithValue }) => {
+    try {
+      const { user } = await signInWithEmailAndPassword(auth, email, password);
+      Alert.alert(`You have successfully logged into your account`);
+      return {
+        userId: user.uid,
+        email: user.email,
+        userName: user.displayName,
+        photoURL: user.photoURL,
+      };
+    } catch (error) {
+      if (
+        error.code === "auth/user-not-found" ||
+        error.code === "auth/wrong-password"
+      ) {
+        Alert.alert(`"Email or password invalid"`);
+        return rejectWithValue(error.code);
+      }
+      return rejectWithValue(error.code);
+    }
+  }
+);
 
-//   try {
-//     const { data } = await axios.post('/auth/refresh', { refreshToken });
-//     token.set(data.accessToken);
+export const logout = createAsyncThunk(
+  "auth/logout",
+  async (_, { fulfillWithValue }) => {
+    try {
+      signOut(auth);
+    } catch (error) {
+      // toast.error('Oops, something went wrong');
+      Alert.alert("Oops, something went wrong");
+      fulfillWithValue(error.code);
+    }
+  }
+);
 
-//     return data;
-//   } catch (error) {
-//     throw error;
-//   }
-// };
+export const getUserInfo = createAsyncThunk(
+  "userInfo/getUserInfo",
+  async (_, { dispatch }) => {
+    try {
+      await onAuthStateChanged(auth, (user) => {
+        if (user) {
+          dispatch(
+            updateUserInfo({
+              user: {
+                email: user.email,
+                userId: user.uid,
+                userName: user.displayName,
+                photoURL: user.photoURL,
+              },
+              isAuth: true,
+              isVisibleTabBar: true,
+            })
+          );
+        } else {
+          dispatch(
+            updateUserInfo({
+              user: {
+                email: "",
+                userId: "",
+                userName: "",
+                photoURL: "",
+              },
+              isAuth: false,
+              isVisibleTabBar: false,
+            })
+          );
+        }
+      });
+    } catch (error) {
+      console.log(error.message);
+      return thunkAPI.rejectWithValue(error.request.status);
+    }
+  }
+);
 
-// export const setTokens = createAsyncThunk(
-//   'auth/set-tokens',
-//   async (tokens, { rejectWithValue }) => {
-//     try {
-//       token.set(tokens.accessToken);
-
-//       return tokens;
-//     } catch (error) {
-//       return rejectWithValue(error);
-//     }
-//   }
-// );
-
-// export const register = createAsyncThunk(
-//   'auth/register',
-//   async (user, { rejectWithValue }) => {
-//     try {
-//       await axios.post('/auth/register', user);
-//       toast.success(`User ${user.name} registered successfully`);
-//     } catch (error) {
-//       if (error.response.status === 409) {
-//         toast.error('Email in use');
-//         return rejectWithValue(error.request.status);
-//       }
-//       toast.error('Oops, something went wrong');
-//       return rejectWithValue(error.request.status);
-//     }
-//   }
-// );
-
-// export const login = createAsyncThunk(
-//   'auth/login',
-//   async (user, { rejectWithValue }) => {
-//     try {
-//       const { data } = await axios.post('/auth/login', user);
-//       token.set(data.user.accessToken);
-//       toast(`You have successfully logged into your account`, {
-//         icon: <IoMdLogIn size={25} color="green" />,
-//       });
-
-//       return data;
-//     } catch (error) {
-//       if (error.response.status === 401) {
-//         toast.error('Email or password invalid');
-//         return rejectWithValue(error.request.message);
-//       }
-//       toast.error('Oops, something went wrong');
-//       return rejectWithValue(error.request.status);
-//     }
-//   }
-// );
 // export const restore = createAsyncThunk(
 //   'auth/restore',
 //   async (email, { rejectWithValue }) => {
@@ -124,34 +170,6 @@
 //       }
 //       toast.error('Oops, something went wrong');
 //       return rejectWithValue(error.request.status);
-//     }
-//   }
-// );
-
-// export const logout = createAsyncThunk(
-//   'auth/logout',
-//   async (_, { fulfillWithValue }) => {
-//     try {
-//       await axios.get('/auth/logout');
-//       token.unset();
-//     } catch (error) {
-//       // toast.error('Oops, something went wrong');
-//       fulfillWithValue(error.request.status);
-//     }
-//   }
-// );
-
-// export const getUserInfo = createAsyncThunk(
-//   'userInfo/getUserInfo',
-//   async (query, thunkAPI) => {
-//     try {
-//       const tokenLS = thunkAPI.getState().auth.accessToken;
-//       token.set(tokenLS);
-//       const res = await axios.get('/user/userInfo');
-//       return res.data;
-//     } catch (error) {
-//       // toast.error('Oops, something went wrong');
-//       return thunkAPI.rejectWithValue(error.request.status);
 //     }
 //   }
 // );

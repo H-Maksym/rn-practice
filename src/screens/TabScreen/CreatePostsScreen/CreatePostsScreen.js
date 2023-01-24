@@ -18,7 +18,7 @@ import {
   // Platform,
 } from "react-native";
 
-import Icon from "react-native-vector-icons/Feather";
+import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 
 import Container from "src/components/Common/Container";
 import CustomCamera from "src/components/Common/Camera";
@@ -106,12 +106,14 @@ function CreatePostsScreen({ navigation, route }) {
     useCallback(() => {
       //INFO when focus screen
       getLocation();
+      setVisibleBottom(false);
       return () => {
         //INFO when unfocus screen
         setState(initialState);
         setErrors({});
         setIsShowKeyboard(false);
         setCameraFullScreen(null);
+        setVisibleBottom(true);
       };
     }, [])
   );
@@ -185,7 +187,6 @@ function CreatePostsScreen({ navigation, route }) {
         console.log(error);
       } finally {
         setCameraFullScreen(false);
-        setVisibleBottom(true);
       }
     }
   };
@@ -245,7 +246,6 @@ function CreatePostsScreen({ navigation, route }) {
                     <Icon
                       onPress={() => {
                         setCameraFullScreen(true);
-                        setVisibleBottom(false);
                       }}
                       name="camera"
                       size={24}
@@ -276,7 +276,6 @@ function CreatePostsScreen({ navigation, route }) {
                         photo: "",
                       }));
                       setCameraFullScreen(true);
-                      setVisibleBottom(false);
                     }}
                     name="camera"
                     size={24}
@@ -286,13 +285,11 @@ function CreatePostsScreen({ navigation, route }) {
               </>
             )}
           </View>
-
           {!state.photo ? (
             <Text style={stylesCreatePostsScreen.textAction}>Upload photo</Text>
           ) : (
             <Text style={stylesCreatePostsScreen.textAction}>Redact photo</Text>
           )}
-
           <View
             style={
               isShowKeyboard
@@ -333,7 +330,6 @@ function CreatePostsScreen({ navigation, route }) {
               ref={ref_location}
             />
           </View>
-
           <Button
             title="Publish"
             activeOpacity={0.8}
@@ -350,6 +346,14 @@ function CreatePostsScreen({ navigation, route }) {
             }
             disabled={!state.photo || !state.titlePost || !state.place}
           />
+        </View>
+        <View style={stylesCreatePostsScreen.iconContainerTab}>
+          <ButtonIcon
+            style={stylesCreatePostsScreen.buttonIcon}
+            onPress={() => setState(initialState)}
+          >
+            <Icon name="trash-can-outline" size={24} color={"#BDBDBD"} />
+          </ButtonIcon>
         </View>
       </Container>
     </TouchableWithoutFeedback>

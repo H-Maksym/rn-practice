@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react';
+import { useState, useRef } from "react";
 import {
   View,
   ImageBackground,
@@ -10,22 +10,24 @@ import {
   KeyboardAvoidingView,
   Platform,
   Alert,
-} from 'react-native';
-import { useImagePicker } from 'src/hooks/useImagePicker';
+} from "react-native";
+import { useImagePicker } from "src/hooks/useImagePicker";
 
-import Container from 'src/components/Common/Container';
-import { formStyles } from 'src/components/Common/Form/Form.styled';
-import Input from 'src/components/Common/Input';
-import Button from 'src/components/Common/Button';
-import Loader from 'src/components/Common/Loader';
-import { theme } from 'src/utils/theme';
-import { stylesRegistration } from './RegistrationScreen.styled';
-import AddAvatar from 'src/assets/icon/addAvatar.svg';
+import Container from "src/components/Common/Container";
+import { formStyles } from "src/components/Common/Form/Form.styled";
+import Input from "src/components/Common/Input";
+import Button from "src/components/Common/Button";
+import Loader from "src/components/Common/Loader";
+import { theme } from "src/utils/theme";
+import { stylesRegistration } from "./RegistrationScreen.styled";
+import AddAvatar from "src/assets/icon/addAvatar.svg";
+import { useDispatch } from "react-redux";
+import { register } from "src/redux/auth/authOperations";
 
 const initialState = {
-  name: '',
-  email: '',
-  password: '',
+  name: "",
+  email: "",
+  password: "",
 };
 
 function RegistrationScreen({ navigation }) {
@@ -34,12 +36,12 @@ function RegistrationScreen({ navigation }) {
   const [isShowKeyboard, setIsShowKeyboard] = useState(false);
   const [loading, setLoading] = useState(false);
   const { image, pickImage, resetImagePickerState } = useImagePicker();
-
+  const dispatch = useDispatch();
   const ref_email = useRef();
   const ref_password = useRef();
 
   const handleOnChange = (text, input) => {
-    setState(prevState => ({
+    setState((prevState) => ({
       ...prevState,
       [input]: text,
     }));
@@ -50,46 +52,37 @@ function RegistrationScreen({ navigation }) {
     let valid = true;
 
     if (!state.name) {
-      handleError('Please input name', 'name');
+      handleError("Please input name", "name");
       valid = false;
     }
     if (!state.email) {
-      handleError('Please input email', 'email');
+      handleError("Please input email", "email");
       valid = false;
     } else if (!state.email.match(/\S+@\S+\.\S+/)) {
-      handleError('Please input valid email', 'email');
+      handleError("Please input valid email", "email");
       valid = false;
     }
     if (!state.password) {
-      handleError('Please input your password', 'password');
+      handleError("Please input your password", "password");
       valid = false;
     } else if (state.password.length < 8) {
-      handleError('Min password length of 8', 'password');
+      handleError("Min password length of 8", "password");
       valid = false;
     }
 
     if (valid) {
-      register();
+      handleSubmit();
     }
   };
 
   const handleError = (errorMessage, input) => {
-    setErrors(prevState => ({ ...prevState, [input]: errorMessage }));
+    setErrors((prevState) => ({ ...prevState, [input]: errorMessage }));
   };
 
-  const register = () => {
-    setLoading(true);
-    setTimeout(() => {
-      try {
-        console.log({ ...state, image });
-      } catch (error) {
-        Alert.alert('Error', 'Something went wrong');
-      } finally {
-        setState(initialState);
-        resetImagePickerState();
-        setLoading(false);
-      }
-    }, 3000);
+  const handleSubmit = () => {
+    dispatch(register({ ...state, image }));
+    setState(initialState);
+    resetImagePickerState();
   };
 
   const keyboardHide = () => {
@@ -102,7 +95,7 @@ function RegistrationScreen({ navigation }) {
       <Container>
         <Loader visible={loading} />
         <ImageBackground
-          source={require('src/assets/image/backgroundImage.jpg')}
+          source={require("src/assets/image/backgroundImage.jpg")}
           style={stylesRegistration.imageBackground}
         >
           <View
@@ -111,7 +104,7 @@ function RegistrationScreen({ navigation }) {
             }}
           >
             <KeyboardAvoidingView
-              behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+              behavior={Platform.OS === "ios" ? "padding" : "height"}
               style={{
                 ...Platform.select({
                   ios: {
@@ -161,10 +154,10 @@ function RegistrationScreen({ navigation }) {
                   iconName="account-outline"
                   value={state.name}
                   onFocus={() => {
-                    handleError(null, 'name');
+                    handleError(null, "name");
                     setIsShowKeyboard(true);
                   }}
-                  onChangeText={text => handleOnChange(text, 'name')}
+                  onChangeText={(text) => handleOnChange(text, "name")}
                   onSubmitEditing={() => ref_email.current.focus()}
                   returnKeyType="next"
                   error={errors.name}
@@ -177,10 +170,10 @@ function RegistrationScreen({ navigation }) {
                   iconName="email-outline"
                   value={state.email}
                   onFocus={() => {
-                    handleError(null, 'email');
+                    handleError(null, "email");
                     setIsShowKeyboard(true);
                   }}
-                  onChangeText={text => handleOnChange(text, 'email')}
+                  onChangeText={(text) => handleOnChange(text, "email")}
                   onSubmitEditing={() => ref_password.current.focus()}
                   returnKeyType="next"
                   error={errors.email}
@@ -192,10 +185,10 @@ function RegistrationScreen({ navigation }) {
                   iconName="lock-outline"
                   value={state.password}
                   onFocus={() => {
-                    handleError(null, 'password');
+                    handleError(null, "password");
                     setIsShowKeyboard(true);
                   }}
-                  onChangeText={text => handleOnChange(text, 'password')}
+                  onChangeText={(text) => handleOnChange(text, "password")}
                   onSubmitEditing={() => keyboardHide()}
                   password
                   returnKeyType="next"
@@ -214,7 +207,7 @@ function RegistrationScreen({ navigation }) {
             <TouchableOpacity
               style={stylesRegistration.gotoLoginBtn}
               activeOpacity={0.7}
-              onPress={() => navigation.navigate('Login')}
+              onPress={() => navigation.navigate("Login")}
             >
               <Text style={stylesRegistration.gotoLoginText}>
                 Already have an account? Login

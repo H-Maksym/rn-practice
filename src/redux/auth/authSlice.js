@@ -1,29 +1,86 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice } from "@reduxjs/toolkit";
+import { register, login, logout, getUserInfo } from "./authOperations";
 
 const initialState = {
+  user: {
+    userId: "",
+    userName: "",
+    email: "",
+    photoURL: "",
+  },
   isAuth: false,
+  isVisibleTabBar: false,
   isLoading: false,
   error: false,
-  isVisibleTabBar: true,
+};
+
+const pending = (state) => {
+  state.isLoading = true;
+  state.error = false;
+};
+
+const rejected = (state, action) => {
+  state.isLoading = false;
+  state.error = action.payload;
 };
 
 export const authSlice = createSlice({
-  name: 'auth',
+  name: "auth",
   initialState,
+
   reducers: {
     setVisibleTabBar(state, { payload }) {
       state.isVisibleTabBar = payload;
     },
+    //INFO getCurrentUser
+    updateUserInfo(state, { payload }) {
+      state.user = { ...payload.user };
+      state.isAuth = payload.isAuth;
+      state.isVisibleTabBar = payload.isVisibleTabBar;
+      state.isLoading = false;
+      state.error = false;
+    },
+  },
 
-    login(state) {
+  extraReducers: (builder) => {
+    //INFO register
+    builder.addCase(register.pending, pending);
+    builder.addCase(register.fulfilled, (state, { payload }) => {
+      state.user = { ...payload };
       state.isAuth = true;
-    },
-    logout(state) {
+      state.isLoading = false;
+      state.isVisibleTabBar = true;
+    });
+    builder.addCase(register.rejected, rejected);
+
+    //INFO login
+    builder.addCase(login.pending, pending);
+    builder.addCase(login.fulfilled, (state, { payload }) => {
+      state.isAuth = true;
+      state.isLoading = false;
+      state.isVisibleTabBar = true;
+      state.user = { ...payload };
+    });
+    builder.addCase(login.rejected, rejected);
+
+    //INFO logout
+    builder.addCase(logout.pending, pending);
+    builder.addCase(logout.fulfilled, (state) => {
+      state.user = {
+        userId: "",
+        userName: "",
+        email: "",
+        photoURL: "",
+      };
       state.isAuth = false;
-    },
+      state.isVisibleTabBar = false;
+      state.isLoading = false;
+      state.error = false;
+    });
+    builder.addCase(logout.rejected, rejected);
   },
 });
 
-export const { setVisibleTabBar, login, logout } = authSlice.actions;
+export const { setVisibleTabBar, updateUserInfo } = authSlice.actions;
 
 export const authReducer = authSlice.reducer;

@@ -1,17 +1,15 @@
-import PropTypes from 'prop-types';
-import { View, Text, Image } from 'react-native';
-import { stylesUserData } from './UserData.styled';
+import PropTypes from "prop-types";
+import { View, Text, Image } from "react-native";
+import { stylesUserData } from "./UserData.styled";
 
-function UserData({ avatarUser, userName, userSurName, email, style }) {
+function UserData({ avatarUser, userName, email, style }) {
   return (
     <View style={{ ...style, ...stylesUserData.userInfoWrapper }}>
       <View style={stylesUserData.imageUserWrapper}>
-        <Image></Image>
+        <Image source={{ uri: avatarUser }} style={stylesUserData.imageUser} />
       </View>
       <View style={stylesUserData.userDataWrapper}>
-        <Text style={stylesUserData.userDataName}>
-          {userName} {userSurName}
-        </Text>
+        <Text style={stylesUserData.userDataName}>{userName}</Text>
         <Text style={stylesUserData.userDataMail}>{email}</Text>
       </View>
     </View>
@@ -28,10 +26,10 @@ UserData.propTypes = {
 
 UserData.defaultProps = {
   style: {},
-  avatarUser: '',
-  userName: '',
-  userSurName: '',
-  email: '',
+  avatarUser: "",
+  userName: "",
+  userSurName: "",
+  email: "",
 };
 
 export default UserData;

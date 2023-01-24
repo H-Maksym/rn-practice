@@ -1,18 +1,19 @@
-import { NavigationContainer } from "@react-navigation/native";
 import { useEffect } from "react";
+import { NavigationContainer } from "@react-navigation/native";
+import * as Location from "expo-location";
 
 import { useDispatch, useSelector } from "react-redux";
-import * as Location from "expo-location";
+import { getUserInfo } from "src/redux/auth/authOperations";
+import { selectIsAuth } from "src/redux/auth/authSelectors";
+
 import useRoute from "src/hooks/useRoute";
 import useTakePhoto from "src/hooks/useTakePhoto";
-
-import { selectIsAuth } from "src/redux/auth/authSelectors";
 
 function HomeScreen() {
   const isAuth = useSelector(selectIsAuth);
   const routing = useRoute(isAuth);
   const { setCameraPermission } = useTakePhoto();
-
+  const dispatch = useDispatch();
   useEffect(() => {
     setCameraPermission();
     (async () => {
@@ -21,6 +22,7 @@ function HomeScreen() {
         return;
       }
     })();
+    dispatch(getUserInfo());
   }, []);
 
   return <NavigationContainer>{routing}</NavigationContainer>;

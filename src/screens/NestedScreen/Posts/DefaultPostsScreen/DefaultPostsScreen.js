@@ -1,8 +1,9 @@
 import { useEffect, useCallback, useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useFocusEffect } from "@react-navigation/native";
+import { selectUser } from "src/redux/auth/authSelectors";
 
-import { logout } from "src/redux/auth/authSlice";
+import { logout } from "src/redux/auth/authOperations";
 
 import Icon from "react-native-vector-icons/Feather";
 import { View, ScrollView } from "react-native";
@@ -17,8 +18,9 @@ import { stylesPostScreen } from "./DefaultPostsScreen.styled";
 
 function DefaultPostsScreen({ navigation, route }) {
   const [posts, setPosts] = useState([]);
-
+  const user = useSelector(selectUser);
   const dispatch = useDispatch();
+
   useFocusEffect(
     useCallback(() => {
       //INFO when focus screen
@@ -58,10 +60,9 @@ function DefaultPostsScreen({ navigation, route }) {
     <Container style={{ backgroundColor: theme.colors.primaryBackground }}>
       <View style={stylesPostScreen.containerPostScreen}>
         <UserData
-          avatarUser="avatar"
-          userName="Maksym"
-          userSurName="Holovachuk"
-          email="maksym@gmail.com"
+          avatarUser={user.photoURL}
+          userName={user.userName}
+          email={user.email}
         />
 
         {posts.length >= 0 && (

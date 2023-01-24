@@ -1,6 +1,6 @@
-import { useState, useRef } from 'react';
-import { useDispatch } from 'react-redux';
-import { login } from 'src/redux/auth/authSlice';
+import { useState, useRef } from "react";
+import { useDispatch } from "react-redux";
+import { login } from "src/redux/auth/authOperations";
 import {
   View,
   ImageBackground,
@@ -10,18 +10,18 @@ import {
   Keyboard,
   KeyboardAvoidingView,
   Platform,
-} from 'react-native';
-import Container from 'src/components/Common/Container';
-import { formStyles } from 'src/components/Common/Form/Form.styled';
-import Input from 'src/components/Common/Input';
-import Button from 'src/components/Common/Button';
-import Loader from 'src/components/Common/Loader';
-import { theme } from 'src/utils/theme';
-import { stylesLogin } from './LoginScreen.styled';
+} from "react-native";
+import Container from "src/components/Common/Container";
+import { formStyles } from "src/components/Common/Form/Form.styled";
+import Input from "src/components/Common/Input";
+import Button from "src/components/Common/Button";
+import Loader from "src/components/Common/Loader";
+import { theme } from "src/utils/theme";
+import { stylesLogin } from "./LoginScreen.styled";
 
 const initialState = {
-  email: '',
-  password: '',
+  email: "",
+  password: "",
 };
 function LoginScreen({ navigation }) {
   const [state, setState] = useState(initialState);
@@ -32,7 +32,7 @@ function LoginScreen({ navigation }) {
   const ref_password = useRef();
 
   const handleOnChange = (text, input) => {
-    setState(prevState => ({
+    setState((prevState) => ({
       ...prevState,
       [input]: text,
     }));
@@ -43,42 +43,31 @@ function LoginScreen({ navigation }) {
     let valid = true;
 
     if (!state.email) {
-      handleError('Please input email', 'email');
+      handleError("Please input email", "email");
       valid = false;
     } else if (!state.email.match(/\S+@\S+\.\S+/)) {
-      handleError('Please input valid email', 'email');
+      handleError("Please input valid email", "email");
       valid = false;
     }
 
     if (!state.password) {
-      handleError('Please input your password', 'password');
+      handleError("Please input your password", "password");
       valid = false;
     }
 
     //TODO розкоментувати для валідації полів
-    // if (valid) {
-    handleLogin();
-    // }
+    if (valid) {
+      handleLogin();
+    }
   };
 
   const handleError = (errorMessage, input) => {
-    setErrors(prevState => ({ ...prevState, [input]: errorMessage }));
+    setErrors((prevState) => ({ ...prevState, [input]: errorMessage }));
   };
 
   const handleLogin = () => {
-    dispatch(login());
-
-    // setLoading(true);
-    // setTimeout(() => {
-    //   try {
-    //     console.log("hello")
-    //   } catch (error) {
-    //     Alert.alert('Error', 'Something went wrong');
-    //   } finally {
-    //     setState(initialState);
-    //     setLoading(false);
-    //   }
-    // }, 3000);
+    dispatch(login(state));
+    setState(initialState);
   };
 
   const keyboardHide = () => {
@@ -91,7 +80,7 @@ function LoginScreen({ navigation }) {
       <Container>
         <Loader visible={loading} />
         <ImageBackground
-          source={require('src/assets/image/backgroundImage.jpg')}
+          source={require("src/assets/image/backgroundImage.jpg")}
           style={stylesLogin.imageBackground}
         >
           <View
@@ -100,7 +89,7 @@ function LoginScreen({ navigation }) {
             }}
           >
             <KeyboardAvoidingView
-              behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+              behavior={Platform.OS === "ios" ? "padding" : "height"}
               style={{
                 ...Platform.select({
                   ios: {
@@ -127,10 +116,10 @@ function LoginScreen({ navigation }) {
                   iconName="email-outline"
                   value={state.email}
                   onFocus={() => {
-                    handleError(null, 'email');
+                    handleError(null, "email");
                     setIsShowKeyboard(true);
                   }}
-                  onChangeText={text => handleOnChange(text, 'email')}
+                  onChangeText={(text) => handleOnChange(text, "email")}
                   onSubmitEditing={() => ref_password.current.focus()}
                   returnKeyType="next"
                   error={errors.email}
@@ -141,10 +130,10 @@ function LoginScreen({ navigation }) {
                   iconName="lock-outline"
                   value={state.password}
                   onFocus={() => {
-                    handleError(null, 'password');
+                    handleError(null, "password");
                     setIsShowKeyboard(true);
                   }}
-                  onChangeText={text => handleOnChange(text, 'password')}
+                  onChangeText={(text) => handleOnChange(text, "password")}
                   onSubmitEditing={() => keyboardHide()}
                   password
                   ref={ref_password}
@@ -162,7 +151,7 @@ function LoginScreen({ navigation }) {
             <TouchableOpacity
               style={stylesLogin.gotoRegisterBtn}
               activeOpacity={0.7}
-              onPress={() => navigation.navigate('Registration')}
+              onPress={() => navigation.navigate("Registration")}
             >
               <Text style={stylesLogin.gotoRegisterText}>
                 Don't have an account? Register

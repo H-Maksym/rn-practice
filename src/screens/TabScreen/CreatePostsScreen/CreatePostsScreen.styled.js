@@ -76,4 +76,20 @@ export const stylesCreatePostsScreen = StyleSheet.create({
   publishBtnTitleDisabled: {
     color: theme.colors.text.secondaryText,
   },
+
+  iconContainerTab: {
+    flex: 1,
+    alignItems: "center",
+    // paddingTop: theme.space[3] + 1,
+    paddingBottom: theme.space[4] + 6,
+  },
+
+  buttonIcon: {
+    alignItems: "center",
+    justifyContent: "center",
+    width: theme.space[6] + 6,
+    height: theme.space[5] + 8,
+    borderRadius: theme.radii.x,
+    backgroundColor: "#F6F6F6",
+  },
 });
