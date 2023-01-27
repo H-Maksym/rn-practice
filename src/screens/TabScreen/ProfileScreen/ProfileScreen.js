@@ -1,10 +1,16 @@
-import { View, ImageBackground, Text } from "react-native";
-import { useEffect, useCallback } from "react";
+import { View, ImageBackground, Text, Image, FlatList } from "react-native";
+import { useEffect, useCallback, useState } from "react";
 // import { useHeaderHeight } from '@react-navigation/elements';
 import { useFocusEffect } from "@react-navigation/native";
+import { useImagePicker } from "src/hooks/useImagePicker";
 
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { logout } from "src/redux/auth/authSlice";
+import {
+  updatePhotoAvatar,
+  deletePhotoAvatar,
+} from "src/redux/auth/authOperations";
+import { selectUser } from "src/redux/auth/authSelectors";
 
 import Icon from "react-native-vector-icons/Feather";
 import Container from "src/components/Common/Container";
@@ -13,9 +19,16 @@ import AddAvatar from "src/assets/icon/addAvatar.svg";
 import PostItem from "src/components/Posts/PostItem";
 
 import { stylesProfileScreen } from "./ProfileScreen.styled";
+import { ref, onValue, push, set, runTransaction } from "firebase/database";
+import app from "src/firebase/config";
+import { snapshotToArray } from "src/redux/auth/firebaseAPI";
 
 function ProfileScreen({ navigation, route }) {
+  const { db } = app;
+  const [posts, setPosts] = useState([]);
+  const user = useSelector(selectUser);
   const dispatch = useDispatch();
+  const { image, pickImage, resetImagePickerState } = useImagePicker();
   // const headerHeight = useHeaderHeight();
   // const [heightHeader] = useState(headerHeight);
   useFocusEffect(
@@ -27,9 +40,40 @@ function ProfileScreen({ navigation, route }) {
     }, [])
   );
 
+  const getPostFromDB = async () => {
+    const postListRef = ref(db, "posts/");
+    onValue(postListRef, (snapshot) => {
+      const newArray = snapshotToArray(snapshot).map((data) => {
+        if (data.comments) {
+          return {
+            ...data,
+            comments: Object.keys(data.comments).reduce((acc, id) => {
+              acc.push({ id, ...data.comments[id] });
+              return acc;
+            }, []),
+          };
+        } else {
+          return data;
+        }
+      });
+
+      setPosts(newArray);
+    });
+  };
+
   useEffect(() => {
     navigation.setOptions({ headerShown: false });
+    getPostFromDB();
   }, []);
+
+  useEffect(() => {
+    if (image) {
+      dispatch(
+        updatePhotoAvatar({ oldAvatar: user.photoURL, newAvatar: image })
+      );
+      resetImagePickerState();
+    }
+  }, [image]);
 
   const logOut = () => {
     dispatch(logout());
@@ -51,12 +95,24 @@ function ProfileScreen({ navigation, route }) {
           }}
         >
           <View style={stylesProfileScreen.avatarBox}>
+            <Image
+              source={{ uri: user.photoURL }}
+              style={stylesProfileScreen.avatar}
+            />
             <ButtonIcon
               style={stylesProfileScreen.addAvatarButton}
               title="add avatar"
-              onPress={() => console.log("add avatar")}
+              onPress={() => {
+                if (!image) {
+                  pickImage();
+                } else {
+                  resetImagePickerState();
+                }
+              }}
             >
-              <AddAvatar fill={"#FF6C00"} stroke={"#FF6C00"} />
+              <AddAvatar
+                style={stylesProfileScreen.changeAvatarStatus(user.photoURL)}
+              />
             </ButtonIcon>
           </View>
 
@@ -73,20 +129,31 @@ function ProfileScreen({ navigation, route }) {
           </ButtonIcon>
 
           <Text style={stylesProfileScreen.titleProfileScreen}>
-            Maksym Holovachuk
+            {user.name}
           </Text>
 
-          <PostItem
-            // image={"src/assets/image/backgroundImage.jpg"}
-            countComments={10}
-            like
-            countLikes={0}
-            coordinates={{ latitude: -50, longitude: -50 }}
-            titlePlaceByCoordinates={"море"}
-            placeTitle={"Ivano-Frankivs'k Region, Ukraine"}
-            navigation={navigation}
-            fromScreen={route.name}
-          />
+          {posts.length >= 0 && (
+            <FlatList
+              style={{ marginBottom: 20 }}
+              data={posts}
+              renderItem={({ item }) => (
+                <PostItem
+                  image={item.postData.photo}
+                  title={item.postData.titlePost}
+                  countComments={item.postData.comments}
+                  countLikes={item.postData.likes}
+                  coordinates={item.postData.location}
+                  placeTitle={item.postData.place}
+                  titlePlaceByCoordinates={item.postData.placeTitle}
+                  like
+                  postId={item.key}
+                  navigation={navigation}
+                  fromScreen={route.name}
+                />
+              )}
+              keyExtractor={(item) => item.key}
+            />
+          )}
         </View>
       </ImageBackground>
     </Container>

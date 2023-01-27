@@ -3,7 +3,7 @@ import { NavigationContainer } from "@react-navigation/native";
 import * as Location from "expo-location";
 
 import { useDispatch, useSelector } from "react-redux";
-import { getUserInfo } from "src/redux/auth/authOperations";
+import { getUserInfo } from "src/redux/auth/firebaseAPI";
 import { selectIsAuth } from "src/redux/auth/authSelectors";
 
 import useRoute from "src/hooks/useRoute";
@@ -14,6 +14,7 @@ function HomeScreen() {
   const routing = useRoute(isAuth);
   const { setCameraPermission } = useTakePhoto();
   const dispatch = useDispatch();
+
   useEffect(() => {
     setCameraPermission();
     (async () => {

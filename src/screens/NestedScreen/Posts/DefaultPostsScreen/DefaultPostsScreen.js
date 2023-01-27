@@ -6,7 +6,7 @@ import { selectUser } from "src/redux/auth/authSelectors";
 import { logout } from "src/redux/auth/authOperations";
 
 import Icon from "react-native-vector-icons/Feather";
-import { View, ScrollView } from "react-native";
+import { View, FlatList, SafeAreaView, StatusBar } from "react-native";
 import Container from "src/components/Common/Container";
 import ButtonIcon from "src/components/Common/ButtonIcon";
 
@@ -15,8 +15,16 @@ import PostItem from "src/components/Posts/PostItem";
 
 import { theme } from "src/utils/theme";
 import { stylesPostScreen } from "./DefaultPostsScreen.styled";
+import { ref, onValue } from "firebase/database";
+import app from "src/firebase/config";
+import { snapshotToArray } from "src/redux/auth/firebaseAPI";
+
+import { useBottomTabBarHeight } from "@react-navigation/bottom-tabs";
 
 function DefaultPostsScreen({ navigation, route }) {
+  const tabBarHeight = useBottomTabBarHeight();
+
+  const { db } = app;
   const [posts, setPosts] = useState([]);
   const user = useSelector(selectUser);
   const dispatch = useDispatch();
@@ -24,37 +32,71 @@ function DefaultPostsScreen({ navigation, route }) {
   useFocusEffect(
     useCallback(() => {
       //INFO when focus screen
+      navigation.setOptions({
+        headerRight: () => (
+          <ButtonIcon title="log-out" onPress={logOut}>
+            <Icon
+              name="log-out"
+              style={stylesPostScreen.headerIconLogOut}
+              size={24}
+            />
+          </ButtonIcon>
+        ),
+      });
       return () => {
         //INFO when unfocus screen
       };
     }, [])
   );
 
-  useEffect(() => {
-    if (route.params?.postInfo) {
-      const { postInfo } = route.params;
-      setPosts((prevState) => [postInfo, ...prevState]);
-    }
-  }, [route.params]);
-
-  const logOut = () => {
-    dispatch(logout());
-    // navigation.navigate('Login');
+  const getPostFromDB = async () => {
+    const postListRef = ref(db, "posts/");
+    onValue(postListRef, (snapshot) => {
+      const newArray = snapshotToArray(snapshot).map((data) => {
+        if (data.comments) {
+          return {
+            ...data,
+            comments: Object.keys(data.comments).reduce((acc, id) => {
+              acc.push({ id, ...data.comments[id] });
+              return acc;
+            }, []),
+          };
+        } else {
+          return data;
+        }
+      });
+      setPosts(newArray);
+    });
   };
 
   useEffect(() => {
-    navigation.setOptions({
-      headerRight: () => (
-        <ButtonIcon title="log-out" onPress={logOut}>
-          <Icon
-            name="log-out"
-            style={stylesPostScreen.headerIconLogOut}
-            size={24}
-          />
-        </ButtonIcon>
-      ),
-    });
-  }, [navigation]);
+    getPostFromDB();
+  }, []);
+
+  // useEffect(() => {
+  //   if (route.params?.postInfo) {
+  //     const { postInfo } = route.params;
+  //     setPosts((prevState) => [postInfo, ...prevState]);
+  //   }
+  // }, [route.params]);
+
+  const logOut = () => {
+    dispatch(logout());
+  };
+
+  // useEffect(() => {
+  //   navigation.setOptions({
+  //     headerRight: () => (
+  //       <ButtonIcon title="log-out" onPress={logOut}>
+  //         <Icon
+  //           name="log-out"
+  //           style={stylesPostScreen.headerIconLogOut}
+  //           size={24}
+  //         />
+  //       </ButtonIcon>
+  //     ),
+  //   });
+  // }, [navigation]);
 
   return (
     <Container style={{ backgroundColor: theme.colors.primaryBackground }}>
@@ -66,21 +108,24 @@ function DefaultPostsScreen({ navigation, route }) {
         />
 
         {posts.length >= 0 && (
-          <ScrollView>
-            {posts.map((item, idx) => (
+          <FlatList
+            style={{ marginBottom: tabBarHeight * 2 + 10 }}
+            data={posts}
+            renderItem={({ item }) => (
               <PostItem
-                key={idx}
-                image={item.photo}
-                title={item.titlePost}
-                countComments={item.comments}
-                countLikes={item.likes}
-                coordinates={item.location}
-                placeTitle={item.place}
-                titlePlaceByCoordinates={item.placeTitle}
+                image={item.postData?.photo}
+                title={item.postData?.titlePost}
+                countComments={item.postData?.comments}
+                countLikes={item.postData?.likes}
+                coordinates={item.postData?.location}
+                placeTitle={item.postData?.place}
+                titlePlaceByCoordinates={item.postData?.placeTitle}
                 navigation={navigation}
+                fromScreen={route.name}
               />
-            ))}
-          </ScrollView>
+            )}
+            keyExtractor={(item) => item.key}
+          />
         )}
       </View>
     </Container>

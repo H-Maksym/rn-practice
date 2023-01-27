@@ -9,9 +9,11 @@ import HomeScreen from "src/screens/HomeScreen";
 
 export default function App() {
   const appIsReady = useLoadFonts();
+
   if (!appIsReady) {
     return null;
   }
+
   return (
     <ThemeProvider theme={theme}>
       <Provider store={store}>

@@ -4,9 +4,11 @@ import * as Location from "expo-location";
 import axios from "axios";
 import { XMLParser } from "fast-xml-parser";
 
-import { useDispatch } from "react-redux";
 import useTakePhoto from "src/hooks/useTakePhoto";
 import { useVisibleTabBar } from "src/hooks/useVisibleTabBar";
+import { uploadPhoto } from "src/redux/auth/authOperations";
+import { set, ref, push } from "firebase/database";
+import app from "src/firebase/config";
 
 import {
   View,
@@ -14,21 +16,21 @@ import {
   Image,
   TouchableWithoutFeedback,
   Keyboard,
-  // KeyboardAvoidingView,
-  // Platform,
 } from "react-native";
 
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 
 import Container from "src/components/Common/Container";
 import CustomCamera from "src/components/Common/Camera";
-
 import Input from "src/components/Common/Input";
 import Button from "src/components/Common/Button";
 import ButtonIcon from "src/components/Common/ButtonIcon";
 
 import { stylesCreatePostsScreen } from "./CreatePostsScreen.styled";
 import { theme } from "src/utils/theme";
+import { selectUser } from "../../../redux/auth/authSelectors";
+import { useSelector } from "react-redux";
+import ImageCompress from "../../../utils/compressImage";
 
 const initialState = {
   photo: "",
@@ -42,14 +44,12 @@ const initialState = {
 
 function CreatePostsScreen({ navigation, route }) {
   const { setVisibleBottom } = useVisibleTabBar();
-
   const [state, setState] = useState(initialState);
+
   const {
-    // hasCameraPermission,
     cameraType,
     flashMode,
     isFullScreen,
-    // setCameraPermission,
     setCameraFullScreen,
     switchCamera,
     switchFlashMode,
@@ -58,19 +58,11 @@ function CreatePostsScreen({ navigation, route }) {
   const [errors, setErrors] = useState({});
   const [isShowKeyboard, setIsShowKeyboard] = useState(false);
 
+  const { db } = app;
+  const user = useSelector(selectUser);
+
   const cameraRef = useRef();
   const ref_location = useRef();
-  // const dispatch = useDispatch();
-
-  // useEffect(() => {
-  //   setCameraPermission();
-  //   (async () => {
-  //     let { status } = await Location.requestForegroundPermissionsAsync();
-  //     if (status !== "granted") {
-  //       return;
-  //     }
-  //   })();
-  // }, []);
 
   const getLocation = async () => {
     const location = await Location.getCurrentPositionAsync({});
@@ -179,9 +171,11 @@ function CreatePostsScreen({ navigation, route }) {
       try {
         setCameraFullScreen(true);
         const { uri } = await takePicture(cameraRef.current);
+        const image = await ImageCompress(uri, { width: 1200, height: 600 });
+
         setState((prevState) => ({
           ...prevState,
-          photo: uri,
+          photo: image,
         }));
       } catch (error) {
         console.log(error);
@@ -191,15 +185,29 @@ function CreatePostsScreen({ navigation, route }) {
     }
   };
 
-  // Image.getSize(state.photo, (width, height) => {
-  //   console.log(width);
-  //   console.log(height);
-  // });
+  const sendToDB = async () => {
+    const photoURL = await uploadPhoto(state.photo, "posts");
+    const postListRef = ref(db, "posts");
+    const newPostRef = push(postListRef);
+    set(newPostRef, {
+      postData: {
+        ...user,
+        ...state,
+        photo: photoURL,
+        date: Date.now(),
+      },
+    });
+  };
 
   const sendInfoPost = async () => {
-    setState(initialState);
-    keyboardHide();
-    navigation.navigate("Posts", { postInfo: state });
+    try {
+      await sendToDB(state);
+      setState(initialState);
+      keyboardHide();
+      navigation.navigate("Posts");
+    } catch (error) {
+      console.log(error.message);
+    }
   };
 
   const keyboardHide = () => {
@@ -309,7 +317,7 @@ function CreatePostsScreen({ navigation, route }) {
                 handleError(null, "titlePost");
                 setIsShowKeyboard(true);
               }}
-              onChangeText={(text) => handleOnChange(text.trim(), "titlePost")}
+              onChangeText={(text) => handleOnChange(text, "titlePost")}
               onSubmitEditing={() => ref_location.current.focus()}
               error={errors.titlePost}
             />
@@ -324,33 +332,39 @@ function CreatePostsScreen({ navigation, route }) {
                 handleError(null, "place");
                 setIsShowKeyboard(true);
               }}
-              onChangeText={(text) => handleOnChange(text.trim(), "place")}
+              onChangeText={(text) => handleOnChange(text, "place")}
               onSubmitEditing={() => keyboardHide()}
               error={errors.place}
               ref={ref_location}
             />
           </View>
-          <Button
-            title="Publish"
-            activeOpacity={0.8}
-            onPress={validate}
-            style={
-              !state.photo || !state.titlePost || !state.place
-                ? stylesCreatePostsScreen.publishBtnDisabled
-                : {}
-            }
-            styleTitle={
-              !state.photo || !state.titlePost || !state.place
-                ? stylesCreatePostsScreen.publishBtnTitleDisabled
-                : {}
-            }
-            disabled={!state.photo || !state.titlePost || !state.place}
-          />
+          {!isShowKeyboard && (
+            <Button
+              title="Publish"
+              activeOpacity={0.8}
+              onPress={validate}
+              style={
+                !state.photo || !state.titlePost || !state.place
+                  ? stylesCreatePostsScreen.publishBtnDisabled
+                  : {}
+              }
+              styleTitle={
+                !state.photo || !state.titlePost || !state.place
+                  ? stylesCreatePostsScreen.publishBtnTitleDisabled
+                  : {}
+              }
+              disabled={!state.photo || !state.titlePost || !state.place}
+            />
+          )}
         </View>
         <View style={stylesCreatePostsScreen.iconContainerTab}>
           <ButtonIcon
             style={stylesCreatePostsScreen.buttonIcon}
-            onPress={() => setState(initialState)}
+            onPress={() => {
+              setState(initialState);
+              navigation.navigate("Posts");
+            }}
+            // disabled={!state.photo && !state.titlePost && !state.place}
           >
             <Icon name="trash-can-outline" size={24} color={"#BDBDBD"} />
           </ButtonIcon>

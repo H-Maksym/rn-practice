@@ -53,7 +53,7 @@ export const stylesCreatePostsScreen = StyleSheet.create({
   inputContainerIsShownKeyboard: {
     position: "absolute",
     zIndex: 100,
-    bottom: theme.space[7] - 8,
+    bottom: theme.space[2],
     left: theme.space[3],
     width: "100%",
     paddingVertical: theme.space[4],
@@ -79,9 +79,14 @@ export const stylesCreatePostsScreen = StyleSheet.create({
 
   iconContainerTab: {
     flex: 1,
-    alignItems: "center",
+    justifyContent: "center",
+    width: 60,
+    height: 24,
+    marginTop: "auto",
+    marginLeft: "auto",
+    marginRight: "auto",
     // paddingTop: theme.space[3] + 1,
-    paddingBottom: theme.space[4] + 6,
+    // paddingBottom: theme.space[4] + 6,
   },
 
   buttonIcon: {

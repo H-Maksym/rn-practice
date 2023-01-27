@@ -1,5 +1,11 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { register, login, logout, getUserInfo } from "./authOperations";
+import {
+  register,
+  login,
+  logout,
+  updatePhotoAvatar,
+  deletePhotoAvatar,
+} from "./authOperations";
 
 const initialState = {
   user: {
@@ -78,6 +84,20 @@ export const authSlice = createSlice({
       state.error = false;
     });
     builder.addCase(logout.rejected, rejected);
+
+    //INFO add photo avatar
+    builder.addCase(updatePhotoAvatar.pending, pending);
+    builder.addCase(updatePhotoAvatar.fulfilled, (state, { payload }) => {
+      state.user.photoURL = payload;
+    });
+    builder.addCase(updatePhotoAvatar.rejected, rejected);
+
+    //INFO delete photo avatar
+    builder.addCase(deletePhotoAvatar.pending, pending);
+    builder.addCase(deletePhotoAvatar.fulfilled, (state, { payload }) => {
+      state.user.photoURL = payload;
+    });
+    builder.addCase(deletePhotoAvatar.rejected, rejected);
   },
 });
 

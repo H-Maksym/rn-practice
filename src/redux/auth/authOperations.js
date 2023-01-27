@@ -1,22 +1,26 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { updateUserInfo } from "./authSlice";
+import "react-native-get-random-values";
 import { nanoid } from "nanoid";
 import gravatar from "gravatar";
-import { auth, storage } from "src/firebase/config";
+import app from "src/firebase/config";
+
+const { auth, storage } = app;
 import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
-  onAuthStateChanged,
+  // onAuthStateChanged,
   signOut,
   updateProfile,
 } from "firebase/auth";
 
-import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
+import {
+  ref,
+  uploadBytes,
+  getDownloadURL,
+  deleteObject,
+} from "firebase/storage";
 
 import { Alert } from "react-native";
-
-// import axios from 'axios';
-// import { toast } from 'react-toastify';
 
 const metadata = {
   contentType: "image/jpeg",
@@ -27,7 +31,7 @@ export const uploadPhoto = async (image, imgStore) => {
   const response = await fetch(image);
   const file = await response.blob();
   //INFO upload image to storage
-  const pathFile = `${imgStore}/` + Date.now() + nanoid() + ".jpg";
+  const pathFile = `${imgStore}/` + Date.now() + `-${nanoid()}` + ".jpg";
   const photoRef = ref(storage, pathFile);
   const uploadTask = await uploadBytes(photoRef, file, metadata);
   const url = await getDownloadURL(uploadTask.ref);
@@ -44,6 +48,7 @@ export const register = createAsyncThunk(
         email,
         password
       );
+
       if (!image) {
         photoURL = gravatar.url(email, { protocol: "http", s: "120" });
       } else {
@@ -52,7 +57,7 @@ export const register = createAsyncThunk(
 
       await updateProfile(auth.currentUser, {
         displayName: name,
-        photoURL,
+        photoURL: photoURL,
       });
       Alert.alert(`User ${name} registered successfully`);
 
@@ -107,52 +112,94 @@ export const logout = createAsyncThunk(
     try {
       signOut(auth);
     } catch (error) {
-      // toast.error('Oops, something went wrong');
       Alert.alert("Oops, something went wrong");
       fulfillWithValue(error.code);
     }
   }
 );
 
-export const getUserInfo = createAsyncThunk(
-  "userInfo/getUserInfo",
-  async (_, { dispatch }) => {
+//firebasestorage.googleapis.com/v0/b/rn-practice-5f175.appspot.com/o/avatar%2F1674660613951-Hco-Mw27OItmg_lo1QUhd.jpg?alt=media&token=9a14cfd9-9b64-4045-9bd2-40fd86705c3d
+
+export const updatePhotoAvatar = createAsyncThunk(
+  "auth/updatePhotoAvatar",
+  async ({ oldAvatar, newAvatar }, { fulfillWithValue }) => {
     try {
-      await onAuthStateChanged(auth, (user) => {
-        if (user) {
-          dispatch(
-            updateUserInfo({
-              user: {
-                email: user.email,
-                userId: user.uid,
-                userName: user.displayName,
-                photoURL: user.photoURL,
-              },
-              isAuth: true,
-              isVisibleTabBar: true,
-            })
-          );
-        } else {
-          dispatch(
-            updateUserInfo({
-              user: {
-                email: "",
-                userId: "",
-                userName: "",
-                photoURL: "",
-              },
-              isAuth: false,
-              isVisibleTabBar: false,
-            })
-          );
-        }
+      if (oldAvatar.includes("https://firebasestorage.googleapis.com")) {
+        const fileName =
+          oldAvatar.split("avatar%2F")[1].split(".jpg")[0] + ".jpg";
+        const desertRef = ref(storage, `avatar/${fileName}`);
+        await deleteObject(desertRef);
+      }
+      const photoURL = await uploadPhoto(newAvatar, "avatar");
+      await updateProfile(auth.currentUser, {
+        photoURL: photoURL,
       });
+      return photoURL;
     } catch (error) {
-      console.log(error.message);
-      return thunkAPI.rejectWithValue(error.request.status);
+      console.log(error);
+      Alert.alert("Oops, something went wrong gagag");
+      fulfillWithValue(error.code);
     }
   }
 );
+
+export const deletePhotoAvatar = createAsyncThunk(
+  "auth/deletePhotoAvatar",
+  async (email, { fulfillWithValue }) => {
+    try {
+      const photoURL = gravatar.url(email, { protocol: "http", s: "120" });
+      await updateProfile(auth.currentUser, {
+        photoURL: photoURL,
+      });
+      return photoURL;
+    } catch (error) {
+      console.log(error.message);
+      Alert.alert("Oops, something went wrong fffff");
+      fulfillWithValue(error.code);
+    }
+  }
+);
+
+//INFO firebaseAPI
+// export const getUserInfo = createAsyncThunk(
+//   "auth/getUserInfo",
+//   async (_, { dispatch }) => {
+//     try {
+//       await onAuthStateChanged(auth, (user) => {
+//         if (user) {
+//           dispatch(
+//             updateUserInfo({
+//               user: {
+//                 email: user.email,
+//                 userId: user.uid,
+//                 userName: user.displayName,
+//                 photoURL: user.photoURL,
+//               },
+//               isAuth: true,
+//               isVisibleTabBar: true,
+//             })
+//           );
+//         } else {
+//           dispatch(
+//             updateUserInfo({
+//               user: {
+//                 email: "",
+//                 userId: "",
+//                 userName: "",
+//                 photoURL: "",
+//               },
+//               isAuth: false,
+//               isVisibleTabBar: false,
+//             })
+//           );
+//         }
+//       });
+//     } catch (error) {
+//       console.log(error.message);
+//       return thunkAPI.rejectWithValue(error.request.status);
+//     }
+//   }
+// );
 
 // export const restore = createAsyncThunk(
 //   'auth/restore',
