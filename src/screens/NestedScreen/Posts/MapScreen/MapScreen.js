@@ -1,15 +1,17 @@
-import { useCallback } from "react";
+import { useEffect, useCallback } from "react";
 import { useFocusEffect } from "@react-navigation/native";
 import { useVisibleTabBar } from "src/hooks/useVisibleTabBar";
 import MapView, { Marker } from "react-native-maps";
 import Container from "src/components/Common/Container";
-import { Text } from "react-native";
+import ButtonIcon from "src/components/Common/ButtonIcon/ButtonIcon";
+import Icon from "react-native-vector-icons/MaterialCommunityIcons";
+
+import { stylesMapScreen } from "./MapScreen.styled";
 
 function MapScreen({ route, navigation }) {
-  console.log(route);
   const { setVisibleBottom } = useVisibleTabBar();
-  const { coordinates, titlePlaceByCoordinates, fromScreen } =
-    route.params?.location;
+  const { coordinates, titlePlaceByCoordinates } = route.params?.location;
+  const { fromScreen } = route.params;
 
   useFocusEffect(
     useCallback(() => {
@@ -21,6 +23,25 @@ function MapScreen({ route, navigation }) {
       };
     }, [])
   );
+
+  useEffect(() => {
+    navigation.setOptions({
+      headerLeft: () => (
+        <ButtonIcon
+          title="go-back"
+          onPress={() => navigation.goBack()}
+
+          // onPress={() => navigation.navigate(fromScreen)}
+        >
+          <Icon
+            name="arrow-left"
+            style={stylesMapScreen.headerIconGoBack}
+            size={24}
+          />
+        </ButtonIcon>
+      ),
+    });
+  }, [navigation]);
 
   return (
     <Container>
@@ -41,14 +62,6 @@ function MapScreen({ route, navigation }) {
           title={titlePlaceByCoordinates}
         />
       </MapView>
-      <Text
-        style={{ fontSize: 40 }}
-        // onPress={() => {
-        //   navigation.navigate(fromScreen);
-        // }}
-      >
-        go back{" "}
-      </Text>
     </Container>
   );
 }

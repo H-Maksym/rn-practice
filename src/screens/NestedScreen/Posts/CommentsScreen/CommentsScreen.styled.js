@@ -1,11 +1,11 @@
-import { StyleSheet } from "react-native";
+import { StyleSheet, Dimensions } from "react-native";
 import { theme } from "src/utils/theme";
 export const stylesCommentsScreen = StyleSheet.create({
   container: {
     flex: 1,
     paddingHorizontal: theme.space[4],
   },
-
+  headerIconGoBack: { marginLeft: 16, color: "#21212180" },
   commentsContainer: {},
 
   imageComments: {
@@ -19,13 +19,22 @@ export const stylesCommentsScreen = StyleSheet.create({
 
   itemComments: {},
 
-  inputCommentsContainer: {
-    marginTop: "auto",
-    marginBottom: 16,
+  inputContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    padding: theme.space[4],
     borderRadius: 100,
-    backgroundColor: "#F6F6F6",
-    height: 50,
+    // height: 50,
   },
 
-  inputComments: {},
+  inputComments: {
+    width: Dimensions.get("window").width - 32 - 20 - 34,
+    paddingVertical: theme.space[4],
+    fontFamily: "Roboto-Regular",
+    fontSize: theme.fontSizes.s,
+    fontStyle: "normal",
+    fontWeight: theme.fontWeights.normal,
+    lineHeight: theme.lineHeights.dataText,
+    color: theme.colors.text.primaryText,
+  },
 });

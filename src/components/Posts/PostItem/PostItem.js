@@ -65,7 +65,6 @@ function PostItem({
       }
     );
   };
-
   return (
     <View style={stylesPostItem.postListWrapper}>
       <View>
@@ -77,7 +76,13 @@ function PostItem({
               ...stylesPostItem.postCommentsWrapper,
             }}
             title="goto comments"
-            onPress={() => navigation.navigate("Comments")}
+            onPress={() =>
+              navigation.navigate("Comments", {
+                postId: postId,
+                image: image,
+                fromScreen: fromScreen,
+              })
+            }
           >
             {Number(countComments) === 0 ? (
               <Icon
@@ -136,10 +141,10 @@ function PostItem({
             title="goto location"
             onPress={() =>
               navigation.navigate("Map", {
+                fromScreen: fromScreen,
                 location: {
                   coordinates: coordinates,
                   titlePlaceByCoordinates: titlePlaceByCoordinates,
-                  fromScreen: fromScreen,
                 },
               })
             }

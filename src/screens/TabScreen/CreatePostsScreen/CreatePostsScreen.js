@@ -116,7 +116,7 @@ function CreatePostsScreen({ navigation, route }) {
         <ButtonIcon
           title="go back"
           onPress={() => {
-            navigation.goBack();
+            navigation.navigate("Posts");
           }}
         >
           <Icon

@@ -48,24 +48,27 @@ function DefaultPostsScreen({ navigation, route }) {
       };
     }, [])
   );
-
   const getPostFromDB = async () => {
     const postListRef = ref(db, "posts/");
     onValue(postListRef, (snapshot) => {
-      const newArray = snapshotToArray(snapshot).map((data) => {
-        if (data.comments) {
-          return {
-            ...data,
-            comments: Object.keys(data.comments).reduce((acc, id) => {
-              acc.push({ id, ...data.comments[id] });
-              return acc;
-            }, []),
-          };
-        } else {
-          return data;
-        }
-      });
-      setPosts(newArray);
+      const newArray = snapshotToArray(snapshot);
+      const userPosts = newArray
+        .filter((data) => data.postData.userId === user.userId)
+        .map((data) => {
+          if (data.comments) {
+            return {
+              ...data,
+              comments: Object.keys(data.comments).reduce((acc, id) => {
+                acc.push({ id, ...data.comments[id] });
+                return acc;
+              }, []),
+            };
+          } else {
+            return data;
+          }
+        })
+        .reverse();
+      setPosts(userPosts);
     });
   };
 
@@ -86,7 +89,7 @@ function DefaultPostsScreen({ navigation, route }) {
 
   // useEffect(() => {
   //   navigation.setOptions({
-  //     headerRight: () => (
+  //     headerLeft: () => (
   //       <ButtonIcon title="log-out" onPress={logOut}>
   //         <Icon
   //           name="log-out"
@@ -122,6 +125,7 @@ function DefaultPostsScreen({ navigation, route }) {
                 titlePlaceByCoordinates={item.postData?.placeTitle}
                 navigation={navigation}
                 fromScreen={route.name}
+                postId={item.key}
               />
             )}
             keyExtractor={(item) => item.key}

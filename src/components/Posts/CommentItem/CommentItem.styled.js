@@ -3,6 +3,7 @@ import { theme } from "src/utils/theme";
 export const stylesComment = StyleSheet.create({
   isCurrentUserComment: (isCurrentUser) => ({
     flexDirection: isCurrentUser ? "row" : "row-reverse",
+    marginBottom: 24,
   }),
   isCurrentUserWrapper: (isCurrentUser) => ({
     flex: 1,

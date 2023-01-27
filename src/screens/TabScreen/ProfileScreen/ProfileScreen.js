@@ -5,10 +5,10 @@ import { useFocusEffect } from "@react-navigation/native";
 import { useImagePicker } from "src/hooks/useImagePicker";
 
 import { useDispatch, useSelector } from "react-redux";
-import { logout } from "src/redux/auth/authSlice";
 import {
   updatePhotoAvatar,
   deletePhotoAvatar,
+  logout,
 } from "src/redux/auth/authOperations";
 import { selectUser } from "src/redux/auth/authSelectors";
 
@@ -43,19 +43,21 @@ function ProfileScreen({ navigation, route }) {
   const getPostFromDB = async () => {
     const postListRef = ref(db, "posts/");
     onValue(postListRef, (snapshot) => {
-      const newArray = snapshotToArray(snapshot).map((data) => {
-        if (data.comments) {
-          return {
-            ...data,
-            comments: Object.keys(data.comments).reduce((acc, id) => {
-              acc.push({ id, ...data.comments[id] });
-              return acc;
-            }, []),
-          };
-        } else {
-          return data;
-        }
-      });
+      const newArray = snapshotToArray(snapshot)
+        .map((data) => {
+          if (data.comments) {
+            return {
+              ...data,
+              comments: Object.keys(data.comments).reduce((acc, id) => {
+                acc.push({ id, ...data.comments[id] });
+                return acc;
+              }, []),
+            };
+          } else {
+            return data;
+          }
+        })
+        .reverse();
 
       setPosts(newArray);
     });
@@ -138,13 +140,13 @@ function ProfileScreen({ navigation, route }) {
               data={posts}
               renderItem={({ item }) => (
                 <PostItem
-                  image={item.postData.photo}
-                  title={item.postData.titlePost}
-                  countComments={item.postData.comments}
-                  countLikes={item.postData.likes}
-                  coordinates={item.postData.location}
-                  placeTitle={item.postData.place}
-                  titlePlaceByCoordinates={item.postData.placeTitle}
+                  image={item.postData?.photo}
+                  title={item.postData?.titlePost}
+                  countComments={item.postData?.comments}
+                  countLikes={item.postData?.likes}
+                  coordinates={item.postData?.location}
+                  placeTitle={item.postData?.place}
+                  titlePlaceByCoordinates={item.postData?.placeTitle}
                   like
                   postId={item.key}
                   navigation={navigation}
