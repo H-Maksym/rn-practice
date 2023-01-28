@@ -1,9 +1,9 @@
-import { View, Image, Text } from "react-native";
-import Icon from "react-native-vector-icons/Feather";
-import ButtonIcon from "src/components/Common/ButtonIcon";
-import { theme } from "src/utils/theme";
-import { stylesPostItem } from "./PostItem.styled";
-import CommentsIcon from "src/assets/icon/isComments.svg";
+import { View, Image, Text } from 'react-native';
+import Icon from 'react-native-vector-icons/Feather';
+import ButtonIcon from 'src/components/Common/ButtonIcon';
+import { theme } from 'src/utils/theme';
+import { stylesPostItem } from './PostItem.styled';
+import CommentsIcon from 'src/assets/icon/isComments.svg';
 import {
   ref,
   onValue,
@@ -11,12 +11,11 @@ import {
   set,
   runTransaction,
   remove,
-} from "firebase/database";
-import app from "src/firebase/config";
-import { snapshotToArray } from "src/redux/auth/firebaseAPI";
-import { useSelector } from "react-redux";
-import { selectUser } from "src/redux/auth/authSelectors";
-import { useCallback } from "react";
+} from 'firebase/database';
+import app from 'src/firebase/config';
+import { snapshotToArray } from 'src/redux/auth/firebaseAPI';
+import { useSelector } from 'react-redux';
+import { selectUser } from 'src/redux/auth/authSelectors';
 
 function PostItem({
   image,
@@ -35,25 +34,25 @@ function PostItem({
   const user = useSelector(selectUser);
 
   const sendLikeToDB = () => {
-    const likesRef = ref(db, "posts/" + postId + "/likes");
+    const likesRef = ref(db, 'posts/' + postId + '/likes');
     const postRef = ref(db, `posts/${postId}/postData`);
     const newLikesRef = push(likesRef);
     let keyUserId;
     onValue(
       likesRef,
-      async (snapshot) => {
+      async snapshot => {
         const likesArray = snapshotToArray(snapshot);
-        const isUserLike = likesArray.find((item) => {
+        const isUserLike = likesArray.find(item => {
           keyUserId = item.key;
           return item.userId === user.userId;
         });
 
-        runTransaction(postRef, (post) => {
+        runTransaction(postRef, post => {
           if (!isUserLike) {
             set(newLikesRef, { userId: user.userId });
             post.likes++;
           } else {
-            const userRef = ref(db, "posts/" + postId + "/likes/" + keyUserId);
+            const userRef = ref(db, 'posts/' + postId + '/likes/' + keyUserId);
             remove(userRef);
             post.likes--;
           }
@@ -77,7 +76,7 @@ function PostItem({
             }}
             title="goto comments"
             onPress={() =>
-              navigation.navigate("Comments", {
+              navigation.navigate('Comments', {
                 postId: postId,
                 image: image,
                 fromScreen: fromScreen,
@@ -140,7 +139,7 @@ function PostItem({
             style={stylesPostItem.postLocationWrapper}
             title="goto location"
             onPress={() =>
-              navigation.navigate("Map", {
+              navigation.navigate('Map', {
                 fromScreen: fromScreen,
                 location: {
                   coordinates: coordinates,
@@ -155,7 +154,7 @@ function PostItem({
               size={18}
             />
             <Text style={stylesPostItem.textPostLocation}>
-              {like ? placeTitle?.split(",")[1] : placeTitle}
+              {like ? placeTitle?.split(',')[1] : placeTitle}
             </Text>
           </ButtonIcon>
         </View>

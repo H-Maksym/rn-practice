@@ -13,4 +13,3 @@ export const useFocusScreen = (focusScreenCallback, unfocusScreenCallback) => {
     }, [])
   );
 };
-

@@ -24,7 +24,6 @@ export const stylesCommentsScreen = StyleSheet.create({
     alignItems: 'center',
     padding: theme.space[4],
     borderRadius: 100,
-    // height: 50,
   },
 
   inputComments: {

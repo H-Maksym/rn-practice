@@ -12,24 +12,21 @@ import {
   Image,
   FlatList,
   TouchableWithoutFeedback,
-  TouchableOpacity,
   Keyboard,
   KeyboardAvoidingView,
   Platform,
-  Dimensions,
-  SafeAreaView,
-  StatusBar,
 } from 'react-native';
+
+import { set, ref, push, onValue, runTransaction } from 'firebase/database';
+import app from 'src/firebase/config';
+
 import Container from 'src/components/Common/Container';
 import CommentItem from 'src/components/Posts/CommentItem/CommentItem';
-// import Input from "src/components/Common/Input/Input";
 import ButtonIcon from 'src/components/Common/ButtonIcon/ButtonIcon';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 import { stylesCommentsScreen } from './CommentsScreen.styled';
 import { theme } from 'src/utils/theme';
-import { set, ref, push, onValue, runTransaction } from 'firebase/database';
-import app from 'src/firebase/config';
 
 function CommentsScreen({ navigation, route }) {
   const { postId, image, fromScreen } = route.params;
@@ -61,7 +58,6 @@ function CommentsScreen({ navigation, route }) {
         <ButtonIcon
           title="go-back"
           onPress={() => navigation.goBack()}
-
           // onPress={() => navigation.navigate(fromScreen)}
         >
           <Icon
@@ -205,8 +201,6 @@ function CommentsScreen({ navigation, route }) {
               <Icon
                 style={{ color: '#FF6C00' }}
                 name="arrow-up-circle"
-                // style={stylesInput.iconShowPassword}
-                // onPress={() => sendCommentsToDB()}
                 size={34}
               />
             </ButtonIcon>

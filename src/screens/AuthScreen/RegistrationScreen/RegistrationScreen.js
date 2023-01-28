@@ -1,4 +1,3 @@
-import { useState, useRef } from 'react';
 import {
   View,
   ImageBackground,
@@ -11,7 +10,10 @@ import {
   Platform,
   Alert,
 } from 'react-native';
+import { useState, useRef } from 'react';
 import { useImagePicker } from 'src/hooks/useImagePicker';
+import { useDispatch } from 'react-redux';
+import { register } from 'src/redux/auth/authOperations';
 
 import Container from 'src/components/Common/Container';
 import { formStyles } from 'src/components/Common/Form/Form.styled';
@@ -21,8 +23,6 @@ import Loader from 'src/components/Common/Loader';
 import { theme } from 'src/utils/theme';
 import { stylesRegistration } from './RegistrationScreen.styled';
 import AddAvatar from 'src/assets/icon/addAvatar.svg';
-import { useDispatch } from 'react-redux';
-import { register } from 'src/redux/auth/authOperations';
 
 const initialState = {
   name: '',

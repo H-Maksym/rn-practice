@@ -1,7 +1,7 @@
-const { useState } = require("react");
+import { useState } from 'react';
 
-import { Camera } from "expo-camera";
-import * as MediaLibrary from "expo-media-library";
+import { Camera } from 'expo-camera';
+import * as MediaLibrary from 'expo-media-library';
 
 export default function useTakePhoto() {
   const [hasCameraPermission, setHasCameraPermission] = useState(null);
@@ -17,15 +17,15 @@ export default function useTakePhoto() {
   const setCameraPermission = async () => {
     MediaLibrary.requestPermissionsAsync();
     const { status } = await Camera.requestCameraPermissionsAsync();
-    setHasCameraPermission(status === "granted");
+    setHasCameraPermission(status === 'granted');
   };
 
-  const setCameraFullScreen = (status) => {
+  const setCameraFullScreen = status => {
     setIsFullScreen(status);
   };
 
   const switchCamera = () => {
-    setCameraType((prevCameraType) =>
+    setCameraType(prevCameraType =>
       prevCameraType === Camera.Constants.Type.back
         ? Camera.Constants.Type.front
         : Camera.Constants.Type.back
@@ -40,13 +40,13 @@ export default function useTakePhoto() {
     );
   };
 
-  const takePicture = (cameraRef) => {
+  const takePicture = cameraRef => {
     const options = {
       quality: 1,
       base64: true,
       skipProcessing: false,
       fixOrientation: true,
-      orientation: "landscapeLeft",
+      orientation: 'landscapeLeft',
     };
     const photo = cameraRef.takePictureAsync(options);
     return photo;

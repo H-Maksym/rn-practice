@@ -1,8 +1,11 @@
+import { View } from 'react-native';
 import { useSelector } from 'react-redux';
 import { selectIsVisibleTabBar } from 'src/redux/auth/authSelectors';
-import { View } from 'react-native';
+
 import Icon from 'react-native-vector-icons/Feather';
+
 import ButtonIcon from 'src/components/Common/ButtonIcon';
+
 import { theme } from 'src/utils/theme';
 import { stylesTab } from './TabBar.styled';
 

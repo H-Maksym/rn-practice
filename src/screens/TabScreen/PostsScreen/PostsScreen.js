@@ -2,7 +2,6 @@ import { createStackNavigator } from '@react-navigation/stack';
 import DefaultPostsScreen from 'src/screens/NestedScreen/Posts/DefaultPostsScreen';
 import CommentsScreen from 'src/screens/NestedScreen/Posts/CommentsScreen';
 import MapScreen from 'src/screens/NestedScreen/Posts/MapScreen';
-import { theme } from 'src/utils/theme';
 
 const NestedScreen = createStackNavigator();
 
