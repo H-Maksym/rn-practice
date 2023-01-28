@@ -69,7 +69,7 @@ function ProfileScreen({ navigation, route }) {
   return (
     <Container style={{ backgroundColor: '#FFFFFF' }}>
       <ImageBackground
-        source={require('src/assets/image/backgroundImage.jpg')}
+        source={require('src/assets/image/backgroundImage.png')}
         style={{
           ...stylesProfileScreen.imageBackground,
         }}

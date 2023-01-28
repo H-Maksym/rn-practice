@@ -166,7 +166,9 @@ function CommentsScreen({ navigation, route }) {
                 marginBottom: theme.space[4],
               },
               android: {
-                marginBottom: theme.space[4],
+                marginBottom: isShowKeyboard
+                  ? theme.space[7] + 20
+                  : theme.space[4],
               },
             }),
           }}

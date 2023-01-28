@@ -1,13 +1,13 @@
 {
   "expo": {
-    "name": "rn-practice",
-    "slug": "rn-practice",
+    "name": "MePhoto",
+    "slug": "MePhoto",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "src/assets/icon.png",
+    "icon": "src/assets/icon/MePhoto.png",
     "userInterfaceStyle": "light",
     "splash": {
-      "image": "src/assets/image/backgroundImage.jpg",
+      "image": "src/assets/image/backgroundImage.png",
       "resizeMode": "cover",
       "backgroundColor": "#ffffff"
     },

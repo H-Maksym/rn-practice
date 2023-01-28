@@ -83,7 +83,7 @@ function LoginScreen({ navigation }) {
       <Container>
         <Loader visible={loading} />
         <ImageBackground
-          source={require('src/assets/image/backgroundImage.jpg')}
+          source={require('src/assets/image/backgroundImage.png')}
           style={stylesLogin.imageBackground}
         >
           <View

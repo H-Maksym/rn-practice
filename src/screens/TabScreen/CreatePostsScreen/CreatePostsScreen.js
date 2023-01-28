@@ -58,7 +58,6 @@ function CreatePostsScreen({ navigation }) {
   } = useTakePhoto();
   const [errors, setErrors] = useState({});
   const [isShowKeyboard, setIsShowKeyboard] = useState(false);
-
   const { db } = app;
   const user = useSelector(selectUser);
 
