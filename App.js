@@ -13,7 +13,7 @@ export default function App() {
   if (!appIsReady) {
     return null;
   }
-
+  //fixed
   return (
     <ThemeProvider theme={theme}>
       <Provider store={store}>
