@@ -8,7 +8,7 @@ export const stylesProfileScreen = StyleSheet.create({
   imageBackground: {
     flex: 1,
     justifyContent: 'flex-end',
-    paddingTop: theme.space[6] - 4,
+    paddingTop: theme.space[6] + 16,
   },
   containerProfileScreen: {
     flex: 1,

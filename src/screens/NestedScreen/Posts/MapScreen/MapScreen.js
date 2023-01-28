@@ -1,10 +1,12 @@
+import MapView, { Marker } from 'react-native-maps';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+
 import { useEffect, useCallback } from 'react';
 import { useFocusEffect } from '@react-navigation/native';
 import { useVisibleTabBar } from 'src/hooks/useVisibleTabBar';
-import MapView, { Marker } from 'react-native-maps';
+
 import Container from 'src/components/Common/Container';
 import ButtonIcon from 'src/components/Common/ButtonIcon/ButtonIcon';
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 import { stylesMapScreen } from './MapScreen.styled';
 

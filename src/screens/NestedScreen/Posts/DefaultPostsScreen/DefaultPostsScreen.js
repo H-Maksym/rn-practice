@@ -2,24 +2,24 @@ import { useEffect, useCallback, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useFocusEffect } from '@react-navigation/native';
 import { selectUser } from 'src/redux/auth/authSelectors';
+import { useBottomTabBarHeight } from '@react-navigation/bottom-tabs';
 
 import { logout } from 'src/redux/auth/authOperations';
 
+import app from 'src/firebase/config';
+import { snapshotToArray } from 'src/redux/auth/firebaseAPI';
+import { ref, onValue } from 'firebase/database';
+
+import { View, FlatList } from 'react-native';
 import Icon from 'react-native-vector-icons/Feather';
-import { View, FlatList, SafeAreaView, StatusBar } from 'react-native';
+
 import Container from 'src/components/Common/Container';
 import ButtonIcon from 'src/components/Common/ButtonIcon';
-
 import UserData from 'src/components/Posts/UserData';
 import PostItem from 'src/components/Posts/PostItem';
 
 import { theme } from 'src/utils/theme';
 import { stylesPostScreen } from './DefaultPostsScreen.styled';
-import { ref, onValue } from 'firebase/database';
-import app from 'src/firebase/config';
-import { snapshotToArray } from 'src/redux/auth/firebaseAPI';
-
-import { useBottomTabBarHeight } from '@react-navigation/bottom-tabs';
 
 function DefaultPostsScreen({ navigation, route }) {
   const tabBarHeight = useBottomTabBarHeight();
@@ -86,20 +86,6 @@ function DefaultPostsScreen({ navigation, route }) {
   const logOut = () => {
     dispatch(logout());
   };
-
-  // useEffect(() => {
-  //   navigation.setOptions({
-  //     headerLeft: () => (
-  //       <ButtonIcon title="log-out" onPress={logOut}>
-  //         <Icon
-  //           name="log-out"
-  //           style={stylesPostScreen.headerIconLogOut}
-  //           size={24}
-  //         />
-  //       </ButtonIcon>
-  //     ),
-  //   });
-  // }, [navigation]);
 
   return (
     <Container style={{ backgroundColor: theme.colors.primaryBackground }}>

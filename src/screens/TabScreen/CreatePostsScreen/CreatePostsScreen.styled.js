@@ -16,8 +16,6 @@ export const stylesCreatePostsScreen = StyleSheet.create({
   imagePost: {
     height: theme.space[8] - 16,
     backgroundColor: '#E8E8E8',
-    // alignItems: 'center',
-    // justifyContent: 'center',
     resizeMode: 'cover',
 
     borderWidth: 1,
@@ -85,8 +83,6 @@ export const stylesCreatePostsScreen = StyleSheet.create({
     marginTop: 'auto',
     marginLeft: 'auto',
     marginRight: 'auto',
-    // paddingTop: theme.space[3] + 1,
-    // paddingBottom: theme.space[4] + 6,
   },
 
   buttonIcon: {

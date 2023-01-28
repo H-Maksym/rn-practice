@@ -1,15 +1,13 @@
 import { View, ImageBackground, Text, Image, FlatList } from 'react-native';
-import { useEffect, useCallback, useState } from 'react';
-// import { useHeaderHeight } from '@react-navigation/elements';
-import { useFocusEffect } from '@react-navigation/native';
+import { useEffect, useState } from 'react';
+import { ref, onValue } from 'firebase/database';
+import app from 'src/firebase/config';
+import { snapshotToArray } from 'src/redux/auth/firebaseAPI';
+
 import { useImagePicker } from 'src/hooks/useImagePicker';
 
 import { useDispatch, useSelector } from 'react-redux';
-import {
-  updatePhotoAvatar,
-  deletePhotoAvatar,
-  logout,
-} from 'src/redux/auth/authOperations';
+import { updatePhotoAvatar, logout } from 'src/redux/auth/authOperations';
 import { selectUser } from 'src/redux/auth/authSelectors';
 
 import Icon from 'react-native-vector-icons/Feather';
@@ -19,9 +17,6 @@ import AddAvatar from 'src/assets/icon/addAvatar.svg';
 import PostItem from 'src/components/Posts/PostItem';
 
 import { stylesProfileScreen } from './ProfileScreen.styled';
-import { ref, onValue, push, set, runTransaction } from 'firebase/database';
-import app from 'src/firebase/config';
-import { snapshotToArray } from 'src/redux/auth/firebaseAPI';
 
 function ProfileScreen({ navigation, route }) {
   const { db } = app;
@@ -29,16 +24,6 @@ function ProfileScreen({ navigation, route }) {
   const user = useSelector(selectUser);
   const dispatch = useDispatch();
   const { image, pickImage, resetImagePickerState } = useImagePicker();
-  // const headerHeight = useHeaderHeight();
-  // const [heightHeader] = useState(headerHeight);
-  useFocusEffect(
-    useCallback(() => {
-      //INFO when focus screen
-      return () => {
-        //INFO when unfocus screen
-      };
-    }, [])
-  );
 
   const getPostFromDB = async () => {
     const postListRef = ref(db, 'posts/');
@@ -84,7 +69,7 @@ function ProfileScreen({ navigation, route }) {
   return (
     <Container style={{ backgroundColor: '#FFFFFF' }}>
       <ImageBackground
-        source={require('src/assets/image/backgroundImage.jpg')}
+        source={require('src/assets/image/backgroundImage.png')}
         style={{
           ...stylesProfileScreen.imageBackground,
         }}

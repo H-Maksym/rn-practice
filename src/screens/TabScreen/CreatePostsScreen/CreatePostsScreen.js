@@ -1,3 +1,11 @@
+import {
+  View,
+  Text,
+  Image,
+  TouchableWithoutFeedback,
+  Keyboard,
+} from 'react-native';
+
 import { useState, useEffect, useRef, useCallback } from 'react';
 import { useFocusEffect } from '@react-navigation/native';
 import * as Location from 'expo-location';
@@ -7,16 +15,12 @@ import { XMLParser } from 'fast-xml-parser';
 import useTakePhoto from 'src/hooks/useTakePhoto';
 import { useVisibleTabBar } from 'src/hooks/useVisibleTabBar';
 import { uploadPhoto } from 'src/redux/auth/authOperations';
-import { set, ref, push } from 'firebase/database';
 import app from 'src/firebase/config';
+import { set, ref, push } from 'firebase/database';
 
-import {
-  View,
-  Text,
-  Image,
-  TouchableWithoutFeedback,
-  Keyboard,
-} from 'react-native';
+import { useSelector } from 'react-redux';
+import { selectUser } from 'src/redux/auth/authSelectors';
+import ImageCompress from 'src/utils/compressImage';
 
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
@@ -28,9 +32,6 @@ import ButtonIcon from 'src/components/Common/ButtonIcon';
 
 import { stylesCreatePostsScreen } from './CreatePostsScreen.styled';
 import { theme } from 'src/utils/theme';
-import { selectUser } from '../../../redux/auth/authSelectors';
-import { useSelector } from 'react-redux';
-import ImageCompress from '../../../utils/compressImage';
 
 const initialState = {
   photo: '',
@@ -42,7 +43,7 @@ const initialState = {
   comments: 0,
 };
 
-function CreatePostsScreen({ navigation, route }) {
+function CreatePostsScreen({ navigation }) {
   const { setVisibleBottom } = useVisibleTabBar();
   const [state, setState] = useState(initialState);
 
@@ -57,7 +58,6 @@ function CreatePostsScreen({ navigation, route }) {
   } = useTakePhoto();
   const [errors, setErrors] = useState({});
   const [isShowKeyboard, setIsShowKeyboard] = useState(false);
-
   const { db } = app;
   const user = useSelector(selectUser);
 

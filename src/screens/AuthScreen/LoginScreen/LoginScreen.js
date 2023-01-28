@@ -1,6 +1,3 @@
-import { useState, useRef } from 'react';
-import { useDispatch } from 'react-redux';
-import { login } from 'src/redux/auth/authOperations';
 import {
   View,
   ImageBackground,
@@ -11,11 +8,17 @@ import {
   KeyboardAvoidingView,
   Platform,
 } from 'react-native';
+
+import { useState, useRef } from 'react';
+import { useDispatch } from 'react-redux';
+import { login } from 'src/redux/auth/authOperations';
+
 import Container from 'src/components/Common/Container';
 import { formStyles } from 'src/components/Common/Form/Form.styled';
 import Input from 'src/components/Common/Input';
 import Button from 'src/components/Common/Button';
 import Loader from 'src/components/Common/Loader';
+
 import { theme } from 'src/utils/theme';
 import { stylesLogin } from './LoginScreen.styled';
 
@@ -80,7 +83,7 @@ function LoginScreen({ navigation }) {
       <Container>
         <Loader visible={loading} />
         <ImageBackground
-          source={require('src/assets/image/backgroundImage.jpg')}
+          source={require('src/assets/image/backgroundImage.png')}
           style={stylesLogin.imageBackground}
         >
           <View
