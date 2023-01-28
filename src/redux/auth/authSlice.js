@@ -1,19 +1,18 @@
-<<<<<<< HEAD
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice } from '@reduxjs/toolkit';
 import {
   register,
   login,
   logout,
   updatePhotoAvatar,
   deletePhotoAvatar,
-} from "./authOperations";
+} from './authOperations';
 
 const initialState = {
   user: {
-    userId: "",
-    userName: "",
-    email: "",
-    photoURL: "",
+    userId: '',
+    userName: '',
+    email: '',
+    photoURL: '',
   },
   isAuth: false,
   isVisibleTabBar: false,
@@ -21,7 +20,7 @@ const initialState = {
   error: false,
 };
 
-const pending = (state) => {
+const pending = state => {
   state.isLoading = true;
   state.error = false;
 };
@@ -32,28 +31,13 @@ const rejected = (state, action) => {
 };
 
 export const authSlice = createSlice({
-  name: "auth",
-  initialState,
-
-=======
-import { createSlice } from '@reduxjs/toolkit';
-
-const initialState = {
-  isAuth: false,
-  isLoading: false,
-  error: false,
-  isVisibleTabBar: false,
-};
-
-export const authSlice = createSlice({
   name: 'auth',
   initialState,
->>>>>>> main
+
   reducers: {
     setVisibleTabBar(state, { payload }) {
       state.isVisibleTabBar = payload;
     },
-<<<<<<< HEAD
     //INFO getCurrentUser
     updateUserInfo(state, { payload }) {
       state.user = { ...payload.user };
@@ -64,7 +48,7 @@ export const authSlice = createSlice({
     },
   },
 
-  extraReducers: (builder) => {
+  extraReducers: builder => {
     //INFO register
     builder.addCase(register.pending, pending);
     builder.addCase(register.fulfilled, (state, { payload }) => {
@@ -87,12 +71,12 @@ export const authSlice = createSlice({
 
     //INFO logout
     builder.addCase(logout.pending, pending);
-    builder.addCase(logout.fulfilled, (state) => {
+    builder.addCase(logout.fulfilled, state => {
       state.user = {
-        userId: "",
-        userName: "",
-        email: "",
-        photoURL: "",
+        userId: '',
+        userName: '',
+        email: '',
+        photoURL: '',
       };
       state.isAuth = false;
       state.isVisibleTabBar = false;
@@ -118,18 +102,5 @@ export const authSlice = createSlice({
 });
 
 export const { setVisibleTabBar, updateUserInfo } = authSlice.actions;
-=======
-
-    login(state) {
-      state.isAuth = true;
-    },
-    logout(state) {
-      state.isAuth = false;
-    },
-  },
-});
-
-export const { setVisibleTabBar, login, logout } = authSlice.actions;
->>>>>>> main
 
 export const authReducer = authSlice.reducer;

@@ -1,10 +1,5 @@
-<<<<<<< HEAD
-import { StyleSheet, Dimensions } from "react-native";
-import { theme } from "src/utils/theme";
-=======
 import { StyleSheet, Dimensions } from 'react-native';
 import { theme } from 'src/utils/theme';
->>>>>>> main
 
 export const stylesCreatePostsScreen = StyleSheet.create({
   headerIconGoBack: {
@@ -20,44 +15,24 @@ export const stylesCreatePostsScreen = StyleSheet.create({
   },
   imagePost: {
     height: theme.space[8] - 16,
-<<<<<<< HEAD
-    backgroundColor: "#E8E8E8",
+    backgroundColor: '#E8E8E8',
     // alignItems: 'center',
     // justifyContent: 'center',
-    resizeMode: "cover",
-
-    borderWidth: 1,
-    borderStyle: "solid",
-    borderColor: "#E8E8E8",
-=======
-    backgroundColor: '#E8E8E8',
-    alignItems: 'center',
-    justifyContent: 'center',
-    // resizeMode: 'contain',
+    resizeMode: 'cover',
 
     borderWidth: 1,
     borderStyle: 'solid',
     borderColor: '#E8E8E8',
->>>>>>> main
     borderRadius: theme.radii.md,
   },
 
   snapContainer: {
-<<<<<<< HEAD
-    position: "absolute",
-    top: "50%",
-    left: Dimensions.get("window").width / 2 - 60 + 16,
-    transform: [{ translateY: -30 }],
-    justifyContent: "center",
-    alignItems: "center",
-=======
     position: 'absolute',
     top: '50%',
     left: Dimensions.get('window').width / 2 - 60 + 16,
     transform: [{ translateY: -30 }],
     justifyContent: 'center',
     alignItems: 'center',
->>>>>>> main
     width: theme.space[6] - 4,
     height: theme.space[6] - 4,
     borderRadius: theme.space[6] - 14,
@@ -65,11 +40,7 @@ export const stylesCreatePostsScreen = StyleSheet.create({
   },
   textAction: {
     marginBottom: theme.space[5],
-<<<<<<< HEAD
-    fontFamily: "Roboto-Regular",
-=======
     fontFamily: 'Roboto-Regular',
->>>>>>> main
     fontSize: theme.fontSizes.s,
     lineHeight: theme.lineHeights.dataText,
     color: theme.colors.text.secondaryText,
@@ -80,30 +51,18 @@ export const stylesCreatePostsScreen = StyleSheet.create({
     borderRightWidth: 0,
   },
   inputContainerIsShownKeyboard: {
-<<<<<<< HEAD
-    position: "absolute",
+    position: 'absolute',
     zIndex: 100,
     bottom: theme.space[2],
     left: theme.space[3],
-    width: "100%",
-=======
-    position: 'absolute',
-    zIndex: 100,
-    bottom: theme.space[7] - 8,
-    left: theme.space[3],
     width: '100%',
->>>>>>> main
     paddingVertical: theme.space[4],
     paddingHorizontal: theme.space[3],
     borderRadius: theme.radii.md,
     opacity: 1,
 
     elevation: theme.space[4] + 4,
-<<<<<<< HEAD
-    shadowColor: "#171717",
-=======
     shadowColor: '#171717',
->>>>>>> main
     shadowOffset: { width: -2, height: 4 },
     shadowOpacity: 0.2,
     shadowRadius: theme.space[3],
@@ -117,28 +76,25 @@ export const stylesCreatePostsScreen = StyleSheet.create({
   publishBtnTitleDisabled: {
     color: theme.colors.text.secondaryText,
   },
-<<<<<<< HEAD
 
   iconContainerTab: {
     flex: 1,
-    justifyContent: "center",
+    justifyContent: 'center',
     width: 60,
     height: 24,
-    marginTop: "auto",
-    marginLeft: "auto",
-    marginRight: "auto",
+    marginTop: 'auto',
+    marginLeft: 'auto',
+    marginRight: 'auto',
     // paddingTop: theme.space[3] + 1,
     // paddingBottom: theme.space[4] + 6,
   },
 
   buttonIcon: {
-    alignItems: "center",
-    justifyContent: "center",
+    alignItems: 'center',
+    justifyContent: 'center',
     width: theme.space[6] + 6,
     height: theme.space[5] + 8,
     borderRadius: theme.radii.x,
-    backgroundColor: "#F6F6F6",
+    backgroundColor: '#F6F6F6',
   },
-=======
->>>>>>> main
 });

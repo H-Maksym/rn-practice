@@ -1,26 +1,25 @@
-<<<<<<< HEAD
-import { useEffect, useCallback, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { useFocusEffect } from "@react-navigation/native";
-import { selectUser } from "src/redux/auth/authSelectors";
+import { useEffect, useCallback, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useFocusEffect } from '@react-navigation/native';
+import { selectUser } from 'src/redux/auth/authSelectors';
 
-import { logout } from "src/redux/auth/authOperations";
+import { logout } from 'src/redux/auth/authOperations';
 
-import Icon from "react-native-vector-icons/Feather";
-import { View, FlatList, SafeAreaView, StatusBar } from "react-native";
-import Container from "src/components/Common/Container";
-import ButtonIcon from "src/components/Common/ButtonIcon";
+import Icon from 'react-native-vector-icons/Feather';
+import { View, FlatList, SafeAreaView, StatusBar } from 'react-native';
+import Container from 'src/components/Common/Container';
+import ButtonIcon from 'src/components/Common/ButtonIcon';
 
-import UserData from "src/components/Posts/UserData";
-import PostItem from "src/components/Posts/PostItem";
+import UserData from 'src/components/Posts/UserData';
+import PostItem from 'src/components/Posts/PostItem';
 
-import { theme } from "src/utils/theme";
-import { stylesPostScreen } from "./DefaultPostsScreen.styled";
-import { ref, onValue } from "firebase/database";
-import app from "src/firebase/config";
-import { snapshotToArray } from "src/redux/auth/firebaseAPI";
+import { theme } from 'src/utils/theme';
+import { stylesPostScreen } from './DefaultPostsScreen.styled';
+import { ref, onValue } from 'firebase/database';
+import app from 'src/firebase/config';
+import { snapshotToArray } from 'src/redux/auth/firebaseAPI';
 
-import { useBottomTabBarHeight } from "@react-navigation/bottom-tabs";
+import { useBottomTabBarHeight } from '@react-navigation/bottom-tabs';
 
 function DefaultPostsScreen({ navigation, route }) {
   const tabBarHeight = useBottomTabBarHeight();
@@ -44,43 +43,18 @@ function DefaultPostsScreen({ navigation, route }) {
           </ButtonIcon>
         ),
       });
-=======
-import { useEffect, useCallback } from 'react';
-import { useDispatch } from 'react-redux';
-import { useFocusEffect } from '@react-navigation/native';
-
-import { logout } from 'src/redux/auth/authSlice';
-
-import Icon from 'react-native-vector-icons/Feather';
-import { View } from 'react-native';
-import Container from 'src/components/Common/Container';
-import ButtonIcon from 'src/components/Common/ButtonIcon';
-
-import UserData from 'src/components/Posts/UserData';
-import PostItem from 'src/components/Posts/PostItem';
-
-import { theme } from 'src/utils/theme';
-import { stylesPostScreen } from './DefaultPostsScreen.styled';
-
-function DefaultPostsScreen({ navigation }) {
-  const dispatch = useDispatch();
-  useFocusEffect(
-    useCallback(() => {
-      //INFO when focus screen
->>>>>>> main
       return () => {
         //INFO when unfocus screen
       };
     }, [])
   );
-<<<<<<< HEAD
   const getPostFromDB = async () => {
-    const postListRef = ref(db, "posts/");
-    onValue(postListRef, (snapshot) => {
+    const postListRef = ref(db, 'posts/');
+    onValue(postListRef, snapshot => {
       const newArray = snapshotToArray(snapshot);
       const userPosts = newArray
-        .filter((data) => data.postData.userId === user.userId)
-        .map((data) => {
+        .filter(data => data.postData.userId === user.userId)
+        .map(data => {
           if (data.comments) {
             return {
               ...data,
@@ -126,33 +100,11 @@ function DefaultPostsScreen({ navigation }) {
   //     ),
   //   });
   // }, [navigation]);
-=======
-
-  const logOut = () => {
-    dispatch(logout());
-    // navigation.navigate('Login');
-  };
-
-  useEffect(() => {
-    navigation.setOptions({
-      headerRight: () => (
-        <ButtonIcon title="log-out" onPress={logOut}>
-          <Icon
-            name="log-out"
-            style={stylesPostScreen.headerIconLogOut}
-            size={24}
-          />
-        </ButtonIcon>
-      ),
-    });
-  }, [navigation]);
->>>>>>> main
 
   return (
     <Container style={{ backgroundColor: theme.colors.primaryBackground }}>
       <View style={stylesPostScreen.containerPostScreen}>
         <UserData
-<<<<<<< HEAD
           avatarUser={user.photoURL}
           userName={user.userName}
           email={user.email}
@@ -176,23 +128,9 @@ function DefaultPostsScreen({ navigation }) {
                 postId={item.key}
               />
             )}
-            keyExtractor={(item) => item.key}
+            keyExtractor={item => item.key}
           />
         )}
-=======
-          avatarUser="avatar"
-          userName="Maksym"
-          userSurName="Holovachuk"
-          email="maksym@gmail.com"
-        />
-        <PostItem
-          imagePost={'imageURL'}
-          countCommentsPost={10}
-          countLikesPost={10}
-          locationPost={"Ivano-Frankivs'k Region, Ukraine"}
-          navigation={navigation}
-        />
->>>>>>> main
       </View>
     </Container>
   );

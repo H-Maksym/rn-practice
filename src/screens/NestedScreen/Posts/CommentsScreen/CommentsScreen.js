@@ -1,11 +1,10 @@
-<<<<<<< HEAD
-import { useState, useCallback, useEffect } from "react";
-import { useFocusEffect } from "@react-navigation/native";
-import { useVisibleTabBar } from "src/hooks/useVisibleTabBar";
+import { useState, useCallback, useEffect } from 'react';
+import { useFocusEffect } from '@react-navigation/native';
+import { useVisibleTabBar } from 'src/hooks/useVisibleTabBar';
 
-import { useSelector } from "react-redux";
-import { selectUser } from "src/redux/auth/authSelectors";
-import { snapshotToArray } from "src/redux/auth/firebaseAPI";
+import { useSelector } from 'react-redux';
+import { selectUser } from 'src/redux/auth/authSelectors';
+import { snapshotToArray } from 'src/redux/auth/firebaseAPI';
 
 import {
   View,
@@ -20,22 +19,22 @@ import {
   Dimensions,
   SafeAreaView,
   StatusBar,
-} from "react-native";
-import Container from "src/components/Common/Container";
-import CommentItem from "src/components/Posts/CommentItem/CommentItem";
+} from 'react-native';
+import Container from 'src/components/Common/Container';
+import CommentItem from 'src/components/Posts/CommentItem/CommentItem';
 // import Input from "src/components/Common/Input/Input";
-import ButtonIcon from "src/components/Common/ButtonIcon/ButtonIcon";
-import Icon from "react-native-vector-icons/MaterialCommunityIcons";
+import ButtonIcon from 'src/components/Common/ButtonIcon/ButtonIcon';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
-import { stylesCommentsScreen } from "./CommentsScreen.styled";
-import { theme } from "src/utils/theme";
-import { set, ref, push, onValue, runTransaction } from "firebase/database";
-import app from "src/firebase/config";
+import { stylesCommentsScreen } from './CommentsScreen.styled';
+import { theme } from 'src/utils/theme';
+import { set, ref, push, onValue, runTransaction } from 'firebase/database';
+import app from 'src/firebase/config';
 
 function CommentsScreen({ navigation, route }) {
   const { postId, image, fromScreen } = route.params;
   const { setVisibleBottom } = useVisibleTabBar();
-  const [comment, setComment] = useState("");
+  const [comment, setComment] = useState('');
   const [comments, setComments] = useState([]);
   const [isShowKeyboard, setIsShowKeyboard] = useState(false);
   const { userId, email, photoURL, userName } = useSelector(selectUser);
@@ -44,10 +43,10 @@ function CommentsScreen({ navigation, route }) {
   const [keyboardHeight, setKeyboardHeight] = useState(0);
 
   useEffect(() => {
-    const showSubscription = Keyboard.addListener("keyboardDidShow", (e) =>
+    const showSubscription = Keyboard.addListener('keyboardDidShow', e =>
       setKeyboardHeight(e.endCoordinates.height)
     );
-    const hideSubscription = Keyboard.addListener("keyboardWillHide", () =>
+    const hideSubscription = Keyboard.addListener('keyboardWillHide', () =>
       setKeyboardHeight(0)
     );
     return () => {
@@ -74,16 +73,6 @@ function CommentsScreen({ navigation, route }) {
       ),
     });
   }, [navigation]);
-=======
-import { useEffect, useCallback } from 'react';
-import { useFocusEffect } from '@react-navigation/native';
-import { Text } from 'react-native';
-import Container from 'src/components/Common/Container';
-import { useVisibleTabBar } from 'src/hooks/useVisibleTabBar';
-
-function CommentsScreen({ navigation }) {
-  const { setVisibleBottom } = useVisibleTabBar();
->>>>>>> main
 
   useFocusEffect(
     useCallback(() => {
@@ -96,7 +85,6 @@ function CommentsScreen({ navigation }) {
     }, [])
   );
 
-<<<<<<< HEAD
   useEffect(() => {
     getCommentsFromDB();
   }, []);
@@ -108,13 +96,13 @@ function CommentsScreen({ navigation }) {
 
   const sendCommentsToDB = async () => {
     if (!comment.trim()) {
-      setComment("");
+      setComment('');
       return false;
     }
-    setComment("");
+    setComment('');
     keyboardHide();
 
-    const commentsRef = ref(db, "posts/" + postId + "/comments");
+    const commentsRef = ref(db, 'posts/' + postId + '/comments');
     const newCommentsRef = push(commentsRef);
     set(newCommentsRef, {
       userId,
@@ -125,27 +113,27 @@ function CommentsScreen({ navigation }) {
       date: Date.now(),
     });
     const postRef = ref(db, `posts/${postId}/postData`);
-    runTransaction(postRef, (post) => {
+    runTransaction(postRef, post => {
       post.comments++;
       return post;
     });
   };
 
   const getCommentsFromDB = async () => {
-    const postListRef = ref(db, "posts/" + postId + "/comments");
-    onValue(postListRef, (snapshot) => {
+    const postListRef = ref(db, 'posts/' + postId + '/comments');
+    onValue(postListRef, snapshot => {
       const commentsArray = snapshotToArray(snapshot).reverse();
       setComments(commentsArray);
     });
   };
 
   return (
-    <Container style={{ backgroundColor: "#ffffff" }}>
+    <Container style={{ backgroundColor: '#ffffff' }}>
       <View
         style={{
           // justifyContent: !isShowKeyboard ? "space-between" : "flex-start",
           ...stylesCommentsScreen.container,
-          backgroundColor: "#ffffff",
+          backgroundColor: '#ffffff',
         }}
       >
         <TouchableWithoutFeedback onPress={keyboardHide}>
@@ -171,11 +159,11 @@ function CommentsScreen({ navigation }) {
                 // fromScreen={route.name}
               />
             )}
-            keyExtractor={(item) => item.key}
+            keyExtractor={item => item.key}
           />
         )}
         <KeyboardAvoidingView
-          behavior={Platform.OS === "ios" ? "padding" : "height"}
+          behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
           style={{
             ...Platform.select({
               ios: {
@@ -190,8 +178,8 @@ function CommentsScreen({ navigation }) {
           <View
             style={{
               height: !isShowKeyboard ? 50 : 80,
-              backgroundColor: !isShowKeyboard ? "#F6F6F6" : "#FFFFFF",
-              borderColor: !isShowKeyboard ? "#FFFFFF" : "#F6F6F6",
+              backgroundColor: !isShowKeyboard ? '#F6F6F6' : '#FFFFFF',
+              borderColor: !isShowKeyboard ? '#FFFFFF' : '#F6F6F6',
               borderWidth: 1,
               ...stylesCommentsScreen.inputContainer,
             }}
@@ -209,13 +197,13 @@ function CommentsScreen({ navigation }) {
             <ButtonIcon
               onPress={() => sendCommentsToDB()}
               style={{
-                marginLeft: "auto",
+                marginLeft: 'auto',
                 width: 34,
                 height: 34,
               }}
             >
               <Icon
-                style={{ color: "#FF6C00" }}
+                style={{ color: '#FF6C00' }}
                 name="arrow-up-circle"
                 // style={stylesInput.iconShowPassword}
                 // onPress={() => sendCommentsToDB()}
@@ -225,11 +213,6 @@ function CommentsScreen({ navigation }) {
           </View>
         </KeyboardAvoidingView>
       </View>
-=======
-  return (
-    <Container>
-      <Text>CommentsScreen</Text>
->>>>>>> main
     </Container>
   );
 }

@@ -1,12 +1,6 @@
-<<<<<<< HEAD
-import { useState, useRef } from "react";
-import { useDispatch } from "react-redux";
-import { login } from "src/redux/auth/authOperations";
-=======
 import { useState, useRef } from 'react';
 import { useDispatch } from 'react-redux';
-import { login } from 'src/redux/auth/authSlice';
->>>>>>> main
+import { login } from 'src/redux/auth/authOperations';
 import {
   View,
   ImageBackground,
@@ -16,20 +10,6 @@ import {
   Keyboard,
   KeyboardAvoidingView,
   Platform,
-<<<<<<< HEAD
-} from "react-native";
-import Container from "src/components/Common/Container";
-import { formStyles } from "src/components/Common/Form/Form.styled";
-import Input from "src/components/Common/Input";
-import Button from "src/components/Common/Button";
-import Loader from "src/components/Common/Loader";
-import { theme } from "src/utils/theme";
-import { stylesLogin } from "./LoginScreen.styled";
-
-const initialState = {
-  email: "",
-  password: "",
-=======
 } from 'react-native';
 import Container from 'src/components/Common/Container';
 import { formStyles } from 'src/components/Common/Form/Form.styled';
@@ -42,7 +22,6 @@ import { stylesLogin } from './LoginScreen.styled';
 const initialState = {
   email: '',
   password: '',
->>>>>>> main
 };
 function LoginScreen({ navigation }) {
   const [state, setState] = useState(initialState);
@@ -53,11 +32,7 @@ function LoginScreen({ navigation }) {
   const ref_password = useRef();
 
   const handleOnChange = (text, input) => {
-<<<<<<< HEAD
-    setState((prevState) => ({
-=======
     setState(prevState => ({
->>>>>>> main
       ...prevState,
       [input]: text,
     }));
@@ -68,47 +43,22 @@ function LoginScreen({ navigation }) {
     let valid = true;
 
     if (!state.email) {
-<<<<<<< HEAD
-      handleError("Please input email", "email");
-      valid = false;
-    } else if (!state.email.match(/\S+@\S+\.\S+/)) {
-      handleError("Please input valid email", "email");
-=======
       handleError('Please input email', 'email');
       valid = false;
     } else if (!state.email.match(/\S+@\S+\.\S+/)) {
       handleError('Please input valid email', 'email');
->>>>>>> main
       valid = false;
     }
 
     if (!state.password) {
-<<<<<<< HEAD
-      handleError("Please input your password", "password");
-=======
       handleError('Please input your password', 'password');
->>>>>>> main
       valid = false;
     }
 
     //TODO розкоментувати для валідації полів
-<<<<<<< HEAD
     if (valid) {
       handleLogin();
     }
-  };
-
-  const handleError = (errorMessage, input) => {
-    setErrors((prevState) => ({ ...prevState, [input]: errorMessage }));
-  };
-
-  const handleLogin = () => {
-    dispatch(login(state));
-    setState(initialState);
-=======
-    // if (valid) {
-    handleLogin();
-    // }
   };
 
   const handleError = (errorMessage, input) => {
@@ -116,20 +66,8 @@ function LoginScreen({ navigation }) {
   };
 
   const handleLogin = () => {
-    dispatch(login());
-
-    // setLoading(true);
-    // setTimeout(() => {
-    //   try {
-    //     console.log("hello")
-    //   } catch (error) {
-    //     Alert.alert('Error', 'Something went wrong');
-    //   } finally {
-    //     setState(initialState);
-    //     setLoading(false);
-    //   }
-    // }, 3000);
->>>>>>> main
+    dispatch(login(state));
+    setState(initialState);
   };
 
   const keyboardHide = () => {
@@ -142,11 +80,7 @@ function LoginScreen({ navigation }) {
       <Container>
         <Loader visible={loading} />
         <ImageBackground
-<<<<<<< HEAD
-          source={require("src/assets/image/backgroundImage.jpg")}
-=======
           source={require('src/assets/image/backgroundImage.jpg')}
->>>>>>> main
           style={stylesLogin.imageBackground}
         >
           <View
@@ -155,11 +89,7 @@ function LoginScreen({ navigation }) {
             }}
           >
             <KeyboardAvoidingView
-<<<<<<< HEAD
-              behavior={Platform.OS === "ios" ? "padding" : "height"}
-=======
               behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
->>>>>>> main
               style={{
                 ...Platform.select({
                   ios: {
@@ -186,17 +116,10 @@ function LoginScreen({ navigation }) {
                   iconName="email-outline"
                   value={state.email}
                   onFocus={() => {
-<<<<<<< HEAD
-                    handleError(null, "email");
-                    setIsShowKeyboard(true);
-                  }}
-                  onChangeText={(text) => handleOnChange(text, "email")}
-=======
                     handleError(null, 'email');
                     setIsShowKeyboard(true);
                   }}
                   onChangeText={text => handleOnChange(text, 'email')}
->>>>>>> main
                   onSubmitEditing={() => ref_password.current.focus()}
                   returnKeyType="next"
                   error={errors.email}
@@ -207,17 +130,10 @@ function LoginScreen({ navigation }) {
                   iconName="lock-outline"
                   value={state.password}
                   onFocus={() => {
-<<<<<<< HEAD
-                    handleError(null, "password");
-                    setIsShowKeyboard(true);
-                  }}
-                  onChangeText={(text) => handleOnChange(text, "password")}
-=======
                     handleError(null, 'password');
                     setIsShowKeyboard(true);
                   }}
                   onChangeText={text => handleOnChange(text, 'password')}
->>>>>>> main
                   onSubmitEditing={() => keyboardHide()}
                   password
                   ref={ref_password}
@@ -235,11 +151,7 @@ function LoginScreen({ navigation }) {
             <TouchableOpacity
               style={stylesLogin.gotoRegisterBtn}
               activeOpacity={0.7}
-<<<<<<< HEAD
-              onPress={() => navigation.navigate("Registration")}
-=======
               onPress={() => navigation.navigate('Registration')}
->>>>>>> main
             >
               <Text style={stylesLogin.gotoRegisterText}>
                 Don't have an account? Register

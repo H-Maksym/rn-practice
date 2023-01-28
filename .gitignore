@@ -1,7 +1,3 @@
-<<<<<<< HEAD
-=======
-# macOS
->>>>>>> main
 .DS_Store
 # Logs
 logs
@@ -27,11 +23,7 @@ lib-cov
 coverage
 *.lcov
 
-<<<<<<< HEAD
 # nyc test coverage
-=======
-# nyc Test coverage
->>>>>>> main
 .nyc_output
 
 # Grunt intermediate storage (https://gruntjs.com/creating-plugins#storing-task-files)
@@ -44,11 +36,7 @@ bower_components
 .lock-wscript
 
 # Compiled binary addons (https://nodejs.org/api/addons.html)
-<<<<<<< HEAD
 build/Release
-=======
-build/*
->>>>>>> main
 
 # Dependency directories
 node_modules/
@@ -116,20 +104,11 @@ dist
 # TernJS port file
 .tern-port
 
-<<<<<<< HEAD
 # Tod o Tree
 rg.conf 
 
 # Dockerfile
 .dockerignore
-=======
-.idea
-
-.DS_Store
-
-package-lock.json
-!/yarn.lock
->>>>>>> main
 
 *.jks
 *.p8
@@ -137,8 +116,4 @@ package-lock.json
 *.key
 *.mobileprovision
 *.orig.*
-<<<<<<< HEAD
 web-build/
-=======
-web-build/
->>>>>>> main

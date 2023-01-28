@@ -1,13 +1,6 @@
-<<<<<<< HEAD
 import { createStackNavigator } from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 // import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-=======
-import { useSelector } from 'react';
-import { createStackNavigator } from '@react-navigation/stack';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
->>>>>>> main
 
 import LoginScreen from 'src/screens/AuthScreen/LoginScreen';
 import RegistrationScreen from 'src/screens/AuthScreen/RegistrationScreen';
@@ -18,11 +11,6 @@ import ProfileScreen from 'src/screens/TabScreen/ProfileScreen';
 import TabBar from 'src/components/Common/TabBar';
 import { theme } from 'src/utils/theme';
 
-<<<<<<< HEAD
-=======
-import { getFocusedRouteNameFromRoute } from '@react-navigation/native';
-
->>>>>>> main
 const AuthStack = createStackNavigator();
 const MainTab = createBottomTabNavigator();
 
@@ -47,11 +35,7 @@ const useRoute = isAuth => {
   return (
     <MainTab.Navigator
       tabBar={props => <TabBar {...props} />}
-<<<<<<< HEAD
       initialRouteName="NestedPosts"
-=======
-      initialRouteName="Posts"
->>>>>>> main
       screenOptions={{
         headerTitleAlign: 'center',
 
@@ -67,47 +51,17 @@ const useRoute = isAuth => {
           borderBottomColor: '#21212120',
           height: 60,
         },
-<<<<<<< HEAD
         // tabBarHideOnKeyboard: true,
-=======
-        tabBarHideOnKeyboard: true,
->>>>>>> main
       }}
     >
       <MainTab.Screen
         name="NestedPosts"
         component={PostsScreen}
-<<<<<<< HEAD
-=======
-        ref={PostsScreen}
-        // options={{
-        //   iconName: 'grid',
-        //   headerShown: false,
-        // }}
->>>>>>> main
         options={{
           tabBarVisible: true,
           headerShown: false,
           iconName: 'grid',
         }}
-<<<<<<< HEAD
-=======
-        // options={({ route }) => ({
-        //   tabBarStyle: (route => {
-        //     const routeName = getFocusedRouteNameFromRoute(route) ?? '';
-        //     console.log(routeName);
-        //     if (routeName === 'Comments') {
-        //       return { display: 'none', backgroundColor: '#212121' };
-        //     }
-        //     return;
-        //   })(route),
-        //   iconName: 'grid',
-        //   headerShown: false,
-        // })}
-        // options={{
-        //   tabBarStyle: { display: 'none', backgroundColor: '#000000' },
-        // }}
->>>>>>> main
       />
       <MainTab.Screen
         name="Create"
