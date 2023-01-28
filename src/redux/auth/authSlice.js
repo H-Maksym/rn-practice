@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import { createSlice } from "@reduxjs/toolkit";
 import {
   register,
@@ -34,10 +35,25 @@ export const authSlice = createSlice({
   name: "auth",
   initialState,
 
+=======
+import { createSlice } from '@reduxjs/toolkit';
+
+const initialState = {
+  isAuth: false,
+  isLoading: false,
+  error: false,
+  isVisibleTabBar: false,
+};
+
+export const authSlice = createSlice({
+  name: 'auth',
+  initialState,
+>>>>>>> main
   reducers: {
     setVisibleTabBar(state, { payload }) {
       state.isVisibleTabBar = payload;
     },
+<<<<<<< HEAD
     //INFO getCurrentUser
     updateUserInfo(state, { payload }) {
       state.user = { ...payload.user };
@@ -102,5 +118,18 @@ export const authSlice = createSlice({
 });
 
 export const { setVisibleTabBar, updateUserInfo } = authSlice.actions;
+=======
+
+    login(state) {
+      state.isAuth = true;
+    },
+    logout(state) {
+      state.isAuth = false;
+    },
+  },
+});
+
+export const { setVisibleTabBar, login, logout } = authSlice.actions;
+>>>>>>> main
 
 export const authReducer = authSlice.reducer;

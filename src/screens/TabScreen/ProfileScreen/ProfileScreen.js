@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import { View, ImageBackground, Text, Image, FlatList } from "react-native";
 import { useEffect, useCallback, useState } from "react";
 // import { useHeaderHeight } from '@react-navigation/elements';
@@ -31,6 +32,29 @@ function ProfileScreen({ navigation, route }) {
   const { image, pickImage, resetImagePickerState } = useImagePicker();
   // const headerHeight = useHeaderHeight();
   // const [heightHeader] = useState(headerHeight);
+=======
+import { View, ImageBackground, Text } from 'react-native';
+import { useEffect, useCallback } from 'react';
+// import { useHeaderHeight } from '@react-navigation/elements';
+import { useFocusEffect } from '@react-navigation/native';
+
+import { useDispatch } from 'react-redux';
+import { logout } from 'src/redux/auth/authSlice';
+
+import Icon from 'react-native-vector-icons/Feather';
+import Container from 'src/components/Common/Container';
+import ButtonIcon from 'src/components/Common/ButtonIcon';
+import AddAvatar from 'src/assets/icon/addAvatar.svg';
+import PostItem from 'src/components/Posts/PostItem';
+
+import { stylesProfileScreen } from './ProfileScreen.styled';
+
+function ProfileScreen({ navigation }) {
+  const dispatch = useDispatch();
+  // const headerHeight = useHeaderHeight();
+  // const [heightHeader] = useState(headerHeight);
+
+>>>>>>> main
   useFocusEffect(
     useCallback(() => {
       //INFO when focus screen
@@ -40,6 +64,7 @@ function ProfileScreen({ navigation, route }) {
     }, [])
   );
 
+<<<<<<< HEAD
   const getPostFromDB = async () => {
     const postListRef = ref(db, "posts/");
     onValue(postListRef, (snapshot) => {
@@ -77,14 +102,26 @@ function ProfileScreen({ navigation, route }) {
     }
   }, [image]);
 
+=======
+  useEffect(() => {
+    navigation.setOptions({ headerShown: false });
+  }, []);
+
+>>>>>>> main
   const logOut = () => {
     dispatch(logout());
   };
 
   return (
+<<<<<<< HEAD
     <Container style={{ backgroundColor: "#FFFFFF" }}>
       <ImageBackground
         source={require("src/assets/image/backgroundImage.jpg")}
+=======
+    <Container style={{ backgroundColor: '#FFFFFF' }}>
+      <ImageBackground
+        source={require('src/assets/image/backgroundImage.jpg')}
+>>>>>>> main
         style={{
           ...stylesProfileScreen.imageBackground,
         }}
@@ -97,6 +134,7 @@ function ProfileScreen({ navigation, route }) {
           }}
         >
           <View style={stylesProfileScreen.avatarBox}>
+<<<<<<< HEAD
             <Image
               source={{ uri: user.photoURL }}
               style={stylesProfileScreen.avatar}
@@ -115,6 +153,14 @@ function ProfileScreen({ navigation, route }) {
               <AddAvatar
                 style={stylesProfileScreen.changeAvatarStatus(user.photoURL)}
               />
+=======
+            <ButtonIcon
+              style={stylesProfileScreen.addAvatarButton}
+              title="add avatar"
+              onPress={() => console.log('add avatar')}
+            >
+              <AddAvatar fill={'#FF6C00'} stroke={'#FF6C00'} />
+>>>>>>> main
             </ButtonIcon>
           </View>
 
@@ -131,6 +177,7 @@ function ProfileScreen({ navigation, route }) {
           </ButtonIcon>
 
           <Text style={stylesProfileScreen.titleProfileScreen}>
+<<<<<<< HEAD
             {user.name}
           </Text>
 
@@ -156,6 +203,18 @@ function ProfileScreen({ navigation, route }) {
               keyExtractor={(item) => item.key}
             />
           )}
+=======
+            Maksym Holovachuk
+          </Text>
+
+          <PostItem
+            imagePost={'imageURL'}
+            countCommentsPost={10}
+            like
+            countLikesPost={0}
+            locationPost={"Ivano-Frankivs'k Region, Ukraine"}
+          />
+>>>>>>> main
         </View>
       </ImageBackground>
     </Container>

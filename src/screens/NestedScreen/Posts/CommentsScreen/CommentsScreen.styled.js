@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import { StyleSheet, Dimensions } from "react-native";
 import { theme } from "src/utils/theme";
 export const stylesCommentsScreen = StyleSheet.create({
@@ -37,4 +38,22 @@ export const stylesCommentsScreen = StyleSheet.create({
     lineHeight: theme.lineHeights.dataText,
     color: theme.colors.text.primaryText,
   },
+=======
+import { StyleSheet } from 'react-native';
+
+export const stulesCommentsScreen = StyleSheet.create({
+  container: {
+    paddingHorizontal: theme.space[4],
+  },
+
+  commentsContainer: {},
+
+  imageComments: {},
+
+  itemComments: {},
+
+  inputCommentsContainer: {},
+
+  inputComments: {},
+>>>>>>> main
 });

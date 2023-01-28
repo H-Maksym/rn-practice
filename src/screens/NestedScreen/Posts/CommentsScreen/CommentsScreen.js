@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import { useState, useCallback, useEffect } from "react";
 import { useFocusEffect } from "@react-navigation/native";
 import { useVisibleTabBar } from "src/hooks/useVisibleTabBar";
@@ -73,6 +74,16 @@ function CommentsScreen({ navigation, route }) {
       ),
     });
   }, [navigation]);
+=======
+import { useEffect, useCallback } from 'react';
+import { useFocusEffect } from '@react-navigation/native';
+import { Text } from 'react-native';
+import Container from 'src/components/Common/Container';
+import { useVisibleTabBar } from 'src/hooks/useVisibleTabBar';
+
+function CommentsScreen({ navigation }) {
+  const { setVisibleBottom } = useVisibleTabBar();
+>>>>>>> main
 
   useFocusEffect(
     useCallback(() => {
@@ -85,6 +96,7 @@ function CommentsScreen({ navigation, route }) {
     }, [])
   );
 
+<<<<<<< HEAD
   useEffect(() => {
     getCommentsFromDB();
   }, []);
@@ -213,6 +225,11 @@ function CommentsScreen({ navigation, route }) {
           </View>
         </KeyboardAvoidingView>
       </View>
+=======
+  return (
+    <Container>
+      <Text>CommentsScreen</Text>
+>>>>>>> main
     </Container>
   );
 }

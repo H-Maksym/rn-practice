@@ -27,6 +27,10 @@ export const stylesCamera = StyleSheet.create({
     borderColor: 'white',
     height: 50,
     width: 50,
+<<<<<<< HEAD
+=======
+    display: 'flex',
+>>>>>>> main
     justifyContent: 'center',
     alignItems: 'center',
     borderRadius: 50,
