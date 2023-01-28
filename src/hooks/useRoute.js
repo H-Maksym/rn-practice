@@ -49,7 +49,7 @@ const useRoute = isAuth => {
           backgroundColor: theme.colors.primaryBackground,
           borderBottomWidth: 0.5,
           borderBottomColor: '#21212120',
-          height: 60,
+          height: 80,
         },
         // tabBarHideOnKeyboard: true,
       }}
