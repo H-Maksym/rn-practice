@@ -10,7 +10,7 @@ import {
 } from 'react-native';
 
 import { useState, useRef } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { login } from 'src/redux/auth/authOperations';
 
 import Container from 'src/components/Common/Container';
@@ -30,10 +30,9 @@ function LoginScreen({ navigation }) {
   const [state, setState] = useState(initialState);
   const [errors, setErrors] = useState({});
   const [isShowKeyboard, setIsShowKeyboard] = useState(false);
-  const [loading, setLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const dispatch = useDispatch();
   const ref_password = useRef();
-
   const handleOnChange = (text, input) => {
     setState(prevState => ({
       ...prevState,
@@ -68,9 +67,16 @@ function LoginScreen({ navigation }) {
     setErrors(prevState => ({ ...prevState, [input]: errorMessage }));
   };
 
-  const handleLogin = () => {
-    dispatch(login(state));
-    setState(initialState);
+  const handleLogin = async () => {
+    setIsLoading(true);
+    try {
+      await dispatch(login(state));
+      await setState(initialState);
+    } catch (error) {
+      console.log(error.message);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const keyboardHide = () => {
@@ -81,11 +87,11 @@ function LoginScreen({ navigation }) {
   return (
     <TouchableWithoutFeedback onPress={keyboardHide}>
       <Container>
-        <Loader visible={loading} />
         <ImageBackground
           source={require('src/assets/image/backgroundImage.png')}
           style={stylesLogin.imageBackground}
         >
+          <Loader visible={isLoading} />
           <View
             style={{
               ...formStyles.form,

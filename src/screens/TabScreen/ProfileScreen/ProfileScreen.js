@@ -15,6 +15,7 @@ import Container from 'src/components/Common/Container';
 import ButtonIcon from 'src/components/Common/ButtonIcon';
 import AddAvatar from 'src/assets/icon/addAvatar.svg';
 import PostItem from 'src/components/Posts/PostItem';
+import Loader from 'src/components/Common/Loader';
 
 import { stylesProfileScreen } from './ProfileScreen.styled';
 
@@ -23,29 +24,36 @@ function ProfileScreen({ navigation, route }) {
   const [posts, setPosts] = useState([]);
   const user = useSelector(selectUser);
   const dispatch = useDispatch();
+  const [isLoading, setIsLoading] = useState(false);
   const { image, pickImage, resetImagePickerState } = useImagePicker();
 
   const getPostFromDB = async () => {
-    const postListRef = ref(db, 'posts/');
-    onValue(postListRef, snapshot => {
-      const newArray = snapshotToArray(snapshot)
-        .map(data => {
-          if (data.comments) {
-            return {
-              ...data,
-              comments: Object.keys(data.comments).reduce((acc, id) => {
-                acc.push({ id, ...data.comments[id] });
-                return acc;
-              }, []),
-            };
-          } else {
-            return data;
-          }
-        })
-        .reverse();
-
-      setPosts(newArray);
-    });
+    setIsLoading(true);
+    try {
+      const postListRef = ref(db, 'posts/');
+      onValue(postListRef, snapshot => {
+        const newArray = snapshotToArray(snapshot)
+          .map(data => {
+            if (data.comments) {
+              return {
+                ...data,
+                comments: Object.keys(data.comments).reduce((acc, id) => {
+                  acc.push({ id, ...data.comments[id] });
+                  return acc;
+                }, []),
+              };
+            } else {
+              return data;
+            }
+          })
+          .reverse();
+        setPosts(newArray);
+      });
+    } catch (error) {
+      console.log(error.message);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   useEffect(() => {
@@ -62,8 +70,15 @@ function ProfileScreen({ navigation, route }) {
     }
   }, [image]);
 
-  const logOut = () => {
-    dispatch(logout());
+  const logOut = async () => {
+    setIsLoading(true);
+    try {
+      await dispatch(logout());
+    } catch (error) {
+      console.log(error.message);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -74,6 +89,8 @@ function ProfileScreen({ navigation, route }) {
           ...stylesProfileScreen.imageBackground,
         }}
       >
+        <Loader visible={isLoading} />
+
         <View
           style={{
             ...stylesProfileScreen.containerProfileScreen,

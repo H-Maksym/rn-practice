@@ -24,7 +24,7 @@ import Container from 'src/components/Common/Container';
 import CommentItem from 'src/components/Posts/CommentItem/CommentItem';
 import ButtonIcon from 'src/components/Common/ButtonIcon/ButtonIcon';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-
+import Loader from 'src/components/Common/Loader';
 import { stylesCommentsScreen } from './CommentsScreen.styled';
 import { theme } from 'src/utils/theme';
 
@@ -34,6 +34,8 @@ function CommentsScreen({ navigation, route }) {
   const [comment, setComment] = useState('');
   const [comments, setComments] = useState([]);
   const [isShowKeyboard, setIsShowKeyboard] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+
   const { userId, email, photoURL, userName } = useSelector(selectUser);
   const { db } = app;
 
@@ -95,30 +97,37 @@ function CommentsScreen({ navigation, route }) {
       setComment('');
       return false;
     }
-    setComment('');
-    keyboardHide();
+    setIsLoading(true);
+    try {
+      setComment('');
+      keyboardHide();
 
-    const commentsRef = ref(db, 'posts/' + postId + '/comments');
-    const newCommentsRef = push(commentsRef);
-    set(newCommentsRef, {
-      userId,
-      userImage: photoURL,
-      email,
-      userName,
-      text: comment,
-      date: Date.now(),
-    });
-    const postRef = ref(db, `posts/${postId}/postData`);
-    runTransaction(postRef, post => {
-      post.comments++;
-      return post;
-    });
+      const commentsRef = ref(db, 'posts/' + postId + '/comments');
+      const newCommentsRef = push(commentsRef);
+      set(newCommentsRef, {
+        userId,
+        userImage: photoURL,
+        email,
+        userName,
+        text: comment,
+        date: Date.now(),
+      });
+      const postRef = ref(db, `posts/${postId}/postData`);
+      runTransaction(postRef, post => {
+        post.comments++;
+        return post;
+      });
+    } catch (error) {
+      console.log(error.message);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const getCommentsFromDB = async () => {
     const postListRef = ref(db, 'posts/' + postId + '/comments');
     onValue(postListRef, snapshot => {
-      const commentsArray = snapshotToArray(snapshot).reverse();
+      const commentsArray = snapshotToArray(snapshot);
       setComments(commentsArray);
     });
   };

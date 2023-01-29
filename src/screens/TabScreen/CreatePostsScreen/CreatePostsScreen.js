@@ -29,6 +29,7 @@ import CustomCamera from 'src/components/Common/Camera';
 import Input from 'src/components/Common/Input';
 import Button from 'src/components/Common/Button';
 import ButtonIcon from 'src/components/Common/ButtonIcon';
+import Loader from 'src/components/Common/Loader';
 
 import { stylesCreatePostsScreen } from './CreatePostsScreen.styled';
 import { theme } from 'src/utils/theme';
@@ -46,6 +47,7 @@ const initialState = {
 function CreatePostsScreen({ navigation }) {
   const { setVisibleBottom } = useVisibleTabBar();
   const [state, setState] = useState(initialState);
+  const [isLoading, setIsLoading] = useState(false);
 
   const {
     cameraType,
@@ -167,6 +169,8 @@ function CreatePostsScreen({ navigation }) {
   };
 
   const takePhoto = async () => {
+    setIsLoading(true);
+
     if (cameraRef.current) {
       try {
         setCameraFullScreen(true);
@@ -180,6 +184,7 @@ function CreatePostsScreen({ navigation }) {
       } catch (error) {
         console.log(error);
       } finally {
+        setIsLoading(false);
         setCameraFullScreen(false);
       }
     }
@@ -200,6 +205,7 @@ function CreatePostsScreen({ navigation }) {
   };
 
   const sendInfoPost = async () => {
+    setIsLoading(true);
     try {
       await sendToDB(state);
       setState(initialState);
@@ -207,6 +213,8 @@ function CreatePostsScreen({ navigation }) {
       navigation.navigate('Posts');
     } catch (error) {
       console.log(error.message);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -224,7 +232,9 @@ function CreatePostsScreen({ navigation }) {
         type={cameraType}
         flash={flashMode}
         ref={cameraRef}
-      />
+      >
+        <Loader visible={isLoading} />
+      </CustomCamera>
     );
   }
 
@@ -235,6 +245,7 @@ function CreatePostsScreen({ navigation }) {
           backgroundColor: '#FFFFFF',
         }}
       >
+        <Loader visible={isLoading} />
         <View style={stylesCreatePostsScreen.container}>
           <View
             style={{
