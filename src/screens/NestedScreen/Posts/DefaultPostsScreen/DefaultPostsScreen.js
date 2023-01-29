@@ -17,6 +17,7 @@ import Container from 'src/components/Common/Container';
 import ButtonIcon from 'src/components/Common/ButtonIcon';
 import UserData from 'src/components/Posts/UserData';
 import PostItem from 'src/components/Posts/PostItem';
+import Loader from 'src/components/Common/Loader';
 
 import { theme } from 'src/utils/theme';
 import { stylesPostScreen } from './DefaultPostsScreen.styled';
@@ -26,6 +27,7 @@ function DefaultPostsScreen({ navigation, route }) {
 
   const { db } = app;
   const [posts, setPosts] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
   const user = useSelector(selectUser);
   const dispatch = useDispatch();
 
@@ -83,19 +85,26 @@ function DefaultPostsScreen({ navigation, route }) {
   //   }
   // }, [route.params]);
 
-  const logOut = () => {
-    dispatch(logout());
+  const logOut = async () => {
+    setIsLoading(true);
+    try {
+      await dispatch(logout());
+    } catch (error) {
+      console.log(error.message);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
     <Container style={{ backgroundColor: theme.colors.primaryBackground }}>
       <View style={stylesPostScreen.containerPostScreen}>
+        <Loader visible={isLoading} />
         <UserData
           avatarUser={user.photoURL}
           userName={user.userName}
           email={user.email}
         />
-
         {posts.length >= 0 && (
           <FlatList
             style={{ marginBottom: tabBarHeight * 2 + 10 }}

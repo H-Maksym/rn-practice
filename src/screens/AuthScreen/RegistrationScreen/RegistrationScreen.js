@@ -21,6 +21,7 @@ import Input from 'src/components/Common/Input';
 import Button from 'src/components/Common/Button';
 import Loader from 'src/components/Common/Loader';
 import { theme } from 'src/utils/theme';
+
 import { stylesRegistration } from './RegistrationScreen.styled';
 import AddAvatar from 'src/assets/icon/addAvatar.svg';
 
@@ -34,7 +35,7 @@ function RegistrationScreen({ navigation }) {
   const [state, setState] = useState(initialState);
   const [errors, setErrors] = useState({});
   const [isShowKeyboard, setIsShowKeyboard] = useState(false);
-  const [loading, setLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const { image, pickImage, resetImagePickerState } = useImagePicker();
   const dispatch = useDispatch();
   const ref_email = useRef();
@@ -80,9 +81,16 @@ function RegistrationScreen({ navigation }) {
   };
 
   const handleSubmit = () => {
-    dispatch(register({ ...state, image }));
-    setState(initialState);
-    resetImagePickerState();
+    setIsLoading(true);
+    try {
+      dispatch(register({ ...state, image }));
+      setState(initialState);
+      resetImagePickerState();
+    } catch (error) {
+      console.log(error.message);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const keyboardHide = () => {
@@ -93,11 +101,11 @@ function RegistrationScreen({ navigation }) {
   return (
     <TouchableWithoutFeedback onPress={keyboardHide}>
       <Container>
-        <Loader visible={loading} />
         <ImageBackground
           source={require('src/assets/image/backgroundImage.png')}
           style={stylesRegistration.imageBackground}
         >
+          <Loader visible={isLoading} />
           <View
             style={{
               ...formStyles.form,

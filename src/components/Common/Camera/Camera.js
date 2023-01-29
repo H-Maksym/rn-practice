@@ -8,7 +8,10 @@ import ButtonIcon from 'src/components/Common/ButtonIcon';
 import { stylesCamera } from './Camera.styled';
 
 const CustomCamera = forwardRef(
-  ({ type, flash, takePhoto, switchCamera, switchFlashMode }, ref) => {
+  (
+    { type, flash, takePhoto, switchCamera, switchFlashMode, children },
+    ref
+  ) => {
     return (
       <>
         <Camera
@@ -18,7 +21,8 @@ const CustomCamera = forwardRef(
           type={type}
           flashMode={flash}
           ref={ref}
-        ></Camera>
+        />
+        {children}
         <View style={stylesCamera.buttonContainer}>
           <ButtonIcon
             title="switch flash mode"
