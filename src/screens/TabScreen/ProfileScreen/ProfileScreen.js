@@ -103,6 +103,7 @@ function ProfileScreen({ navigation, route }) {
               source={{ uri: user.photoURL }}
               style={stylesProfileScreen.avatar}
             />
+
             <ButtonIcon
               style={stylesProfileScreen.addAvatarButton}
               title="add avatar"
@@ -119,7 +120,6 @@ function ProfileScreen({ navigation, route }) {
               />
             </ButtonIcon>
           </View>
-
           <ButtonIcon
             title="log-out"
             onPress={logOut}
@@ -133,7 +133,7 @@ function ProfileScreen({ navigation, route }) {
           </ButtonIcon>
 
           <Text style={stylesProfileScreen.titleProfileScreen}>
-            {user.name}
+            {user.userName}
           </Text>
 
           {posts.length >= 0 && (
